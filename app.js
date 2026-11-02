@@ -1,11 +1,12 @@
 // ========================================================
-// 하루트립 (HARU TRIP) - 목포 당일치기 관광 프론트엔드 로직
+// 하루트립 (HARU TRIP) - 전국 당일치기 관광 프론트엔드 로직
+// [목포편] & [부산편] 완전 지원
 // ========================================================
 
 // 상태 관리
 const state = {
+  currentCity: 'busan', // 'mokpo' | 'busan'
   activeCourseFilter: 'ALL', // 'ALL' | 'A' | 'B' | 'C'
-  activeTagFilter: 'ALL',
   searchQuery: '',
   likes: {},      // { [destId]: { count: number, userLiked: boolean } }
   comments: {},   // { [destId]: Array<Comment> }
@@ -13,42 +14,164 @@ const state = {
   sliderIndices: {} // { [cardId]: currentIndex }
 };
 
-// 로컬스토리지 키
-const STORAGE_LIKES_KEY = 'haru_trip_mokpo_likes_v1';
-const STORAGE_COMMENTS_KEY = 'haru_trip_mokpo_comments_v1';
+// 동적 로컬스토리지 키
+function getStorageKeys() {
+  const city = CITIES_DATA[state.currentCity] || CITIES_DATA.busan;
+  return {
+    likesKey: city.storageKeyLikes,
+    commentsKey: city.storageKeyComments
+  };
+}
 
+// --------------------------------------------------------
 // 초기화
+// --------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
-  initStorage();
   initNavbarScroll();
-  renderCourseIntroCards();
-  renderDestinations();
-  setupFilterEvents();
   setupSearchEvents();
   setupModalEvents();
+
+  // URL 파라미터 또는 localStorage에서 초기 도시 결정
+  const urlParams = new URLSearchParams(window.location.search);
+  const cityFromUrl = urlParams.get('city');
+  const cityFromStorage = localStorage.getItem('haru_trip_last_city');
+
+  let initialCity = 'busan';
+  if (cityFromUrl && CITIES_DATA[cityFromUrl]) {
+    initialCity = cityFromUrl;
+  } else if (cityFromStorage && CITIES_DATA[cityFromStorage]) {
+    initialCity = cityFromStorage;
+  }
+
+  // 도시 전환 실행 (첫 로드 시 스크롤 안 함)
+  switchCity(initialCity, false);
 });
 
-// 1. 로컬스토리지 초기화 & 로드
+// --------------------------------------------------------
+// 도시 전환 (City Switcher) 핵심 로직
+// --------------------------------------------------------
+function switchCity(cityId, shouldScroll = true) {
+  if (!CITIES_DATA[cityId]) return;
+
+  state.currentCity = cityId;
+  currentCityId = cityId;
+  localStorage.setItem('haru_trip_last_city', cityId);
+
+  // 전역 데이터 포인터 동기화
+  COURSES_DATA = CITIES_DATA[cityId].courses;
+  DESTINATIONS_DATA = CITIES_DATA[cityId].destinations;
+
+  // 필터 및 검색어 초기화
+  state.activeCourseFilter = 'ALL';
+  state.searchQuery = '';
+  const inlineInput = document.getElementById('inlineSearchInput');
+  const heroInput = document.getElementById('heroSearchInput');
+  const clearBtn = document.getElementById('searchClearBtn');
+  if (inlineInput) inlineInput.value = '';
+  if (heroInput) heroInput.value = '';
+  if (clearBtn) clearBtn.classList.remove('visible');
+
+  // 로컬스토리지 로드
+  initStorage();
+
+  // 1. 헤더 & 타이틀 갱신
+  const city = CITIES_DATA[cityId];
+  const docTitle = document.getElementById('docTitle');
+  const docDesc = document.getElementById('docDesc');
+  const brandBadge = document.getElementById('brandBadge');
+
+  if (docTitle) docTitle.textContent = city.pageTitle;
+  if (docDesc) docDesc.setAttribute('content', city.metaDesc);
+  if (brandBadge) brandBadge.textContent = city.badge;
+
+  // 2. GNB 칩 스타일 갱신
+  document.querySelectorAll('.region-chip').forEach(chip => chip.classList.remove('active'));
+  const activeChip = document.getElementById(`chip-${cityId}`);
+  if (activeChip) activeChip.classList.add('active');
+
+  // 3. 히어로 섹션 갱신
+  const heroSec = document.getElementById('hero');
+  const heroPill = document.getElementById('heroPill');
+  const heroTitle = document.getElementById('heroTitle');
+  const heroSubtitle = document.getElementById('heroSubtitle');
+
+  if (heroSec) {
+    heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(15, 23, 42, 0.45) 0%, rgba(15, 23, 42, 0.75) 100%), url('${city.heroBg}')`;
+  }
+  if (heroPill) heroPill.innerHTML = city.heroPill;
+  if (heroTitle) heroTitle.innerHTML = city.heroTitle;
+  if (heroSubtitle) heroSubtitle.innerHTML = city.heroSubtitle;
+
+  // 4. 히어로 코스 퀵 점프 뱃지 갱신
+  renderHeroCourseBadges();
+
+  // 5. 섹션 타이틀 갱신
+  const coursesSecTitle = document.getElementById('coursesSectionTitle');
+  const exploreSecTitle = document.getElementById('exploreSectionTitle');
+  if (coursesSecTitle) {
+    coursesSecTitle.textContent = `${city.name}을 즐기는 가장 완벽한 3가지 코스`;
+  }
+  if (exploreSecTitle) {
+    exploreSecTitle.textContent = `${city.name} 당일치기 필수 명소 탐색`;
+  }
+
+  // 6. 코스 필터 버튼 그룹 갱신
+  renderCourseFilterButtons();
+
+  // 7. 코스 카드 & 명소 그리드 렌더링
+  renderCourseIntroCards();
+  renderDestinations();
+
+  // 8. 전국 확장 배너 활성 상태 동기화
+  const mokpoBox = document.getElementById('regionBoxMokpo');
+  const busanBox = document.getElementById('regionBoxBusan');
+  if (mokpoBox) mokpoBox.classList.toggle('active', cityId === 'mokpo');
+  if (busanBox) busanBox.classList.toggle('active', cityId === 'busan');
+
+  // 9. 푸터 링크 갱신
+  renderFooterLinks();
+
+  // 10. URL 쿼리 파라미터 동기화
+  if (window.history.replaceState) {
+    const newUrl = `${window.location.pathname}?city=${cityId}`;
+    window.history.replaceState({ city: cityId }, '', newUrl);
+  }
+
+  // 전환 후 최상단 또는 코스 영역으로 부드럽게 스크롤
+  if (shouldScroll) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+// --------------------------------------------------------
+// 로컬스토리지 초기화 & 로드 (도시별 독립 저장)
+// --------------------------------------------------------
 function initStorage() {
-  const savedLikes = localStorage.getItem(STORAGE_LIKES_KEY);
+  const { likesKey, commentsKey } = getStorageKeys();
+
+  const savedLikes = localStorage.getItem(likesKey);
   if (savedLikes) {
     try {
       state.likes = JSON.parse(savedLikes);
     } catch (e) {
       state.likes = {};
     }
+  } else {
+    state.likes = {};
   }
 
-  const savedComments = localStorage.getItem(STORAGE_COMMENTS_KEY);
+  const savedComments = localStorage.getItem(commentsKey);
   if (savedComments) {
     try {
       state.comments = JSON.parse(savedComments);
     } catch (e) {
       state.comments = {};
     }
+  } else {
+    state.comments = {};
   }
 
-  // 기본값 병합
+  // 기본 데이터와 병합
   DESTINATIONS_DATA.forEach(dest => {
     if (!state.likes[dest.id]) {
       state.likes[dest.id] = {
@@ -64,16 +187,21 @@ function initStorage() {
 }
 
 function saveLikesToStorage() {
-  localStorage.setItem(STORAGE_LIKES_KEY, JSON.stringify(state.likes));
+  const { likesKey } = getStorageKeys();
+  localStorage.setItem(likesKey, JSON.stringify(state.likes));
 }
 
 function saveCommentsToStorage() {
-  localStorage.setItem(STORAGE_COMMENTS_KEY, JSON.stringify(state.comments));
+  const { commentsKey } = getStorageKeys();
+  localStorage.setItem(commentsKey, JSON.stringify(state.comments));
 }
 
-// 2. 내비게이션 스크롤 효과
+// --------------------------------------------------------
+// 내비게이션 스크롤 효과
+// --------------------------------------------------------
 function initNavbarScroll() {
   const navbar = document.querySelector('.navbar');
+  if (!navbar) return;
   window.addEventListener('scroll', () => {
     if (window.scrollY > 30) {
       navbar.classList.add('scrolled');
@@ -83,7 +211,65 @@ function initNavbarScroll() {
   });
 }
 
-// 3. 코스 소개 카드 렌더링
+// --------------------------------------------------------
+// 히어로 코스 퀵 점프 뱃지 렌더링
+// --------------------------------------------------------
+function renderHeroCourseBadges() {
+  const container = document.getElementById('heroCourseBadges');
+  if (!container) return;
+
+  container.innerHTML = COURSES_DATA.map(c => `
+    <button class="hero-course-pill" onclick="filterByCourse('${c.id}')">
+      ${c.icon} ${c.badge} : ${c.title.split('&')[0].trim()}
+    </button>
+  `).join('');
+}
+
+// --------------------------------------------------------
+// 코스 필터 버튼 그룹 렌더링
+// --------------------------------------------------------
+function renderCourseFilterButtons() {
+  const container = document.getElementById('courseFilterGroup');
+  if (!container) return;
+
+  const allActive = state.activeCourseFilter === 'ALL' ? 'active' : '';
+
+  const courseBtns = COURSES_DATA.map(c => {
+    const isActive = state.activeCourseFilter === c.id ? 'active' : '';
+    return `
+      <button class="filter-btn ${isActive}" data-course="${c.id}" onclick="filterByCourse('${c.id}')">
+        ${c.icon} ${c.badge} (${c.title.split('&')[0].trim()})
+      </button>
+    `;
+  }).join('');
+
+  container.innerHTML = `
+    <button class="filter-btn ${allActive}" data-course="ALL" onclick="filterByCourse('ALL')">전체 보기</button>
+    ${courseBtns}
+  `;
+}
+
+// --------------------------------------------------------
+// 푸터 코스 링크 렌더링
+// --------------------------------------------------------
+function renderFooterLinks() {
+  const city = CITIES_DATA[state.currentCity];
+  const heading = document.getElementById('footerCourseHeading');
+  const linksContainer = document.getElementById('footerCourseLinks');
+
+  if (heading) {
+    heading.textContent = `${city.name} 당일치기 코스`;
+  }
+  if (linksContainer) {
+    linksContainer.innerHTML = COURSES_DATA.map(c => `
+      <li><a href="javascript:filterByCourse('${c.id}')">${c.badge} : ${c.title}</a></li>
+    `).join('') + `<li><a href="#exploreSection">전체 명소 검색</a></li>`;
+  }
+}
+
+// --------------------------------------------------------
+// 코스 소개 카드 렌더링
+// --------------------------------------------------------
 function renderCourseIntroCards() {
   const container = document.getElementById('courseCardsContainer');
   if (!container) return;
@@ -110,7 +296,9 @@ function renderCourseIntroCards() {
   `).join('');
 }
 
-// 4. 여행지 목록 렌더링 (슬라이더 포함)
+// --------------------------------------------------------
+// 여행지 목록 렌더링 (슬라이더 포함)
+// --------------------------------------------------------
 function renderDestinations() {
   const container = document.getElementById('destinationsGrid');
   const countEl = document.getElementById('resultsCount');
@@ -237,7 +425,9 @@ function renderDestinations() {
   }).join('');
 }
 
-// 5. 슬라이더 인터랙션 로직
+// --------------------------------------------------------
+// 슬라이더 인터랙션 로직
+// --------------------------------------------------------
 function moveSlide(destId, step, event) {
   if (event) event.stopPropagation();
   const current = state.sliderIndices[destId] || 0;
@@ -266,7 +456,9 @@ function goToSlide(destId, index, event) {
   }
 }
 
-// 6. 좋아요(하트) 토글 로직
+// --------------------------------------------------------
+// 좋아요(하트) 토글 로직
+// --------------------------------------------------------
 function toggleLike(destId, event) {
   if (event) event.stopPropagation();
   const item = state.likes[destId];
@@ -301,17 +493,9 @@ function toggleLike(destId, event) {
   }
 }
 
-// 7. 검색 및 코스 필터 이벤트
-function setupFilterEvents() {
-  const filterBtns = document.querySelectorAll('.filter-btn[data-course]');
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const course = btn.getAttribute('data-course');
-      filterByCourse(course);
-    });
-  });
-}
-
+// --------------------------------------------------------
+// 검색 및 코스 필터 이벤트
+// --------------------------------------------------------
 function filterByCourse(courseId) {
   state.activeCourseFilter = courseId;
 
@@ -391,7 +575,9 @@ function setupSearchEvents() {
   }
 }
 
-// 8. 상세 모달 (대형 슬라이더 + 댓글 등록/목록)
+// --------------------------------------------------------
+// 상세 모달 (대형 슬라이더 + 댓글 등록/목록)
+// --------------------------------------------------------
 let modalCurrentSlide = 0;
 
 function setupModalEvents() {
@@ -415,12 +601,6 @@ function setupModalEvents() {
       closeDetailModal();
     }
   });
-
-  // 댓글 등록 폼 이벤트
-  const commentForm = document.getElementById('commentForm');
-  if (commentForm) {
-    commentForm.addEventListener('submit', handleCommentSubmit);
-  }
 }
 
 function openDetailModal(destId) {
@@ -591,7 +771,9 @@ function renderCommentItems(list) {
   `).join('');
 }
 
-// 9. 댓글 제출 핸들러
+// --------------------------------------------------------
+// 댓글 제출 핸들러
+// --------------------------------------------------------
 function handleCommentSubmit(event, destId) {
   event.preventDefault();
 
