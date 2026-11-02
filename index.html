@@ -31,25 +31,32 @@
         <button class="region-chip active" id="chip-busan" onclick="switchCity('busan')">
           <span>🌊</span> 부산 <span class="region-tag" style="background:#0284c7; color:#fff;">HOT</span>
         </button>
-        <button class="region-chip disabled" title="오픈 준비 중입니다">
+        <button class="region-chip disabled region-chip-future" title="오픈 준비 중입니다">
           강릉 <span class="region-tag">오픈예정</span>
         </button>
-        <button class="region-chip disabled" title="오픈 준비 중입니다">
+        <button class="region-chip disabled region-chip-future" title="오픈 준비 중입니다">
           전주 <span class="region-tag">오픈예정</span>
         </button>
-        <button class="region-chip disabled" title="오픈 준비 중입니다">
+        <button class="region-chip disabled region-chip-future" title="오픈 준비 중입니다">
           제주 <span class="region-tag">오픈예정</span>
         </button>
       </div>
 
-      <div class="nav-links">
-        <a href="#coursesSection" class="nav-link">3대 코스</a>
-        <a href="#exploreSection" class="nav-link">명소 검색</a>
-        <a href="#nationwideSection" class="nav-link">전국 확장 안내</a>
-        <button class="btn-header-cta" onclick="document.getElementById('exploreSection').scrollIntoView({behavior: 'smooth'})">
+      <div class="nav-links" id="navLinks">
+        <a href="#coursesSection" class="nav-link" onclick="closeMobileMenu()">3대 코스</a>
+        <a href="#exploreSection" class="nav-link" onclick="closeMobileMenu()">명소 검색</a>
+        <a href="#nationwideSection" class="nav-link" onclick="closeMobileMenu()">전국 확장 안내</a>
+        <button class="btn-header-cta" onclick="document.getElementById('exploreSection').scrollIntoView({behavior: 'smooth'}); closeMobileMenu();">
           여행지 둘러보기
         </button>
       </div>
+
+      <!-- 모바일 햄버거 메뉴 토글 버튼 -->
+      <button class="nav-toggle-btn" id="navToggleBtn" aria-label="모바일 메뉴 열기/닫기" onclick="toggleMobileMenu()">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
     </nav>
   </header>
 

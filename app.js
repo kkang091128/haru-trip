@@ -131,6 +131,9 @@ function switchCity(cityId, shouldScroll = true) {
   // 9. 푸터 링크 갱신
   renderFooterLinks();
 
+  // 모바일 메뉴가 열려있다면 닫기
+  closeMobileMenu();
+
   // 10. URL 쿼리 파라미터 동기화
   if (window.history.replaceState) {
     const newUrl = `${window.location.pathname}?city=${cityId}`;
@@ -836,3 +839,40 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+// --------------------------------------------------------
+// 모바일 햄버거 메뉴 토글 로직
+// --------------------------------------------------------
+function toggleMobileMenu() {
+  const navLinks = document.getElementById('navLinks');
+  const toggleBtn = document.getElementById('navToggleBtn');
+  if (!navLinks || !toggleBtn) return;
+
+  const isOpen = navLinks.classList.contains('mobile-open');
+  if (isOpen) {
+    closeMobileMenu();
+  } else {
+    navLinks.classList.add('mobile-open');
+    toggleBtn.classList.add('active');
+  }
+}
+
+function closeMobileMenu() {
+  const navLinks = document.getElementById('navLinks');
+  const toggleBtn = document.getElementById('navToggleBtn');
+  if (navLinks) navLinks.classList.remove('mobile-open');
+  if (toggleBtn) toggleBtn.classList.remove('active');
+}
+
+// 바깥 영역 클릭 시 모바일 메뉴 자동 닫기
+document.addEventListener('click', (e) => {
+  const navLinks = document.getElementById('navLinks');
+  const toggleBtn = document.getElementById('navToggleBtn');
+  if (!navLinks || !toggleBtn) return;
+
+  if (navLinks.classList.contains('mobile-open')) {
+    if (!navLinks.contains(e.target) && !toggleBtn.contains(e.target)) {
+      closeMobileMenu();
+    }
+  }
+});
