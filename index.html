@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>하루트립 목포 | 낭만과 역사의 항구도시 목포 당일치기 여행 가이드</title>
+  <meta name="description" content="A, B, C 맞춤 코스로 즐기는 목포 당일치기 여행! 근대역사, 해상케이블카, 남도 9미와 목포대교 야경까지 한눈에 둘러보고 좋아요와 댓글로 소통하세요." />
+  
+  <!-- Favicon & Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ==========================================
+       1. 글로벌 내비게이션 바 (GNB)
+       ========================================== -->
+  <header>
+    <nav class="navbar" id="navbar">
+      <div class="nav-brand">
+        <a href="#" class="brand-logo">
+          <span>🌊</span> 하루트립
+        </a>
+        <span class="brand-badge">목포편</span>
+      </div>
+
+      <!-- 전국 확장형 지역 셀렉터 -->
+      <div class="region-selector-wrap" title="전국 당일치기 여행지로 순차 확대 예정입니다">
+        <button class="region-chip active">
+          <span>📍</span> 목포
+        </button>
+        <button class="region-chip disabled" title="오픈 준비 중입니다">
+          부산 <span class="region-tag">오픈예정</span>
+        </button>
+        <button class="region-chip disabled" title="오픈 준비 중입니다">
+          강릉 <span class="region-tag">오픈예정</span>
+        </button>
+        <button class="region-chip disabled" title="오픈 준비 중입니다">
+          전주 <span class="region-tag">오픈예정</span>
+        </button>
+        <button class="region-chip disabled" title="오픈 준비 중입니다">
+          제주 <span class="region-tag">오픈예정</span>
+        </button>
+      </div>
+
+      <div class="nav-links">
+        <a href="#coursesSection" class="nav-link">3대 코스</a>
+        <a href="#exploreSection" class="nav-link">명소 검색</a>
+        <a href="#nationwideSection" class="nav-link">전국 확장 안내</a>
+        <button class="btn-header-cta" onclick="document.getElementById('exploreSection').scrollIntoView({behavior: 'smooth'})">
+          여행지 둘러보기
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ==========================================
+         2. 히어로 랜딩 섹션
+         ========================================== -->
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <div class="hero-pill">
+          ✨ 전국 당일치기 여행 프로젝트 #1 · 항구도시 목포
+        </div>
+        <h1 class="hero-title">
+          푸른 다도해와 100년 역사가 빚어낸<br />
+          <span class="highlight">목포 당일치기 완벽 여행</span>
+        </h1>
+        <p class="hero-subtitle">
+          취향 따라 선택하는 A · B · C 3가지 맞춤 테마 코스부터 로컬 찐명소까지!<br />
+          아름다운 슬라이드 사진과 생생한 여행자 후기로 하루의 설렘을 완성해 보세요.
+        </p>
+
+        <!-- 히어로 실시간 검색창 -->
+        <div class="hero-search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            id="heroSearchInput" 
+            class="hero-search-input" 
+            placeholder="가고 싶은 여행지, 테마(#케이블카, #노을, #맛집), 또는 코스 검색..." 
+          />
+          <button id="heroSearchBtn" class="hero-search-btn">명소 찾기</button>
+        </div>
+
+        <!-- 히어로 3대 코스 퀵 점프 뱃지 -->
+        <div class="hero-course-badges">
+          <button class="hero-course-pill" onclick="filterByCourse('A')">
+            🏛️ 코스 A : 근대역사 & 레트로
+          </button>
+          <button class="hero-course-pill" onclick="filterByCourse('B')">
+            🚡 코스 B : 해양 힐링 & 케이블카
+          </button>
+          <button class="hero-course-pill" onclick="filterByCourse('C')">
+            ✨ 코스 C : 남도 미식 & 로맨틱 야경
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         3. 3가지 테마 코스 안내 섹션
+         ========================================== -->
+    <section class="section" id="coursesSection">
+      <div class="section-header">
+        <span class="section-tag">Curated 1-Day Itinerary</span>
+        <h2 class="section-title">목포를 즐기는 가장 완벽한 3가지 코스</h2>
+        <p class="section-desc">
+          시간 낭비 없는 최적의 동선 설계! 여행자의 감성과 취향에 맞춘 코스를 선택해 보세요.
+        </p>
+      </div>
+
+      <!-- 코스 3종 카드 컨테이너 (JS 렌더링) -->
+      <div class="course-cards-grid" id="courseCardsContainer"></div>
+    </section>
+
+    <!-- ==========================================
+         4. 여행지 검색 & 슬라이드 카드 그리드 섹션
+         ========================================== -->
+    <section class="section explore-section" id="exploreSection">
+      <div class="section-header">
+        <span class="section-tag">Explore Destinations</span>
+        <h2 class="section-title">목포 당일치기 필수 명소 탐색</h2>
+        <p class="section-desc">
+          각 명소마다 3장의 슬라이드 사진과 상세 설명, 그리고 여행자들의 생생한 리뷰를 확인하세요.
+        </p>
+      </div>
+
+      <!-- 필터 및 검색 컨트롤러 -->
+      <div class="filter-controls">
+        <!-- 코스 선택 필터 -->
+        <div class="filter-row">
+          <span class="filter-label">코스별 선택</span>
+          <div class="filter-btn-group">
+            <button class="filter-btn active" data-course="ALL">전체 보기</button>
+            <button class="filter-btn" data-course="A">🏛️ 코스 A (근대역사)</button>
+            <button class="filter-btn" data-course="B">🚡 코스 B (해양·케이블카)</button>
+            <button class="filter-btn" data-course="C">✨ 코스 C (미식·야경)</button>
+          </div>
+        </div>
+
+        <!-- 인라인 텍스트 검색 -->
+        <div class="filter-row">
+          <span class="filter-label">명소 검색</span>
+          <div class="search-input-inline-wrap">
+            <span class="search-inline-icon">🔍</span>
+            <input 
+              type="text" 
+              id="inlineSearchInput" 
+              class="search-input-inline" 
+              placeholder="명소 이름, 키워드(#스카이워크, #낙지, #호텔델루나), 주소 검색..." 
+            />
+            <button id="searchClearBtn" class="search-clear-btn" title="검색어 지우기">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 검색 결과 수 및 정렬 바 -->
+      <div class="results-status-bar">
+        <div>
+          <span>검색된 여행지 : </span>
+          <span class="results-count" id="resultsCount">9개</span>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-muted);">
+          💡 카드 위 화살표를 눌러 3장의 사진을 슬라이드해보세요!
+        </div>
+      </div>
+
+      <!-- 여행지 카드 그리드 (JS 동적 렌더링) -->
+      <div class="destinations-grid" id="destinationsGrid"></div>
+    </section>
+
+    <!-- ==========================================
+         5. 전국 확장 로드맵 섹션
+         ========================================== -->
+    <section class="section" id="nationwideSection">
+      <div class="nationwide-banner">
+        <div class="nationwide-content">
+          <span class="nationwide-badge">🚀 전국 확장 로드맵 (Expansion Project)</span>
+          <h2 class="nationwide-title">
+            목포에서 시작해, 전국 8도의<br />
+            아름다운 하루를 잇는 여행 플랫폼이 됩니다.
+          </h2>
+          <p class="nationwide-desc">
+            '하루트립'은 목포를 첫 출발점으로 하여, 복잡한 1박 2일 준비 없이도 누구나 주말 하루 만에 
+            온전히 떠날 수 있는 대한민국 대표 도시별 당일치기 큐레이션 서비스를 전국으로 순차 확장 중입니다.
+          </p>
+
+          <!-- 확장 예정 도시 그리드 -->
+          <div class="regions-grid">
+            <div class="region-box active">
+              <div class="region-box-header">
+                <span class="region-box-name">목포시</span>
+                <span class="region-box-status">현재 서비스</span>
+              </div>
+              <p class="region-box-desc">근대역사, 해상케이블카, 9미 먹거리와 목포대교 선셋</p>
+            </div>
+
+            <div class="region-box">
+              <div class="region-box-header">
+                <span class="region-box-name">부산광역시</span>
+                <span class="region-box-status">오픈 예정</span>
+              </div>
+              <p class="region-box-desc">해운대 블루라인파크, 흰여울문화마을, 광안리 드론쇼</p>
+            </div>
+
+            <div class="region-box">
+              <div class="region-box-header">
+                <span class="region-box-name">강릉시</span>
+                <span class="region-box-status">오픈 예정</span>
+              </div>
+              <p class="region-box-desc">안목 커피거리, 아르떼뮤지엄, 정동진 바다부채길</p>
+            </div>
+
+            <div class="region-box">
+              <div class="region-box-header">
+                <span class="region-box-name">전주시</span>
+                <span class="region-box-status">오픈 예정</span>
+              </div>
+              <p class="region-box-desc">전주한옥마을 경기전, 전동성당, 남부시장 청년몰</p>
+            </div>
+
+            <div class="region-box">
+              <div class="region-box-header">
+                <span class="region-box-name">제주특별자치도</span>
+                <span class="region-box-status">오픈 예정</span>
+              </div>
+              <p class="region-box-desc">애월 한담해변길, 오설록 티뮤지엄, 신창풍차해안도로</p>
+            </div>
+
+            <div class="region-box">
+              <div class="region-box-header">
+                <span class="region-box-name">여수시</span>
+                <span class="region-box-status">오픈 예정</span>
+              </div>
+              <p class="region-box-desc">오동도 동백숲, 여수해상케이블카, 낭만포차 밤바다</p>
+            </div>
+          </div>
+
+          <div style="font-size: 0.9rem; color: #cbd5e1;">
+            🤝 지역 관광 크리에이터 및 로컬 여행 파트너 모집 중 (contact@harutrip.kr)
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================
+       6. 상세 모달 (슬라이더 + 상세설명 + 댓글작성)
+       ========================================== -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal-dialog" id="modalDialog">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="닫기">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       7. 푸터 (Footer)
+       ========================================== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>🌊 하루트립 (HARU TRIP)</h3>
+        <p>
+          주말 하루, 온전한 쉼과 발견을 선물하는 대한민국 전국 당일치기 큐레이션 여행 플랫폼입니다.
+          목포 당일치기 가이드를 시작으로 대한민국 곳곳의 보석 같은 하루 코스를 선보입니다.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>목포 당일치기 코스</h4>
+        <ul>
+          <li><a href="javascript:filterByCourse('A')">코스 A : 근대역사 & 문화</a></li>
+          <li><a href="javascript:filterByCourse('B')">코스 B : 해양 & 케이블카</a></li>
+          <li><a href="javascript:filterByCourse('C')">코스 C : 남도미식 & 야경</a></li>
+          <li><a href="#exploreSection">전체 명소 검색</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>전국 로드맵 & 고객지원</h4>
+        <ul>
+          <li><a href="#nationwideSection">전국 서비스 오픈 안내</a></li>
+          <li><a href="#nationwideSection">로컬 여행 코스 제보</a></li>
+          <li><a href="#">이용약관 및 개인정보처리방침</a></li>
+          <li><a href="#">파트너십 문의</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 HARU TRIP. All rights reserved. 대한민국 당일치기 여행 플랫폼.</div>
+      <div>Designed with modern web standards</div>
+    </div>
+  </footer>
+
+  <!-- 스크립트 로드 -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
