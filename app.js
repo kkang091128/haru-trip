@@ -17,9 +17,10 @@ const state = {
 // 동적 로컬스토리지 키
 function getStorageKeys() {
   const city = CITIES_DATA[state.currentCity] || CITIES_DATA.busan;
+  // _v2: 예전에 브라우저에 복사된 예시 후기/좋아요 데이터는 더 이상 쓰지 않음
   return {
-    likesKey: city.storageKeyLikes,
-    commentsKey: city.storageKeyComments
+    likesKey: `${city.storageKeyLikes}_v2`,
+    commentsKey: `${city.storageKeyComments}_v2`
   };
 }
 
@@ -201,6 +202,58 @@ function initStorage() {
     }
     state.sliderIndices[dest.id] = 0;
   });
+
+  if (Feedback.isRemote) {
+    loadRemoteFeedback(state.currentCity);
+  }
+}
+
+// Supabase에서 현재 도시의 좋아요·댓글 불러오기
+async function loadRemoteFeedback(cityId) {
+  try {
+    const data = await Feedback.loadCity(cityId);
+    if (state.currentCity !== cityId) return; // 그 사이 다른 도시로 이동함
+    DESTINATIONS_DATA.forEach(dest => {
+      state.likes[dest.id] = {
+        count: Number(data.likes[dest.id] || 0),
+        userLiked: data.liked.has(dest.id)
+      };
+      state.comments[dest.id] = data.comments[dest.id] || [];
+      refreshFeedbackUI(dest.id);
+    });
+  } catch (e) {
+    console.warn('좋아요/댓글을 불러오지 못했습니다:', e.message);
+  }
+}
+
+// 카드와 열린 상세보기의 좋아요·댓글 표시 갱신
+function refreshFeedbackUI(destId) {
+  const like = state.likes[destId] || { count: 0, userLiked: false };
+  const list = state.comments[destId] || [];
+
+  const btn = document.getElementById(`like-btn-${destId}`);
+  const countEl = document.getElementById(`like-count-${destId}`);
+  if (btn && countEl) {
+    btn.classList.toggle('liked', like.userLiked);
+    btn.querySelector('.heart-icon').textContent = like.userLiked ? '❤️' : '🤍';
+    countEl.textContent = like.count;
+  }
+  const cardCommentCount = document.getElementById(`comment-count-${destId}`);
+  if (cardCommentCount) cardCommentCount.textContent = list.length;
+
+  if (state.activeModalDestId === destId) {
+    const modalLikeBtn = document.getElementById('modalLikeBtn');
+    const modalLikeCount = document.getElementById('modalLikeCount');
+    if (modalLikeBtn && modalLikeCount) {
+      modalLikeBtn.classList.toggle('liked', like.userLiked);
+      modalLikeBtn.querySelector('.heart-icon').textContent = like.userLiked ? '❤️' : '🤍';
+      modalLikeCount.textContent = like.count;
+    }
+    const listEl = document.getElementById('modalCommentsList');
+    const modalCount = document.getElementById('modalCommentCount');
+    if (listEl) listEl.innerHTML = renderCommentItems(list);
+    if (modalCount) modalCount.textContent = `(${list.length})`;
+  }
 }
 
 function saveLikesToStorage() {
@@ -488,7 +541,9 @@ function toggleLike(destId, event) {
   if (event) event.stopPropagation();
   const item = state.likes[destId];
   if (!item) return;
+  const before = { count: item.count, userLiked: item.userLiked };
 
+  // 화면에 먼저 반영
   if (item.userLiked) {
     item.userLiked = false;
     item.count = Math.max(0, item.count - 1);
@@ -497,7 +552,24 @@ function toggleLike(destId, event) {
     item.count += 1;
   }
 
-  saveLikesToStorage();
+  if (Feedback.isRemote) {
+    const cityId = state.currentCity;
+    Feedback.toggleLike(cityId, destId)
+      .then(res => {
+        if (state.currentCity !== cityId) return;
+        item.userLiked = Boolean(res.liked);
+        item.count = Number(res.count) || 0;
+        refreshFeedbackUI(destId);
+      })
+      .catch(err => {
+        item.count = before.count;
+        item.userLiked = before.userLiked;
+        refreshFeedbackUI(destId);
+        alert(err.message);
+      });
+  } else {
+    saveLikesToStorage();
+  }
 
   // 카드 내 UI 갱신
   const btn = document.getElementById(`like-btn-${destId}`);
@@ -727,7 +799,7 @@ function openDetailModal(destId) {
         <div class="comment-input-card">
           <form id="commentForm" onsubmit="handleCommentSubmit(event, '${dest.id}')">
             <div class="comment-form-row">
-              <input type="text" id="commentAuthor" class="comment-author-input" placeholder="작성자 닉네임" required />
+              <input type="text" id="commentAuthor" class="comment-author-input" placeholder="작성자 닉네임" maxlength="20" required />
               <select id="commentRating" class="comment-rating-select">
                 <option value="5">⭐⭐⭐⭐⭐ 5점 (강추!)</option>
                 <option value="4">⭐⭐⭐⭐ 4점 (좋아요)</option>
@@ -736,7 +808,13 @@ function openDetailModal(destId) {
                 <option value="1">⭐ 1점 (비추)</option>
               </select>
             </div>
-            <textarea id="commentText" class="comment-textarea" placeholder="이 여행지에 대한 솔직한 후기나 팁을 남겨주세요." required></textarea>
+            <textarea id="commentText" class="comment-textarea" placeholder="이 여행지에 대한 솔직한 후기나 팁을 남겨주세요." minlength="2" maxlength="500" required></textarea>
+            <p class="comment-notice">
+              ${Feedback.isRemote
+                ? '등록한 후기는 모든 방문자에게 공개됩니다. 욕설·광고·개인정보가 포함된 글은 예고 없이 삭제될 수 있습니다.'
+                : '현재 후기는 이 기기의 브라우저에만 저장됩니다.'}
+              <a href="terms.html" target="_blank" rel="noopener">이용약관</a>
+            </p>
             <button type="submit" class="comment-submit-btn">댓글 등록하기</button>
             <div style="clear: both;"></div>
           </form>
@@ -867,6 +945,28 @@ function handleCommentSubmit(event, destId) {
 
   if (!author || !text) {
     alert('닉네임과 후기 내용을 모두 입력해 주세요.');
+    return;
+  }
+  if (author.length > 20 || text.length < 2 || text.length > 500) {
+    alert('닉네임은 20자 이내, 후기는 2~500자로 입력해 주세요.');
+    return;
+  }
+
+  if (Feedback.isRemote) {
+    const submitBtn = event.target.querySelector('.comment-submit-btn');
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '등록 중...'; }
+    const cityId = state.currentCity;
+    Feedback.addComment(cityId, destId, { author, text, rating })
+      .then(comment => {
+        if (state.currentCity !== cityId) return;
+        (state.comments[destId] = state.comments[destId] || []).unshift(comment);
+        refreshFeedbackUI(destId);
+        textInput.value = '';
+      })
+      .catch(err => alert(err.message))
+      .finally(() => {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '댓글 등록하기'; }
+      });
     return;
   }
 

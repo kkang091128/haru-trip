@@ -4,10 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="docTitle">하루트립 부산 | 푸른 파도와 빛나는 마천루 부산 당일치기 여행 가이드</title>
-  <meta name="description" id="docDesc" content="A, B, C 맞춤 코스로 즐기는 부산 당일치기 여행! 해운대 블루라인파크, 영도 흰여울마을, 감천문화마을, 광안대교 야경까지 한눈에 둘러보고 좋아요와 댓글로 소통하세요." />
+  <meta name="description" id="docDesc" content="A, B, C 맞춤 코스로 즐기는 부산 당일치기 여행! 해운대 블루라인파크, 영도 흰여울마을, 감천문화마을, 광안대교 야경까지 한눈에 둘러보세요." />
   
   <!-- Favicon & Stylesheet -->
+  <link rel="canonical" href="https://haru-trip-h0v.pages.dev/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="하루트립" />
+  <meta property="og:title" content="하루트립 | 국내 도시별 당일치기 여행 코스 가이드" />
+  <meta property="og:description" content="목포·부산·강릉·전주·제주 당일치기 여행을 A·B·C 맞춤 코스로 소개합니다." />
+  <meta property="og:url" content="https://haru-trip-h0v.pages.dev/" />
+  <meta property="og:image" content="https://haru-trip-h0v.pages.dev/img/busan_hero_bg.jpg" />
   <link rel="alternate" type="application/rss+xml" title="하루트립 RSS" href="/rss.xml" />
+  <!-- ADSENSE:START -->
+  <!-- config.js의 adsenseClient에 ca-pub-... 값을 넣고 node generate_pages.js 를 실행하면 여기에 광고 코드가 들어갑니다 -->
+  <!-- ADSENSE:END -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -235,7 +245,7 @@
           </div>
 
           <div style="font-size: 0.9rem; color: #cbd5e1;">
-            🤝 지역 관광 크리에이터 및 로컬 여행 파트너 모집 중 (contact@harutrip.kr)
+            ✉️ 여행 정보 수정 요청 · 제휴 문의: <a href="mailto:ck2lucky@gmail.com" style="color:#e0f2fe;">ck2lucky@gmail.com</a>
           </div>
         </div>
       </div>
@@ -273,27 +283,32 @@
       </div>
 
       <div class="footer-col">
-        <h4>전국 로드맵 & 고객지원</h4>
+        <h4>도시별 여행 가이드</h4>
         <ul>
-          <li><a href="javascript:switchCity('mokpo')">목포 당일치기 바로가기</a></li>
-          <li><a href="javascript:switchCity('busan')">부산 당일치기 바로가기</a></li>
-          <li><a href="javascript:switchCity('gangneung')">강릉 당일치기 바로가기</a></li>
-          <li><a href="javascript:switchCity('jeonju')">전주 당일치기 바로가기</a></li>
-          <li><a href="javascript:switchCity('jeju')">제주 당일치기 바로가기</a></li>
-          <li><a href="#nationwideSection">전국 서비스 오픈 안내</a></li>
-          <li><a href="#">이용약관 및 개인정보처리방침</a></li>
-          <li><a href="credits.html">사진 출처</a></li>
+          <li><a href="guide-mokpo.html">목포 당일치기 코스 총정리</a></li>
+          <li><a href="guide-busan.html">부산 당일치기 코스 총정리</a></li>
+          <li><a href="guide-gangneung.html">강릉 당일치기 코스 총정리</a></li>
+          <li><a href="guide-jeonju.html">전주 당일치기 코스 총정리</a></li>
+          <li><a href="guide-jeju.html">제주 당일치기 코스 총정리</a></li>
         </ul>
       </div>
     </div>
 
     <div class="footer-bottom">
       <div>© 2026 HARU TRIP. All rights reserved. 대한민국 당일치기 여행 플랫폼.</div>
-      <div>Designed with modern web standards</div>
+      <nav class="footer-legal" aria-label="사이트 정보">
+        <a href="about.html">사이트 소개</a>
+        <a href="privacy.html"><strong>개인정보처리방침</strong></a>
+        <a href="terms.html">이용약관</a>
+        <a href="credits.html">사진 출처</a>
+        <a href="mailto:ck2lucky@gmail.com">문의</a>
+      </nav>
     </div>
   </footer>
 
   <!-- 스크립트 로드 -->
+  <script src="config.js"></script>
+  <script src="feedback.js"></script>
   <script src="data.js"></script>
   <script src="data_gangneung.js"></script>
   <script src="data_jeonju.js"></script>

@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+// 참고: 도시 가이드 페이지(guide-*.html)는 generate_pages.js 로 만듭니다.
 
 const SITE = 'https://haru-trip-h0v.pages.dev';
 
@@ -25,7 +26,7 @@ const now = new Date().toUTCString();
 const items = [];
 
 for (const city of Object.values(cities)) {
-  const link = `${SITE}/?city=${city.id}`;
+  const link = `${SITE}/guide-${city.id}.html`;
   items.push(`    <item>
       <title>${esc(city.pageTitle)}</title>
       <link>${esc(link)}</link>
@@ -38,8 +39,8 @@ for (const city of Object.values(cities)) {
   for (const d of city.destinations) {
     items.push(`    <item>
       <title>${esc(`[${city.name}] ${d.name}`)}</title>
-      <link>${esc(link)}</link>
-      <guid isPermaLink="false">${esc(`haru-trip-${city.id}-${d.id}`)}</guid>
+      <link>${esc(`${link}#${d.id}`)}</link>
+      <guid isPermaLink="true">${esc(`${link}#${d.id}`)}</guid>
       <description>${esc(d.shortDesc)}</description>
       <category>${esc(city.name)}</category>
       <pubDate>${now}</pubDate>

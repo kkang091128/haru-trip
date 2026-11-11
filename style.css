@@ -1750,3 +1750,33 @@ button {
     bottom: 48px;
   }
 }
+
+/* 댓글 안내 문구 */
+.comment-notice {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 8px 0 10px;
+}
+.comment-notice a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+.comment-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* 푸터 하단 사이트 정보 링크 */
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+.footer-legal a {
+  color: inherit;
+  text-decoration: none;
+}
+.footer-legal a:hover {
+  text-decoration: underline;
+}

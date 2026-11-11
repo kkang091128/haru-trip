@@ -70,23 +70,8 @@ const DESTINATIONS_MOKPO = [
     timeRecommended: '소요시간: 약 1시간 30분',
     address: '전라남도 목포시 영산로29번길 6',
     tip: '드라마 <호텔 델루나> 표지판이 있는 정문 계단에서 건물을 배경으로 찍으면 인생샷이 완성됩니다. 바로 옆 2관(구 동양척식주식회사)과 연계 관람을 추천합니다.',
-    initialLikes: 254,
-    initialComments: [
-      {
-        id: 1,
-        author: '여행엔진심',
-        rating: 5,
-        date: '2026-10-24',
-        text: '호텔 델루나 팬이라 찾아갔는데 건물 외관이 정말 웅장하고 멋집니다. 안쪽 방공호 터널 체험도 인상적이었어요.'
-      },
-      {
-        id: 2,
-        author: '모모',
-        rating: 5,
-        date: '2026-10-28',
-        text: '역사적인 의미도 깊고, 건물 벽돌 색감이 사진에 너무 예쁘게 담겨요! 근대역사거리 산책과 함께하기 딱 좋습니다.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
   {
     id: 'seosandong_mural',
@@ -111,23 +96,8 @@ const DESTINATIONS_MOKPO = [
     timeRecommended: '소요시간: 약 1시간 30분',
     address: '전라남도 목포시 보리마당로 14',
     tip: '연희네슈퍼 앞 평상과 공중전화 부스에서 복고풍 포즈로 사진을 찍어보세요. 오르막길이 있으니 편안한 신발을 추천합니다.',
-    initialLikes: 312,
-    initialComments: [
-      {
-        id: 1,
-        author: '레트로러버',
-        rating: 5,
-        date: '2026-10-25',
-        text: '연희네슈퍼 안 소품들이 진짜 옛날 그대로라 타임머신 탄 기분이었습니다. 보리마당 카페에서 본 바다뷰도 힐링!'
-      },
-      {
-        id: 2,
-        author: '바다바람',
-        rating: 4,
-        date: '2026-10-29',
-        text: '계단이 조금 많긴 한데 골목마다 예쁜 시 구절과 벽화가 있어서 구경하며 올라가니 힘들지 않았어요.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
   {
     id: 'yudalsan_mountain',
@@ -152,16 +122,8 @@ const DESTINATIONS_MOKPO = [
     timeRecommended: '소요시간: 약 1시간 30분~2시간',
     address: '전라남도 목포시 유달산길 118',
     tip: '정상까지 가지 않아도 노적봉 마당과 달성각 쉼터 주변에서 충분히 멋진 목포 전경을 감상할 수 있습니다. 봄에는 꽃축제가 열립니다.',
-    initialLikes: 198,
-    initialComments: [
-      {
-        id: 1,
-        author: '트레커킴',
-        rating: 5,
-        date: '2026-10-26',
-        text: '바위산 매력이 엄청납니다. 날씨 맑은 날 올라갔더니 다도해 섬들이 손에 잡힐 듯 선명하게 보였어요.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
 
   // --- Course B ---
@@ -188,23 +150,8 @@ const DESTINATIONS_MOKPO = [
     timeRecommended: '소요시간: 왕복 탑승 및 관람 약 2시간 30분',
     address: '전라남도 목포시 해양대학로 110 (북항 승강장)',
     tip: '노을 지는 골든아워(일몰 40분 전)에 탑승하면 황금빛 바다와 반짝이는 목포대교 야경을 동시에 누릴 수 있는 인생 순간을 만날 수 있습니다.',
-    initialLikes: 489,
-    initialComments: [
-      {
-        id: 1,
-        author: '스카이워커',
-        rating: 5,
-        date: '2026-10-23',
-        text: '크리스탈 캐빈 타고 바다 건널 때 심장이 쫄깃했지만 뷰가 정말 대한민국 최고였습니다. 돈이 전혀 아깝지 않아요!'
-      },
-      {
-        id: 2,
-        author: '해질녘감성',
-        rating: 5,
-        date: '2026-10-27',
-        text: '일몰 시간에 맞춰 타는 거 강력 추천합니다. 주황빛 하늘과 켜지는 조명이 예술이에요.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
   {
     id: 'gohado_trail',
@@ -229,16 +176,8 @@ const DESTINATIONS_MOKPO = [
     timeRecommended: '소요시간: 왕복 약 1시간 30분',
     address: '전라남도 목포시 고하도안길 234',
     tip: '케이블카를 타고 고하도역에서 내려 바로 연결됩니다. 바람이 시원하게 부니 겉옷을 챙기시고, 편안한 운동화는 필수입니다.',
-    initialLikes: 377,
-    initialComments: [
-      {
-        id: 1,
-        author: '힐링러',
-        rating: 5,
-        date: '2026-10-25',
-        text: '데크길 걷는 내내 파도 소리가 귀를 간지럽힙니다. 판옥선 전망대 꼭대기 뷰는 감탄밖에 안 나와요.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
   {
     id: 'peace_square',
@@ -263,16 +202,8 @@ const DESTINATIONS_MOKPO = [
     timeRecommended: '소요시간: 약 1시간',
     address: '전라남도 목포시 평화로 82',
     tip: '바다분수 공연은 계절별 야간 지정 시간에 맞춰 운영됩니다. 광장 벤치나 인근 오션뷰 카페 테라스에서 커피 한잔과 함께 관람해 보세요.',
-    initialLikes: 295,
-    initialComments: [
-      {
-        id: 1,
-        author: '별빛밤바다',
-        rating: 4,
-        date: '2026-10-29',
-        text: '음악에 맞춰 솟구치는 분수와 조명이 정말 화려했어요. 가족이나 연인과 밤에 산책하기 딱 좋은 곳입니다.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
 
   // --- Course C ---
@@ -299,23 +230,8 @@ const DESTINATIONS_MOKPO = [
     timeRecommended: '소요시간: 식사 포함 약 1시간 30분',
     address: '전라남도 목포시 산정로 174',
     tip: '꽃게살비빔밥은 김가루와 참기름을 두른 밥에 게살 양념을 조금씩 비벼 김에 싸 먹으면 최고의 풍미를 느낄 수 있습니다.',
-    initialLikes: 467,
-    initialComments: [
-      {
-        id: 1,
-        author: '미식가김선생',
-        rating: 5,
-        date: '2026-10-22',
-        text: '꽃게살비빔밥과 낙지탕탕이는 정말 목포에 와야만 이 맛을 느낄 수 있습니다. 밑반찬 젓갈 하나까지 감칠맛 폭발!'
-      },
-      {
-        id: 2,
-        author: '맛있는인생',
-        rating: 5,
-        date: '2026-10-27',
-        text: '시장 상인분들도 정말 친절하시고 활기가 넘쳐서 먹는 즐거움이 두 배였습니다.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
   {
     id: 'skywalk',
@@ -338,16 +254,8 @@ const DESTINATIONS_MOKPO = [
     timeRecommended: '소요시간: 약 45분',
     address: '전라남도 목포시 해양대학로 59',
     tip: '스카이워크 끝자락에서 목포대교를 등지고 찍는 인생샷이 가장 유명합니다. 덧신 착용 후 무료로 이용할 수 있습니다.',
-    initialLikes: 358,
-    initialComments: [
-      {
-        id: 1,
-        author: '바다바람소리',
-        rating: 5,
-        date: '2026-10-29',
-        text: '유리바닥 아래로 파도치는 게 보여서 스릴 넘쳐요! 여기서 보는 목포대교 모습이 제일 멋집니다.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
   {
     id: 'mokpodaegyo_night',
@@ -372,23 +280,8 @@ const DESTINATIONS_MOKPO = [
     timeRecommended: '소요시간: 약 1시간 30분~2시간',
     address: '전라남도 목포시 해양대학로 57',
     tip: '해 지기 30분 전에 도착해 노을이 야경으로 바뀌는 매직아워(Magic Hour)를 즐기는 것이 당일치기 여행의 가장 로맨틱한 방법입니다.',
-    initialLikes: 521,
-    initialComments: [
-      {
-        id: 1,
-        author: '선셋홀릭',
-        rating: 5,
-        date: '2026-10-31',
-        text: '목포 여행의 하이라이트였습니다. 노을 질 때 대반동 테라스에서 바라보는 목포대교는 잊지 못할 풍경이에요.'
-      },
-      {
-        id: 2,
-        author: '낭만청춘',
-        rating: 5,
-        date: '2026-11-01',
-        text: '밤바람 맞으며 버스킹 음악 듣고 포차에서 해물라면에 맥주 한 잔 하니 당일치기 피로가 싹 가십니다!'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   }
 ];
 
@@ -458,23 +351,8 @@ const DESTINATIONS_BUSAN = [
     timeRecommended: '소요시간: 약 1시간 30분~2시간',
     address: '부산광역시 해운대구 달맞이길62번길 13 (미포정거장)',
     tip: '스카이캡슐은 미포에서 청사포 방향(서→동)을 타면 바다 쪽 레일(외측)을 달려 더 넓은 오션뷰를 감상할 수 있습니다. 사전 온라인 예약은 필수입니다.',
-    initialLikes: 682,
-    initialComments: [
-      {
-        id: 1,
-        author: '바다달리미',
-        rating: 5,
-        date: '2026-10-20',
-        text: '알록달록 스카이캡슐 안에서 바다를 바라보는 순간은 영화 속 한 장면 같았어요. 부산 오면 무조건 타봐야 합니다!'
-      },
-      {
-        id: 2,
-        author: '캡슐홀릭',
-        rating: 5,
-        date: '2026-10-28',
-        text: '미포에서 타서 청사포까지 천천히 가는데 인생 사진 오백 장 찍고 왔습니다. 예약 필수예요!'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
   {
     id: 'cheongsapo_skywalk',
@@ -495,16 +373,8 @@ const DESTINATIONS_BUSAN = [
     timeRecommended: '소요시간: 약 40분~1시간',
     address: '부산광역시 해운대구 중동 산3-9',
     tip: '바람이 강한 날에는 입장이 제한될 수 있으니 날씨를 체크하세요. 덧신을 신고 무료 입장하며, 일몰 시간대 석양이 어우러져 장관입니다.',
-    initialLikes: 419,
-    initialComments: [
-      {
-        id: 1,
-        author: '스카이투어',
-        rating: 5,
-        date: '2026-10-24',
-        text: '유리바닥 밑으로 하얀 포말이 부서지는 바다가 보여서 짜릿했습니다. 청사포 쌍둥이 등대 산책도 추천해요.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
   {
     id: 'haeundae_beach',
@@ -529,16 +399,8 @@ const DESTINATIONS_BUSAN = [
     timeRecommended: '소요시간: 약 1시간 30분',
     address: '부산광역시 해운대구 우동 동백로 116',
     tip: '동백섬 해안 데크길을 따라 인어상과 등대 전망대를 거쳐 누리마루까지 걷는 코스를 추천합니다. 해운대 시장의 곰장어와 상국이네 떡볶이도 놓치지 마세요.',
-    initialLikes: 580,
-    initialComments: [
-      {
-        id: 1,
-        author: '부산사랑',
-        rating: 5,
-        date: '2026-10-27',
-        text: '사계절 언제 가도 가슴이 뻥 뚫리는 해운대입니다. 동백섬 둘레길에서 본 광안대교 실루엣도 최고였어요.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
 
   // --- Busan Course B ---
@@ -565,23 +427,8 @@ const DESTINATIONS_BUSAN = [
     timeRecommended: '소요시간: 약 2시간',
     address: '부산광역시 영도구 절영로 194',
     tip: '흰여울해안터널은 터널 안쪽 어두운 곳에서 바깥 바다를 바라보는 역광 실루엣 샷이 가장 유명합니다. 계단이 많으므로 편한 운동화 착용을 권장합니다.',
-    initialLikes: 742,
-    initialComments: [
-      {
-        id: 1,
-        author: '사진작가꿈나무',
-        rating: 5,
-        date: '2026-10-22',
-        text: '골목마다 바다가 액자처럼 펼쳐져서 걷는 내내 감탄했습니다. 해안터널 동굴 인생샷도 성공했어요!'
-      },
-      {
-        id: 2,
-        author: '영도바람',
-        rating: 5,
-        date: '2026-10-30',
-        text: '바다 바로 앞 카페에 앉아 멍때리며 수평선에 떠 있는 배들을 바라보는 시간이 정말 평화로웠습니다.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
   {
     id: 'jagalchi_biff',
@@ -606,16 +453,8 @@ const DESTINATIONS_BUSAN = [
     timeRecommended: '소요시간: 약 1시간 30분~2시간',
     address: '부산광역시 중구 자갈치해안로 52',
     tip: '자갈치시장 현대화 건물 옥상 "자갈치 하늘공원(전망대)"에 오르면 남항 바다와 영도대교, 부산타워를 360도로 무료 조망할 수 있습니다.',
-    initialLikes: 531,
-    initialComments: [
-      {
-        id: 1,
-        author: '먹방원정대',
-        rating: 5,
-        date: '2026-10-25',
-        text: '씨앗호떡은 줄 서서 먹을 가치가 충분합니다! 겉바속촉에 고소한 견과류가 가득해서 당 충전 제대로 했어요.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
   {
     id: 'gamcheon_culture_village',
@@ -640,23 +479,8 @@ const DESTINATIONS_BUSAN = [
     timeRecommended: '소요시간: 약 1시간 30분',
     address: '부산광역시 사하구 감내2로 203',
     tip: '마을 안내센터에서 스탬프 투어 지도를 구입하면 골목 구석구석 숨겨진 갤러리와 옥상 전망대를 효율적으로 탐방할 수 있습니다.',
-    initialLikes: 820,
-    initialComments: [
-      {
-        id: 1,
-        author: '리틀프린스',
-        rating: 5,
-        date: '2026-10-21',
-        text: '어린왕자 옆에 앉아 찍은 사진이 이번 부산 여행 최고의 사진이 되었습니다. 골목골목 둘러보는 재미가 쏠쏠해요.'
-      },
-      {
-        id: 2,
-        author: '파스텔감성',
-        rating: 5,
-        date: '2026-10-29',
-        text: '실제 주민분들이 거주하시는 곳이라 조용히 관람 매너를 지키며 감상했습니다. 레고 블록 같은 집들이 참 예쁩니다.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
 
   // --- Busan Course C ---
@@ -683,16 +507,8 @@ const DESTINATIONS_BUSAN = [
     timeRecommended: '소요시간: 약 1시간 30분',
     address: '부산광역시 수영구 광안해변로 219',
     tip: '해변에 비치된 광안리 시그니처 조형물 앞과 백사장 모래사장에서 광안대교를 손바닥 위에 올려놓는 원근법 사진을 남겨보세요.',
-    initialLikes: 647,
-    initialComments: [
-      {
-        id: 1,
-        author: '오션뷰러버',
-        rating: 5,
-        date: '2026-10-23',
-        text: '해변 카페 2층 테라스에서 광안대교 보며 마시는 라떼는 정말 꿀맛입니다. 부산 올 때마다 꼭 들르는 곳이에요.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
   {
     id: 'millac_the_market',
@@ -717,16 +533,8 @@ const DESTINATIONS_BUSAN = [
     timeRecommended: '소요시간: 약 1시간~1시간 30분',
     address: '부산광역시 수영구 민락수변로17번길 56',
     tip: '식음료 매장에서 음식을 테이크아웃해 오션뷰 스탠드 좌석에 자리를 잡으면 근사한 실내 오션뷰 피크닉을 즐길 수 있습니다.',
-    initialLikes: 495,
-    initialComments: [
-      {
-        id: 1,
-        author: '트렌드세터',
-        rating: 5,
-        date: '2026-10-26',
-        text: '통창 스탠드에 앉아 맥주 한 캔 마시는데 분위기가 환상적이었습니다. 팝업 매장 구경하는 재미도 가득해요.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   },
   {
     id: 'gwangandaegyo_night',
@@ -751,23 +559,8 @@ const DESTINATIONS_BUSAN = [
     timeRecommended: '소요시간: 약 1시간 30분~2시간',
     address: '부산광역시 수영구 광안해변로 219 (광안리 해변 일원)',
     tip: '매주 토요일 저녁(동절기 19시/21시, 하절기 20시/22시) 드론쇼가 열립니다. 시작 30분 전에 백사장 중앙에 돗자리를 펴고 관람하면 가장 좋습니다.',
-    initialLikes: 915,
-    initialComments: [
-      {
-        id: 1,
-        author: '낭만부산',
-        rating: 5,
-        date: '2026-10-31',
-        text: '토요일 드론쇼 직접 봤는데 감동 그 자체였습니다. 광안대교 불빛과 밤바람 소리가 어우러져 평생 잊지 못할 추억이 됐어요.'
-      },
-      {
-        id: 2,
-        author: '다이아몬드나잇',
-        rating: 5,
-        date: '2026-11-01',
-        text: '부산 여행의 완벽한 피날레였습니다. 해변가 펍에서 맥주 마시며 바라보는 광안대교 뷰는 세계 어디 내놔도 안 꿀립니다.'
-      }
-    ]
+    initialLikes: 0,
+    initialComments: []
   }
 ];
 
