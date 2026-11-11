@@ -367,6 +367,8 @@ function renderDestinations() {
     const likeInfo = state.likes[dest.id] || { count: dest.initialLikes, userLiked: false };
     const commentsList = state.comments[dest.id] || [];
     const currentSlide = state.sliderIndices[dest.id] || 0;
+    const total = dest.images.length;
+    const multi = total > 1;
 
     return `
       <article class="dest-card" id="dest-card-${dest.id}">
@@ -374,10 +376,11 @@ function renderDestinations() {
         <div class="card-slider-wrapper" id="slider-${dest.id}">
           <div class="card-top-badges">
             <span class="card-course-pill badge-${dest.courseId}">${dest.courseBadge}</span>
-            <span class="card-photo-counter">📸 <span id="counter-${dest.id}">${currentSlide + 1}</span>/3</span>
+            <span class="card-photo-counter">📸 <span id="counter-${dest.id}">${currentSlide + 1}</span>/${total}</span>
           </div>
 
-          <div class="card-slider-track" id="track-${dest.id}" style="transform: translateX(-${currentSlide * 33.3333}%);">
+          <div class="card-slider-track" id="track-${dest.id}" style="transform: translateX(-${currentSlide * 100}%);"
+               onclick="handleCardImageClick('${dest.id}')" title="클릭하면 상세보기가 열립니다">
             ${dest.images.map((imgSrc, idx) => `
               <div class="card-slide">
                 <img src="${imgSrc}" alt="${dest.name} - ${idx + 1}" loading="lazy" />
@@ -386,6 +389,7 @@ function renderDestinations() {
             `).join('')}
           </div>
 
+          ${multi ? `
           <!-- 좌우 화살표 버튼 -->
           <button class="slider-btn prev" onclick="moveSlide('${dest.id}', -1, event)" aria-label="이전 사진">&#10094;</button>
           <button class="slider-btn next" onclick="moveSlide('${dest.id}', 1, event)" aria-label="다음 사진">&#10095;</button>
@@ -395,7 +399,7 @@ function renderDestinations() {
             ${dest.images.map((_, idx) => `
               <span class="slider-dot ${idx === currentSlide ? 'active' : ''}" onclick="goToSlide('${dest.id}', ${idx}, event)"></span>
             `).join('')}
-          </div>
+          </div>` : ''}
         </div>
 
         <!-- 본문 정보 -->
@@ -440,6 +444,8 @@ function renderDestinations() {
       </article>
     `;
   }).join('');
+
+  bindCardSwipes();
 }
 
 // --------------------------------------------------------
@@ -447,8 +453,10 @@ function renderDestinations() {
 // --------------------------------------------------------
 function moveSlide(destId, step, event) {
   if (event) event.stopPropagation();
+  const total = getImageCount(destId);
+  if (total < 2) return;
   const current = state.sliderIndices[destId] || 0;
-  const next = (current + step + 3) % 3;
+  const next = (current + step + total) % total;
   goToSlide(destId, next);
 }
 
@@ -460,7 +468,7 @@ function goToSlide(destId, index, event) {
   const dotsContainer = document.getElementById(`dots-${destId}`);
 
   if (track) {
-    track.style.transform = `translateX(-${index * 33.3333}%)`;
+    track.style.transform = `translateX(-${index * 100}%)`;
   }
   if (counter) {
     counter.textContent = index + 1;
@@ -616,7 +624,14 @@ function setupModalEvents() {
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeDetailModal();
+      return;
     }
+    // 상세보기가 열려 있을 때 ← → 키로 사진 넘기기 (댓글 입력 중에는 제외)
+    if (!state.activeModalDestId) return;
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+    if (e.key === 'ArrowLeft') moveModalSlide(-1);
+    if (e.key === 'ArrowRight') moveModalSlide(1);
   });
 }
 
@@ -636,10 +651,10 @@ function openDetailModal(destId) {
 
   modalContent.innerHTML = `
     <!-- 모달 대형 이미지 슬라이더 (3장) -->
-    <div class="modal-slider-wrap">
+    <div class="modal-slider-wrap" id="modalSliderWrap">
       <div class="card-top-badges">
         <span class="card-course-pill badge-${dest.courseId}">${dest.courseBadge}</span>
-        <span class="card-photo-counter">📸 <span id="modalSlideNum">1</span>/3</span>
+        <span class="card-photo-counter">📸 <span id="modalSlideNum">1</span>/${dest.images.length}</span>
       </div>
 
       <div class="modal-slider-track" id="modalSliderTrack">
@@ -651,14 +666,15 @@ function openDetailModal(destId) {
         `).join('')}
       </div>
 
+      ${dest.images.length > 1 ? `
       <button class="slider-btn prev" onclick="moveModalSlide(-1)" aria-label="이전 사진">&#10094;</button>
       <button class="slider-btn next" onclick="moveModalSlide(1)" aria-label="다음 사진">&#10095;</button>
 
       <div class="slider-indicators" id="modalDots">
         ${dest.images.map((_, idx) => `
-          <span class="slider-dot ${idx === 0 ? 'active' : ''}" onclick="goToModalSlide(${idx})"></span>
+          <button type="button" class="slider-dot ${idx === 0 ? 'active' : ''}" onclick="goToModalSlide(${idx})" aria-label="${idx + 1}번째 사진"></button>
         `).join('')}
-      </div>
+      </div>` : ''}
     </div>
 
     <!-- 모달 본문 정보 -->
@@ -734,6 +750,8 @@ function openDetailModal(destId) {
     </div>
   `;
 
+  attachSwipe(document.getElementById('modalSliderWrap'), (step) => moveModalSlide(step));
+
   backdrop.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -748,7 +766,9 @@ function closeDetailModal() {
 }
 
 function moveModalSlide(step) {
-  modalCurrentSlide = (modalCurrentSlide + step + 3) % 3;
+  const total = getImageCount(state.activeModalDestId);
+  if (total < 2) return;
+  modalCurrentSlide = (modalCurrentSlide + step + total) % total;
   goToModalSlide(modalCurrentSlide);
 }
 
@@ -759,13 +779,56 @@ function goToModalSlide(index) {
   const dots = document.querySelectorAll('#modalDots .slider-dot');
 
   if (track) {
-    track.style.transform = `translateX(-${index * 33.3333}%)`;
+    track.style.transform = `translateX(-${index * 100}%)`;
   }
   if (num) {
     num.textContent = index + 1;
   }
   dots.forEach((dot, idx) => {
     dot.classList.toggle('active', idx === index);
+  });
+}
+
+// 해당 여행지의 사진 장수
+function getImageCount(destId) {
+  const dest = DESTINATIONS_DATA.find(d => d.id === destId);
+  return dest ? dest.images.length : 0;
+}
+
+// 카드 사진 클릭 → 상세보기 (스와이프 직후의 클릭은 무시)
+let lastSwipeAt = 0;
+function handleCardImageClick(destId) {
+  if (Date.now() - lastSwipeAt < 400) return;
+  openDetailModal(destId);
+}
+
+// 손가락으로 좌우로 밀어 사진 넘기기
+function attachSwipe(el, onSwipe) {
+  if (!el || el.dataset.swipeBound) return;
+  el.dataset.swipeBound = '1';
+  let startX = 0, startY = 0, tracking = false;
+  el.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    tracking = true;
+  }, { passive: true });
+  el.addEventListener('touchend', (e) => {
+    if (!tracking) return;
+    tracking = false;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+      lastSwipeAt = Date.now();
+      onSwipe(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+}
+
+function bindCardSwipes() {
+  DESTINATIONS_DATA.forEach(dest => {
+    if (dest.images.length < 2) return;
+    attachSwipe(document.getElementById(`slider-${dest.id}`), (step) => moveSlide(dest.id, step));
   });
 }
 
