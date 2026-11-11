@@ -1,11 +1,11 @@
 // ========================================================
 // 하루트립 (HARU TRIP) - 전국 당일치기 관광 프론트엔드 로직
-// [목포편] & [부산편] 완전 지원
+// [목포편] [부산편] [강릉편] [전주편] [제주편] 지원
 // ========================================================
 
 // 상태 관리
 const state = {
-  currentCity: 'busan', // 'mokpo' | 'busan'
+  currentCity: 'busan', // CITIES_DATA의 키 (mokpo, busan, gangneung, jeonju, jeju)
   activeCourseFilter: 'ALL', // 'ALL' | 'A' | 'B' | 'C'
   searchQuery: '',
   likes: {},      // { [destId]: { count: number, userLiked: boolean } }
@@ -87,7 +87,15 @@ function switchCity(cityId, shouldScroll = true) {
   // 2. GNB 칩 스타일 갱신
   document.querySelectorAll('.region-chip').forEach(chip => chip.classList.remove('active'));
   const activeChip = document.getElementById(`chip-${cityId}`);
-  if (activeChip) activeChip.classList.add('active');
+  if (activeChip) {
+    activeChip.classList.add('active');
+    // 모바일에서 칩 목록이 가로 스크롤될 때 선택된 도시가 보이도록 이동
+    const wrap = activeChip.parentElement;
+    if (wrap && wrap.scrollWidth > wrap.clientWidth) {
+      const chipLeft = activeChip.getBoundingClientRect().left - wrap.getBoundingClientRect().left + wrap.scrollLeft;
+      wrap.scrollLeft = chipLeft - (wrap.clientWidth - activeChip.offsetWidth) / 2;
+    }
+  }
 
   // 3. 히어로 섹션 갱신
   const heroSec = document.getElementById('hero');
@@ -109,7 +117,7 @@ function switchCity(cityId, shouldScroll = true) {
   const coursesSecTitle = document.getElementById('coursesSectionTitle');
   const exploreSecTitle = document.getElementById('exploreSectionTitle');
   if (coursesSecTitle) {
-    coursesSecTitle.textContent = `${city.name}을 즐기는 가장 완벽한 3가지 코스`;
+    coursesSecTitle.textContent = `${city.name}${objectParticle(city.name)} 즐기는 가장 완벽한 3가지 코스`;
   }
   if (exploreSecTitle) {
     exploreSecTitle.textContent = `${city.name} 당일치기 필수 명소 탐색`;
@@ -123,10 +131,9 @@ function switchCity(cityId, shouldScroll = true) {
   renderDestinations();
 
   // 8. 전국 확장 배너 활성 상태 동기화
-  const mokpoBox = document.getElementById('regionBoxMokpo');
-  const busanBox = document.getElementById('regionBoxBusan');
-  if (mokpoBox) mokpoBox.classList.toggle('active', cityId === 'mokpo');
-  if (busanBox) busanBox.classList.toggle('active', cityId === 'busan');
+  document.querySelectorAll('.region-box[data-city]').forEach(box => {
+    box.classList.toggle('active', box.dataset.city === cityId);
+  });
 
   // 9. 푸터 링크 갱신
   renderFooterLinks();
@@ -144,6 +151,13 @@ function switchCity(cityId, shouldScroll = true) {
   if (shouldScroll) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+}
+
+// 받침 유무에 따라 목적격 조사 선택 (부산을 / 전주를)
+function objectParticle(word) {
+  const code = word.charCodeAt(word.length - 1) - 0xAC00;
+  if (code < 0 || code > 11171) return '을';
+  return code % 28 === 0 ? '를' : '을';
 }
 
 // --------------------------------------------------------

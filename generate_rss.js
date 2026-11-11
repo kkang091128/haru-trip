@@ -6,7 +6,9 @@ const vm = require('vm');
 
 const SITE = 'https://haru-trip-h0v.pages.dev';
 
-const code = fs.readFileSync(path.join(__dirname, 'data.js'), 'utf8');
+// data.js 다음에 도시별 data_*.js 파일을 이어서 실행
+const dataFiles = ['data.js', ...fs.readdirSync(__dirname).filter(f => /^data_.+\.js$/.test(f)).sort()];
+const code = dataFiles.map(f => fs.readFileSync(path.join(__dirname, f), 'utf8')).join('\n');
 const ctx = {};
 vm.createContext(ctx);
 vm.runInContext(code + '\nthis.CITIES_DATA = CITIES_DATA;', ctx);
@@ -50,7 +52,7 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
   <channel>
     <title>하루트립 - 전국 당일치기 여행 가이드</title>
     <link>${SITE}/</link>
-    <description>A, B, C 맞춤 코스로 즐기는 전국 당일치기 여행 가이드. 부산, 목포의 명소와 코스를 한눈에 둘러보세요.</description>
+    <description>A, B, C 맞춤 코스로 즐기는 전국 당일치기 여행 가이드. 부산, 목포, 강릉, 전주, 제주의 명소와 코스를 한눈에 둘러보세요.</description>
     <language>ko</language>
     <lastBuildDate>${now}</lastBuildDate>
     <atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml" />

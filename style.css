@@ -1619,3 +1619,55 @@ button {
     font-size: 0.7rem;
   }
 }
+
+/* ========================================================
+   도시 5곳 확장에 따른 내비게이션 공간 조정
+   ======================================================== */
+.region-chip,
+.nav-link,
+.brand-logo,
+.brand-badge,
+.btn-header-cta {
+  white-space: nowrap;
+}
+
+@media (max-width: 1150px) {
+  .region-chip .region-tag {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1150px) {
+  .btn-header-cta {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 960px) {
+  .region-chip {
+    padding: 6px 8px;
+  }
+  .nav-links {
+    gap: 0.75rem;
+  }
+  .brand-badge {
+    display: none; /* 선택된 도시는 칩에 이미 표시됨 */
+  }
+}
+
+/* 모바일: 도시 칩이 화면을 넘으면 가로 스크롤 */
+@media (max-width: 768px) {
+  .region-selector-wrap {
+    flex-shrink: 1;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .region-selector-wrap::-webkit-scrollbar {
+    display: none;
+  }
+  .region-chip {
+    flex-shrink: 0;
+  }
+}

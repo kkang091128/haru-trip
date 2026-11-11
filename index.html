@@ -32,14 +32,14 @@
         <button class="region-chip active" id="chip-busan" onclick="switchCity('busan')">
           <span>🌊</span> 부산 <span class="region-tag" style="background:#0284c7; color:#fff;">HOT</span>
         </button>
-        <button class="region-chip disabled region-chip-future" title="오픈 준비 중입니다">
-          강릉 <span class="region-tag">오픈예정</span>
+        <button class="region-chip" id="chip-gangneung" onclick="switchCity('gangneung')">
+          <span>☕</span> 강릉 <span class="region-tag">NEW</span>
         </button>
-        <button class="region-chip disabled region-chip-future" title="오픈 준비 중입니다">
-          전주 <span class="region-tag">오픈예정</span>
+        <button class="region-chip" id="chip-jeonju" onclick="switchCity('jeonju')">
+          <span>🏯</span> 전주 <span class="region-tag">NEW</span>
         </button>
-        <button class="region-chip disabled region-chip-future" title="오픈 준비 중입니다">
-          제주 <span class="region-tag">오픈예정</span>
+        <button class="region-chip" id="chip-jeju" onclick="switchCity('jeju')">
+          <span>🌴</span> 제주 <span class="region-tag">NEW</span>
         </button>
       </div>
 
@@ -175,17 +175,17 @@
         <div class="nationwide-content">
           <span class="nationwide-badge">🚀 전국 확장 로드맵 (Expansion Project)</span>
           <h2 class="nationwide-title">
-            목포와 부산을 넘어, 전국 8도의<br />
+            목포·부산·강릉·전주·제주를 넘어, 전국 8도의<br />
             아름다운 하루를 잇는 여행 플랫폼이 됩니다.
           </h2>
           <p class="nationwide-desc">
-            '하루트립'은 목포와 부산을 필두로, 복잡한 1박 2일 준비 없이도 누구나 주말 하루 만에 
+            '하루트립'은 목포, 부산, 강릉, 전주, 제주를 필두로, 복잡한 1박 2일 준비 없이도 누구나 주말 하루 만에 
             온전히 떠날 수 있는 대한민국 대표 도시별 당일치기 큐레이션 서비스를 전국으로 순차 확장 중입니다.
           </p>
 
           <!-- 확장 도시 그리드 -->
           <div class="regions-grid">
-            <div class="region-box" id="regionBoxMokpo" onclick="switchCity('mokpo')" style="cursor: pointer;" title="클릭하여 목포 여행 가이드로 이동">
+            <div class="region-box" id="regionBoxMokpo" data-city="mokpo" onclick="switchCity('mokpo')" style="cursor: pointer;" title="클릭하여 목포 여행 가이드로 이동">
               <div class="region-box-header">
                 <span class="region-box-name">목포시</span>
                 <span class="region-box-status" style="background:#22c55e;">서비스 이용가능</span>
@@ -193,7 +193,7 @@
               <p class="region-box-desc">근대역사, 해상케이블카, 9미 먹거리와 목포대교 선셋</p>
             </div>
 
-            <div class="region-box active" id="regionBoxBusan" onclick="switchCity('busan')" style="cursor: pointer;" title="클릭하여 부산 여행 가이드로 이동">
+            <div class="region-box active" id="regionBoxBusan" data-city="busan" onclick="switchCity('busan')" style="cursor: pointer;" title="클릭하여 부산 여행 가이드로 이동">
               <div class="region-box-header">
                 <span class="region-box-name">부산광역시</span>
                 <span class="region-box-status" style="background:#0284c7;">서비스 이용가능</span>
@@ -201,28 +201,28 @@
               <p class="region-box-desc">해운대 블루라인파크, 영도 흰여울마을, 감천문화마을, 광안대교 야경</p>
             </div>
 
-            <div class="region-box">
+            <div class="region-box" id="regionBoxGangneung" data-city="gangneung" onclick="switchCity('gangneung')" style="cursor: pointer;" title="클릭하여 강릉 여행 가이드로 이동">
               <div class="region-box-header">
                 <span class="region-box-name">강릉시</span>
-                <span class="region-box-status">오픈 예정</span>
+                <span class="region-box-status" style="background:#22c55e;">서비스 이용가능</span>
               </div>
-              <p class="region-box-desc">안목 커피거리, 아르떼뮤지엄, 정동진 바다부채길</p>
+              <p class="region-box-desc">안목 커피거리, 경포호, 오죽헌, 정동진 바다부채길</p>
             </div>
 
-            <div class="region-box">
+            <div class="region-box" id="regionBoxJeonju" data-city="jeonju" onclick="switchCity('jeonju')" style="cursor: pointer;" title="클릭하여 전주 여행 가이드로 이동">
               <div class="region-box-header">
                 <span class="region-box-name">전주시</span>
-                <span class="region-box-status">오픈 예정</span>
+                <span class="region-box-status" style="background:#22c55e;">서비스 이용가능</span>
               </div>
-              <p class="region-box-desc">전주한옥마을 경기전, 전동성당, 남부시장 청년몰</p>
+              <p class="region-box-desc">전주한옥마을 경기전, 전동성당, 남부시장 청년몰, 덕진공원</p>
             </div>
 
-            <div class="region-box">
+            <div class="region-box" id="regionBoxJeju" data-city="jeju" onclick="switchCity('jeju')" style="cursor: pointer;" title="클릭하여 제주 여행 가이드로 이동">
               <div class="region-box-header">
                 <span class="region-box-name">제주특별자치도</span>
-                <span class="region-box-status">오픈 예정</span>
+                <span class="region-box-status" style="background:#22c55e;">서비스 이용가능</span>
               </div>
-              <p class="region-box-desc">애월 한담해변길, 오설록 티뮤지엄, 신창풍차해안도로</p>
+              <p class="region-box-desc">애월 한담해안산책로, 협재해수욕장, 성산일출봉, 천지연폭포</p>
             </div>
 
             <div class="region-box">
@@ -261,7 +261,7 @@
         <h3>🌊 하루트립 (HARU TRIP)</h3>
         <p>
           주말 하루, 온전한 쉼과 발견을 선물하는 대한민국 전국 당일치기 큐레이션 여행 플랫폼입니다.
-          목포와 부산 당일치기 가이드를 시작으로 대한민국 곳곳의 보석 같은 하루 코스를 선보입니다.
+          목포, 부산, 강릉, 전주, 제주 당일치기 가이드를 시작으로 대한민국 곳곳의 보석 같은 하루 코스를 선보입니다.
         </p>
       </div>
 
@@ -277,8 +277,12 @@
         <ul>
           <li><a href="javascript:switchCity('mokpo')">목포 당일치기 바로가기</a></li>
           <li><a href="javascript:switchCity('busan')">부산 당일치기 바로가기</a></li>
+          <li><a href="javascript:switchCity('gangneung')">강릉 당일치기 바로가기</a></li>
+          <li><a href="javascript:switchCity('jeonju')">전주 당일치기 바로가기</a></li>
+          <li><a href="javascript:switchCity('jeju')">제주 당일치기 바로가기</a></li>
           <li><a href="#nationwideSection">전국 서비스 오픈 안내</a></li>
           <li><a href="#">이용약관 및 개인정보처리방침</a></li>
+          <li><a href="credits.html">사진 출처</a></li>
         </ul>
       </div>
     </div>
@@ -291,6 +295,9 @@
 
   <!-- 스크립트 로드 -->
   <script src="data.js"></script>
+  <script src="data_gangneung.js"></script>
+  <script src="data_jeonju.js"></script>
+  <script src="data_jeju.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
