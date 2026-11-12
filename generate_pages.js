@@ -52,6 +52,10 @@ function layout({ file, title, description, body, jsonLd, noindex }) {
   <meta property="og:description" content="${esc(description)}" />
   <meta property="og:url" content="${url}" />
   <link rel="alternate" type="application/rss+xml" title="하루트립 RSS" href="/rss.xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#0284c7" />
   <link rel="stylesheet" href="pages.css" />
   ${adsenseTag()}
   ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ''}
