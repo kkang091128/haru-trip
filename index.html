@@ -3,22 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title id="docTitle">하루트립 부산 | 푸른 파도와 빛나는 마천루 부산 당일치기 여행 가이드</title>
-  <meta name="description" id="docDesc" content="목포·부산·강릉·전주·제주 당일치기 여행을 A·B·C 맞춤 코스로! 명소·맛집·야경 동선을 한눈에." />
+  <title id="docTitle" data-i18n="metaTitle">하루트립 부산 | 푸른 파도와 빛나는 마천루 부산 당일치기 여행 가이드</title>
+  <meta name="description" id="docDesc" data-i18n-attr="content:metaDesc" content="목포·부산·강릉·전주·제주 당일치기 여행을 A·B·C 맞춤 코스로! 명소·맛집·야경 동선을 한눈에." />
   
   <!-- Favicon & Stylesheet -->
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <meta name="theme-color" content="#0284c7" />
-  <link rel="canonical" href="https://haru-trip-h0v.pages.dev/" />
+  <link rel="canonical" data-i18n-attr="href:canonical" href="https://haru-trip-h0v.pages.dev/" />
+  <link rel="alternate" hreflang="ko" href="https://haru-trip-h0v.pages.dev/" />
+  <link rel="alternate" hreflang="en" href="https://haru-trip-h0v.pages.dev/en/" />
+  <link rel="alternate" hreflang="x-default" href="https://haru-trip-h0v.pages.dev/" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="하루트립" />
-  <meta property="og:title" content="하루트립 | 국내 도시별 당일치기 여행 코스 가이드" />
-  <meta property="og:description" content="목포·부산·강릉·전주·제주 당일치기 여행을 A·B·C 맞춤 코스로 소개합니다." />
-  <meta property="og:url" content="https://haru-trip-h0v.pages.dev/" />
+  <meta property="og:site_name" data-i18n-attr="content:siteName" content="하루트립" />
+  <meta property="og:title" data-i18n-attr="content:ogTitle" content="하루트립 | 국내 도시별 당일치기 여행 코스 가이드" />
+  <meta property="og:description" data-i18n-attr="content:ogDesc" content="목포·부산·강릉·전주·제주 당일치기 여행을 A·B·C 맞춤 코스로 소개합니다." />
+  <meta property="og:url" data-i18n-attr="content:canonical" content="https://haru-trip-h0v.pages.dev/" />
   <meta property="og:image" content="https://haru-trip-h0v.pages.dev/img/busan_hero_bg.jpg" />
-  <link rel="alternate" type="application/rss+xml" title="하루트립 RSS" href="/rss.xml" />
+  <link rel="alternate" type="application/rss+xml" data-i18n-attr="title:rssTitle,href:rssHref" title="하루트립 RSS" href="/rss.xml" />
   <!-- ADSENSE:START -->
   <!-- config.js의 adsenseClient에 ca-pub-... 값을 넣고 node generate_pages.js 를 실행하면 여기에 광고 코드가 들어갑니다 -->
   <!-- ADSENSE:END -->
@@ -33,41 +36,42 @@
     <nav class="navbar" id="navbar">
       <div class="nav-brand">
         <a href="#" class="brand-logo" onclick="switchCity(currentCityId); return false;">
-          <span>🌊</span> 하루트립
+          <span>🌊</span> <span data-i18n="brand">하루트립</span>
         </a>
-        <span class="brand-badge" id="brandBadge">부산편</span>
+        <span class="brand-badge" id="brandBadge" data-i18n="brandBadge">부산편</span>
       </div>
 
       <!-- 전국 확장형 지역 셀렉터 -->
-      <div class="region-selector-wrap" title="원하는 여행지 도시를 선택해 보세요">
+      <div class="region-selector-wrap" data-i18n-attr="title:regionTitle" title="원하는 여행지 도시를 선택해 보세요">
         <button class="region-chip" id="chip-mokpo" onclick="switchCity('mokpo')">
-          <span>📍</span> 목포
+          <span>📍</span> <span data-i18n="cityMokpo">목포</span>
         </button>
         <button class="region-chip active" id="chip-busan" onclick="switchCity('busan')">
-          <span>🌊</span> 부산 <span class="region-tag" style="background:#0284c7; color:#fff;">HOT</span>
+          <span>🌊</span> <span data-i18n="cityBusan">부산</span> <span class="region-tag" style="background:#0284c7; color:#fff;">HOT</span>
         </button>
         <button class="region-chip" id="chip-gangneung" onclick="switchCity('gangneung')">
-          <span>☕</span> 강릉 <span class="region-tag">NEW</span>
+          <span>☕</span> <span data-i18n="cityGangneung">강릉</span> <span class="region-tag">NEW</span>
         </button>
         <button class="region-chip" id="chip-jeonju" onclick="switchCity('jeonju')">
-          <span>🏯</span> 전주 <span class="region-tag">NEW</span>
+          <span>🏯</span> <span data-i18n="cityJeonju">전주</span> <span class="region-tag">NEW</span>
         </button>
         <button class="region-chip" id="chip-jeju" onclick="switchCity('jeju')">
-          <span>🌴</span> 제주 <span class="region-tag">NEW</span>
+          <span>🌴</span> <span data-i18n="cityJeju">제주</span> <span class="region-tag">NEW</span>
         </button>
       </div>
 
       <div class="nav-links" id="navLinks">
-        <a href="#coursesSection" class="nav-link" onclick="closeMobileMenu()">3대 코스</a>
-        <a href="#exploreSection" class="nav-link" onclick="closeMobileMenu()">명소 검색</a>
-        <a href="#nationwideSection" class="nav-link" onclick="closeMobileMenu()">전국 확장 안내</a>
-        <button class="btn-header-cta" onclick="document.getElementById('exploreSection').scrollIntoView({behavior: 'smooth'}); closeMobileMenu();">
+        <a href="#coursesSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navCourses">3대 코스</a>
+        <a href="#exploreSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navExplore">명소 검색</a>
+        <a href="#nationwideSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navNationwide">전국 확장 안내</a>
+        <button class="btn-header-cta" onclick="document.getElementById('exploreSection').scrollIntoView({behavior: 'smooth'}); closeMobileMenu();" data-i18n="navCta">
           여행지 둘러보기
         </button>
+        <a href="en/" id="langSwitch" class="nav-link lang-switch" lang="en" data-i18n="langLabel" data-i18n-attr="href:langHref,title:langTitle,lang:langCode" title="View in English">EN</a>
       </div>
 
       <!-- 모바일 햄버거 메뉴 토글 버튼 -->
-      <button class="nav-toggle-btn" id="navToggleBtn" aria-label="모바일 메뉴 열기/닫기" onclick="toggleMobileMenu()">
+      <button class="nav-toggle-btn" id="navToggleBtn" aria-label="모바일 메뉴 열기/닫기" data-i18n-attr="aria-label:menuToggle" onclick="toggleMobileMenu()">
         <span class="hamburger-bar"></span>
         <span class="hamburger-bar"></span>
         <span class="hamburger-bar"></span>
@@ -81,14 +85,14 @@
          ========================================== -->
     <section class="hero" id="hero">
       <div class="hero-content">
-        <div class="hero-pill" id="heroPill">
+        <div class="hero-pill" id="heroPill" data-i18n="heroPill">
           🌊 전국 당일치기 여행 프로젝트 #2 · 해양수도 부산
         </div>
-        <h1 class="hero-title" id="heroTitle">
+        <h1 class="hero-title" id="heroTitle" data-i18n="heroTitle">
           끝없이 펼쳐진 푸른 바다와 다채로운 매력<br />
           <span class="highlight">부산 당일치기 완벽 여행</span>
         </h1>
-        <p class="hero-subtitle" id="heroSubtitle">
+        <p class="hero-subtitle" id="heroSubtitle" data-i18n="heroSubtitle">
           해운대 스카이캡슐부터 절벽 위 흰여울마을, 황홀한 광안대교 야경까지!<br />
           A · B · C 맞춤 코스로 하루 만에 즐기는 부산의 낭만과 미식 여행.
         </p>
@@ -100,9 +104,10 @@
             type="text" 
             id="heroSearchInput" 
             class="hero-search-input" 
+            data-i18n-attr="placeholder:heroSearchPlaceholder"
             placeholder="가고 싶은 여행지, 테마(#스카이캡슐, #흰여울, #광안대교), 또는 코스 검색..." 
           />
-          <button id="heroSearchBtn" class="hero-search-btn">명소 찾기</button>
+          <button id="heroSearchBtn" class="hero-search-btn" data-i18n="heroSearchBtn">명소 찾기</button>
         </div>
 
         <!-- 히어로 3대 코스 퀵 점프 뱃지 (동적 렌더링) -->
@@ -118,8 +123,8 @@
     <section class="section" id="coursesSection">
       <div class="section-header">
         <span class="section-tag">Curated 1-Day Itinerary</span>
-        <h2 class="section-title" id="coursesSectionTitle">부산을 즐기는 가장 완벽한 3가지 코스</h2>
-        <p class="section-desc">
+        <h2 class="section-title" id="coursesSectionTitle" data-i18n="coursesSectionTitle">부산을 즐기는 가장 완벽한 3가지 코스</h2>
+        <p class="section-desc" data-i18n="coursesSectionDesc">
           시간 낭비 없는 최적의 동선 설계! 여행자의 감성과 취향에 맞춘 코스를 선택해 보세요.
         </p>
       </div>
@@ -134,8 +139,8 @@
     <section class="section explore-section" id="exploreSection">
       <div class="section-header">
         <span class="section-tag">Explore Destinations</span>
-        <h2 class="section-title" id="exploreSectionTitle">부산 당일치기 필수 명소 탐색</h2>
-        <p class="section-desc">
+        <h2 class="section-title" id="exploreSectionTitle" data-i18n="exploreSectionTitle">부산 당일치기 필수 명소 탐색</h2>
+        <p class="section-desc" data-i18n="exploreSectionDesc">
           각 명소마다 3장의 슬라이드 사진과 상세 설명, 그리고 여행자들의 생생한 리뷰를 확인하세요.
         </p>
       </div>
@@ -144,7 +149,7 @@
       <div class="filter-controls">
         <!-- 코스 선택 필터 -->
         <div class="filter-row">
-          <span class="filter-label">코스별 선택</span>
+          <span class="filter-label" data-i18n="filterCourse">코스별 선택</span>
           <div class="filter-btn-group" id="courseFilterGroup">
             <!-- JS에서 동적 주입 -->
           </div>
@@ -152,16 +157,17 @@
 
         <!-- 인라인 텍스트 검색 -->
         <div class="filter-row">
-          <span class="filter-label">명소 검색</span>
+          <span class="filter-label" data-i18n="filterSearch">명소 검색</span>
           <div class="search-input-inline-wrap">
             <span class="search-inline-icon">🔍</span>
             <input 
               type="text" 
               id="inlineSearchInput" 
               class="search-input-inline" 
+              data-i18n-attr="placeholder:inlineSearchPlaceholder"
               placeholder="명소 이름, 키워드(#스카이캡슐, #흰여울, #광안대교), 주소 검색..." 
             />
-            <button id="searchClearBtn" class="search-clear-btn" title="검색어 지우기">✕</button>
+            <button id="searchClearBtn" class="search-clear-btn" data-i18n-attr="title:clearSearch" title="검색어 지우기">✕</button>
           </div>
         </div>
       </div>
@@ -169,10 +175,10 @@
       <!-- 검색 결과 수 및 정렬 바 -->
       <div class="results-status-bar">
         <div>
-          <span>검색된 여행지 : </span>
-          <span class="results-count" id="resultsCount">9개</span>
+          <span data-i18n="resultsLabel">검색된 여행지 : </span>
+          <span class="results-count" id="resultsCount" data-i18n="resultsCount">9개</span>
         </div>
-        <div style="font-size: 0.85rem; color: var(--text-muted);">
+        <div style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="sliderHint">
           💡 카드 위 화살표를 눌러 3장의 사진을 슬라이드해보세요!
         </div>
       </div>
@@ -187,68 +193,68 @@
     <section class="section" id="nationwideSection">
       <div class="nationwide-banner">
         <div class="nationwide-content">
-          <span class="nationwide-badge">🚀 전국 확장 로드맵 (Expansion Project)</span>
-          <h2 class="nationwide-title">
+          <span class="nationwide-badge" data-i18n="nationBadge">🚀 전국 확장 로드맵 (Expansion Project)</span>
+          <h2 class="nationwide-title" data-i18n="nationTitle">
             목포·부산·강릉·전주·제주를 넘어, 전국 8도의<br />
             아름다운 하루를 잇는 여행 플랫폼이 됩니다.
           </h2>
-          <p class="nationwide-desc">
+          <p class="nationwide-desc" data-i18n="nationDesc">
             '하루트립'은 목포, 부산, 강릉, 전주, 제주를 필두로, 복잡한 1박 2일 준비 없이도 누구나 주말 하루 만에 
             온전히 떠날 수 있는 대한민국 대표 도시별 당일치기 큐레이션 서비스를 전국으로 순차 확장 중입니다.
           </p>
 
           <!-- 확장 도시 그리드 -->
           <div class="regions-grid">
-            <div class="region-box" id="regionBoxMokpo" data-city="mokpo" onclick="switchCity('mokpo')" style="cursor: pointer;" title="클릭하여 목포 여행 가이드로 이동">
+            <div class="region-box" id="regionBoxMokpo" data-city="mokpo" onclick="switchCity('mokpo')" style="cursor: pointer;" data-i18n-attr="title:goMokpo" title="클릭하여 목포 여행 가이드로 이동">
               <div class="region-box-header">
-                <span class="region-box-name">목포시</span>
-                <span class="region-box-status" style="background:#22c55e;">서비스 이용가능</span>
+                <span class="region-box-name" data-i18n="regionMokpo">목포시</span>
+                <span class="region-box-status" style="background:#22c55e;" data-i18n="statusOpen">서비스 이용가능</span>
               </div>
-              <p class="region-box-desc">근대역사, 해상케이블카, 9미 먹거리와 목포대교 선셋</p>
+              <p class="region-box-desc" data-i18n="regionDescMokpo">근대역사, 해상케이블카, 9미 먹거리와 목포대교 선셋</p>
             </div>
 
-            <div class="region-box active" id="regionBoxBusan" data-city="busan" onclick="switchCity('busan')" style="cursor: pointer;" title="클릭하여 부산 여행 가이드로 이동">
+            <div class="region-box active" id="regionBoxBusan" data-city="busan" onclick="switchCity('busan')" style="cursor: pointer;" data-i18n-attr="title:goBusan" title="클릭하여 부산 여행 가이드로 이동">
               <div class="region-box-header">
-                <span class="region-box-name">부산광역시</span>
-                <span class="region-box-status" style="background:#0284c7;">서비스 이용가능</span>
+                <span class="region-box-name" data-i18n="regionBusan">부산광역시</span>
+                <span class="region-box-status" style="background:#0284c7;" data-i18n="statusOpen">서비스 이용가능</span>
               </div>
-              <p class="region-box-desc">해운대 블루라인파크, 영도 흰여울마을, 감천문화마을, 광안대교 야경</p>
+              <p class="region-box-desc" data-i18n="regionDescBusan">해운대 블루라인파크, 영도 흰여울마을, 감천문화마을, 광안대교 야경</p>
             </div>
 
-            <div class="region-box" id="regionBoxGangneung" data-city="gangneung" onclick="switchCity('gangneung')" style="cursor: pointer;" title="클릭하여 강릉 여행 가이드로 이동">
+            <div class="region-box" id="regionBoxGangneung" data-city="gangneung" onclick="switchCity('gangneung')" style="cursor: pointer;" data-i18n-attr="title:goGangneung" title="클릭하여 강릉 여행 가이드로 이동">
               <div class="region-box-header">
-                <span class="region-box-name">강릉시</span>
-                <span class="region-box-status" style="background:#22c55e;">서비스 이용가능</span>
+                <span class="region-box-name" data-i18n="regionGangneung">강릉시</span>
+                <span class="region-box-status" style="background:#22c55e;" data-i18n="statusOpen">서비스 이용가능</span>
               </div>
-              <p class="region-box-desc">안목 커피거리, 경포호, 오죽헌, 정동진 바다부채길</p>
+              <p class="region-box-desc" data-i18n="regionDescGangneung">안목 커피거리, 경포호, 오죽헌, 정동진 바다부채길</p>
             </div>
 
-            <div class="region-box" id="regionBoxJeonju" data-city="jeonju" onclick="switchCity('jeonju')" style="cursor: pointer;" title="클릭하여 전주 여행 가이드로 이동">
+            <div class="region-box" id="regionBoxJeonju" data-city="jeonju" onclick="switchCity('jeonju')" style="cursor: pointer;" data-i18n-attr="title:goJeonju" title="클릭하여 전주 여행 가이드로 이동">
               <div class="region-box-header">
-                <span class="region-box-name">전주시</span>
-                <span class="region-box-status" style="background:#22c55e;">서비스 이용가능</span>
+                <span class="region-box-name" data-i18n="regionJeonju">전주시</span>
+                <span class="region-box-status" style="background:#22c55e;" data-i18n="statusOpen">서비스 이용가능</span>
               </div>
-              <p class="region-box-desc">전주한옥마을 경기전, 전동성당, 남부시장 청년몰, 덕진공원</p>
+              <p class="region-box-desc" data-i18n="regionDescJeonju">전주한옥마을 경기전, 전동성당, 남부시장 청년몰, 덕진공원</p>
             </div>
 
-            <div class="region-box" id="regionBoxJeju" data-city="jeju" onclick="switchCity('jeju')" style="cursor: pointer;" title="클릭하여 제주 여행 가이드로 이동">
+            <div class="region-box" id="regionBoxJeju" data-city="jeju" onclick="switchCity('jeju')" style="cursor: pointer;" data-i18n-attr="title:goJeju" title="클릭하여 제주 여행 가이드로 이동">
               <div class="region-box-header">
-                <span class="region-box-name">제주특별자치도</span>
-                <span class="region-box-status" style="background:#22c55e;">서비스 이용가능</span>
+                <span class="region-box-name" data-i18n="regionJeju">제주특별자치도</span>
+                <span class="region-box-status" style="background:#22c55e;" data-i18n="statusOpen">서비스 이용가능</span>
               </div>
-              <p class="region-box-desc">애월 한담해안산책로, 협재해수욕장, 성산일출봉, 천지연폭포</p>
+              <p class="region-box-desc" data-i18n="regionDescJeju">애월 한담해안산책로, 협재해수욕장, 성산일출봉, 천지연폭포</p>
             </div>
 
             <div class="region-box">
               <div class="region-box-header">
-                <span class="region-box-name">여수시</span>
-                <span class="region-box-status">오픈 예정</span>
+                <span class="region-box-name" data-i18n="regionYeosu">여수시</span>
+                <span class="region-box-status" data-i18n="statusSoon">오픈 예정</span>
               </div>
-              <p class="region-box-desc">오동도 동백숲, 여수해상케이블카, 낭만포차 밤바다</p>
+              <p class="region-box-desc" data-i18n="regionDescYeosu">오동도 동백숲, 여수해상케이블카, 낭만포차 밤바다</p>
             </div>
           </div>
 
-          <div style="font-size: 0.9rem; color: #cbd5e1;">
+          <div style="font-size: 0.9rem; color: #cbd5e1;" data-i18n="contactLine">
             ✉️ 여행 정보 수정 요청 · 제휴 문의: <a href="mailto:ck2lucky@gmail.com" style="color:#e0f2fe;">ck2lucky@gmail.com</a>
           </div>
         </div>
@@ -261,7 +267,7 @@
        ========================================== -->
   <div class="modal-backdrop" id="modalBackdrop">
     <div class="modal-dialog" id="modalDialog">
-      <button class="modal-close-btn" id="modalCloseBtn" aria-label="닫기">✕</button>
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="닫기" data-i18n-attr="aria-label:modalClose">✕</button>
       <div id="modalContent"></div>
     </div>
   </div>
@@ -272,46 +278,47 @@
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-brand">
-        <h3>🌊 하루트립 (HARU TRIP)</h3>
-        <p>
+        <h3 data-i18n="footerBrand">🌊 하루트립 (HARU TRIP)</h3>
+        <p data-i18n="footerDesc">
           주말 하루, 온전한 쉼과 발견을 선물하는 대한민국 전국 당일치기 큐레이션 여행 플랫폼입니다.
           목포, 부산, 강릉, 전주, 제주 당일치기 가이드를 시작으로 대한민국 곳곳의 보석 같은 하루 코스를 선보입니다.
         </p>
       </div>
 
       <div class="footer-col">
-        <h4 id="footerCourseHeading">부산 당일치기 코스</h4>
+        <h4 id="footerCourseHeading" data-i18n="footerCourseHeading">부산 당일치기 코스</h4>
         <ul id="footerCourseLinks">
           <!-- JS에서 동적 주입 -->
         </ul>
       </div>
 
       <div class="footer-col">
-        <h4>도시별 여행 가이드</h4>
+        <h4 data-i18n="footerGuides">도시별 여행 가이드</h4>
         <ul>
-          <li><a href="guide-mokpo.html">목포 당일치기 코스 총정리</a></li>
-          <li><a href="guide-busan.html">부산 당일치기 코스 총정리</a></li>
-          <li><a href="guide-gangneung.html">강릉 당일치기 코스 총정리</a></li>
-          <li><a href="guide-jeonju.html">전주 당일치기 코스 총정리</a></li>
-          <li><a href="guide-jeju.html">제주 당일치기 코스 총정리</a></li>
+          <li><a href="guide-mokpo.html" data-i18n="guideMokpo">목포 당일치기 코스 총정리</a></li>
+          <li><a href="guide-busan.html" data-i18n="guideBusan">부산 당일치기 코스 총정리</a></li>
+          <li><a href="guide-gangneung.html" data-i18n="guideGangneung">강릉 당일치기 코스 총정리</a></li>
+          <li><a href="guide-jeonju.html" data-i18n="guideJeonju">전주 당일치기 코스 총정리</a></li>
+          <li><a href="guide-jeju.html" data-i18n="guideJeju">제주 당일치기 코스 총정리</a></li>
         </ul>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <div>© 2026 HARU TRIP. All rights reserved. 대한민국 당일치기 여행 플랫폼.</div>
-      <nav class="footer-legal" aria-label="사이트 정보">
-        <a href="about.html">사이트 소개</a>
-        <a href="privacy.html"><strong>개인정보처리방침</strong></a>
-        <a href="terms.html">이용약관</a>
-        <a href="credits.html">사진 출처</a>
-        <a href="mailto:ck2lucky@gmail.com">문의</a>
+      <div data-i18n="copyright">© 2026 HARU TRIP. All rights reserved. 대한민국 당일치기 여행 플랫폼.</div>
+      <nav class="footer-legal" aria-label="사이트 정보" data-i18n-attr="aria-label:footerNav">
+        <a href="about.html" data-i18n="footerAbout">사이트 소개</a>
+        <a href="privacy.html" data-i18n="footerPrivacy"><strong>개인정보처리방침</strong></a>
+        <a href="terms.html" data-i18n="footerTerms">이용약관</a>
+        <a href="credits.html" data-i18n="footerCredits">사진 출처</a>
+        <a href="mailto:ck2lucky@gmail.com" data-i18n="footerContact">문의</a>
       </nav>
     </div>
   </footer>
 
   <!-- 스크립트 로드 -->
   <script src="config.js"></script>
+  <script src="i18n/ui.js"></script>
   <script src="feedback.js"></script>
   <script src="data.js"></script>
   <script src="data_gangneung.js"></script>

@@ -174,3 +174,6 @@ p { margin: 0 0 14px; color: var(--text-2); }
   .spot dl { grid-template-columns: 1fr; gap: 2px; }
   .spot dt { margin-top: 6px; }
 }
+
+/* 언어 전환 링크 */
+.page-header .lang-switch { font-weight: 700; }

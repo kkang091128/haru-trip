@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-asset-base="../">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="docTitle" data-i18n="metaTitle">HARU TRIP | Korea Day Trip Itineraries by City</title>
+  <meta name="description" id="docDesc" data-i18n-attr="content:metaDesc" content="Day trips to Mokpo, Busan, Gangneung, Jeonju &amp; Jeju with A·B·C courses. Sights, food and night views in one place." />
+  
+  <!-- Favicon & Stylesheet -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#0284c7" />
+  <link rel="canonical" data-i18n-attr="href:canonical" href="https://haru-trip-h0v.pages.dev/en/" />
+  <link rel="alternate" hreflang="ko" href="https://haru-trip-h0v.pages.dev/" />
+  <link rel="alternate" hreflang="en" href="https://haru-trip-h0v.pages.dev/en/" />
+  <link rel="alternate" hreflang="x-default" href="https://haru-trip-h0v.pages.dev/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" data-i18n-attr="content:siteName" content="HARU TRIP" />
+  <meta property="og:title" data-i18n-attr="content:ogTitle" content="HARU TRIP | Korea Day Trip Itineraries by City" />
+  <meta property="og:description" data-i18n-attr="content:ogDesc" content="Three curated one-day courses each for Mokpo, Busan, Gangneung, Jeonju and Jeju." />
+  <meta property="og:url" data-i18n-attr="content:canonical" content="https://haru-trip-h0v.pages.dev/en/" />
+  <meta property="og:image" content="https://haru-trip-h0v.pages.dev/img/busan_hero_bg.jpg" />
+  <link rel="alternate" type="application/rss+xml" data-i18n-attr="title:rssTitle,href:rssHref" title="HARU TRIP RSS" href="/en/rss.xml" />
+  <!-- ADSENSE:START -->
+  <!-- config.js의 adsenseClient에 ca-pub-... 값을 넣고 node generate_pages.js 를 실행하면 여기에 광고 코드가 들어갑니다 -->
+  <!-- ADSENSE:END -->
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <!-- ==========================================
+       1. 글로벌 내비게이션 바 (GNB)
+       ========================================== -->
+  <header>
+    <nav class="navbar" id="navbar">
+      <div class="nav-brand">
+        <a href="#" class="brand-logo" onclick="switchCity(currentCityId); return false;">
+          <span>🌊</span> <span data-i18n="brand">HARU TRIP</span>
+        </a>
+        <span class="brand-badge" id="brandBadge" data-i18n="brandBadge">Busan</span>
+      </div>
+
+      <!-- 전국 확장형 지역 셀렉터 -->
+      <div class="region-selector-wrap" data-i18n-attr="title:regionTitle" title="Pick a city to explore">
+        <button class="region-chip" id="chip-mokpo" onclick="switchCity('mokpo')">
+          <span>📍</span> <span data-i18n="cityMokpo">Mokpo</span>
+        </button>
+        <button class="region-chip active" id="chip-busan" onclick="switchCity('busan')">
+          <span>🌊</span> <span data-i18n="cityBusan">Busan</span> <span class="region-tag" style="background:#0284c7; color:#fff;">HOT</span>
+        </button>
+        <button class="region-chip" id="chip-gangneung" onclick="switchCity('gangneung')">
+          <span>☕</span> <span data-i18n="cityGangneung">Gangneung</span> <span class="region-tag">NEW</span>
+        </button>
+        <button class="region-chip" id="chip-jeonju" onclick="switchCity('jeonju')">
+          <span>🏯</span> <span data-i18n="cityJeonju">Jeonju</span> <span class="region-tag">NEW</span>
+        </button>
+        <button class="region-chip" id="chip-jeju" onclick="switchCity('jeju')">
+          <span>🌴</span> <span data-i18n="cityJeju">Jeju</span> <span class="region-tag">NEW</span>
+        </button>
+      </div>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#coursesSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navCourses">Courses</a>
+        <a href="#exploreSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navExplore">Spots</a>
+        <a href="#nationwideSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navNationwide">Roadmap</a>
+        <button class="btn-header-cta" onclick="document.getElementById('exploreSection').scrollIntoView({behavior: 'smooth'}); closeMobileMenu();" data-i18n="navCta">Explore spots</button>
+        <a href="../" id="langSwitch" class="nav-link lang-switch" lang="ko" data-i18n="langLabel" data-i18n-attr="href:langHref,title:langTitle,lang:langCode" title="한국어로 보기">한국어</a>
+      </div>
+
+      <!-- 모바일 햄버거 메뉴 토글 버튼 -->
+      <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Open/close menu" data-i18n-attr="aria-label:menuToggle" onclick="toggleMobileMenu()">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ==========================================
+         2. 히어로 랜딩 섹션
+         ========================================== -->
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <div class="hero-pill" id="heroPill" data-i18n="heroPill">🌊 Korea Day Trip Project #2 · Busan, the ocean city</div>
+        <h1 class="hero-title" id="heroTitle" data-i18n="heroTitle">Endless blue sea and a city full of charm<br />
+          <span class="highlight">The Perfect Busan Day Trip</span></h1>
+        <p class="hero-subtitle" id="heroSubtitle" data-i18n="heroSubtitle">From the Haeundae Sky Capsule to cliffside Huinnyeoul Village and the dazzling Gwangan Bridge at night!<br />
+          Enjoy Busan's romance and food in a single day with our A · B · C courses.</p>
+
+        <!-- 히어로 실시간 검색창 -->
+        <div class="hero-search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            id="heroSearchInput" 
+            class="hero-search-input" 
+            data-i18n-attr="placeholder:heroSearchPlaceholder"
+            placeholder="Search a place, theme (#SkyCapsule, #Gwangalli) or course..." 
+          />
+          <button id="heroSearchBtn" class="hero-search-btn" data-i18n="heroSearchBtn">Search</button>
+        </div>
+
+        <!-- 히어로 3대 코스 퀵 점프 뱃지 (동적 렌더링) -->
+        <div class="hero-course-badges" id="heroCourseBadges">
+          <!-- JS에서 동적 주입 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         3. 3가지 테마 코스 안내 섹션
+         ========================================== -->
+    <section class="section" id="coursesSection">
+      <div class="section-header">
+        <span class="section-tag">Curated 1-Day Itinerary</span>
+        <h2 class="section-title" id="coursesSectionTitle" data-i18n="coursesSectionTitle">3 Perfect Day Courses in Busan</h2>
+        <p class="section-desc" data-i18n="coursesSectionDesc">Optimized routes with no wasted time! Pick the course that fits your style.</p>
+      </div>
+
+      <!-- 코스 3종 카드 컨테이너 (JS 렌더링) -->
+      <div class="course-cards-grid" id="courseCardsContainer"></div>
+    </section>
+
+    <!-- ==========================================
+         4. 여행지 검색 & 슬라이드 카드 그리드 섹션
+         ========================================== -->
+    <section class="section explore-section" id="exploreSection">
+      <div class="section-header">
+        <span class="section-tag">Explore Destinations</span>
+        <h2 class="section-title" id="exploreSectionTitle" data-i18n="exploreSectionTitle">Must-See Spots for a Day in Busan</h2>
+        <p class="section-desc" data-i18n="exploreSectionDesc">Each spot comes with 3 photos, a detailed guide and real traveler reviews.</p>
+      </div>
+
+      <!-- 필터 및 검색 컨트롤러 -->
+      <div class="filter-controls">
+        <!-- 코스 선택 필터 -->
+        <div class="filter-row">
+          <span class="filter-label" data-i18n="filterCourse">By course</span>
+          <div class="filter-btn-group" id="courseFilterGroup">
+            <!-- JS에서 동적 주입 -->
+          </div>
+        </div>
+
+        <!-- 인라인 텍스트 검색 -->
+        <div class="filter-row">
+          <span class="filter-label" data-i18n="filterSearch">Search spots</span>
+          <div class="search-input-inline-wrap">
+            <span class="search-inline-icon">🔍</span>
+            <input 
+              type="text" 
+              id="inlineSearchInput" 
+              class="search-input-inline" 
+              data-i18n-attr="placeholder:inlineSearchPlaceholder"
+              placeholder="Spot name, keyword (#SkyCapsule, #Gwangalli) or address..." 
+            />
+            <button id="searchClearBtn" class="search-clear-btn" data-i18n-attr="title:clearSearch" title="Clear search">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 검색 결과 수 및 정렬 바 -->
+      <div class="results-status-bar">
+        <div>
+          <span data-i18n="resultsLabel">Spots found: </span>
+          <span class="results-count" id="resultsCount" data-i18n="resultsCount">9</span>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="sliderHint">💡 Use the arrows on each card to browse 3 photos!</div>
+      </div>
+
+      <!-- 여행지 카드 그리드 (JS 동적 렌더링) -->
+      <div class="destinations-grid" id="destinationsGrid"></div>
+    </section>
+
+    <!-- ==========================================
+         5. 전국 확장 로드맵 섹션
+         ========================================== -->
+    <section class="section" id="nationwideSection">
+      <div class="nationwide-banner">
+        <div class="nationwide-content">
+          <span class="nationwide-badge" data-i18n="nationBadge">🚀 Nationwide Expansion Roadmap</span>
+          <h2 class="nationwide-title" data-i18n="nationTitle">Beyond Mokpo, Busan, Gangneung, Jeonju and Jeju —<br />
+            connecting beautiful days all across Korea.</h2>
+          <p class="nationwide-desc" data-i18n="nationDesc">Starting with Mokpo, Busan, Gangneung, Jeonju and Jeju, HARU TRIP is expanding across Korea with curated one-day itineraries anyone can enjoy on a weekend — no overnight planning needed.</p>
+
+          <!-- 확장 도시 그리드 -->
+          <div class="regions-grid">
+            <div class="region-box" id="regionBoxMokpo" data-city="mokpo" onclick="switchCity('mokpo')" style="cursor: pointer;" data-i18n-attr="title:goMokpo" title="Open the Mokpo guide">
+              <div class="region-box-header">
+                <span class="region-box-name" data-i18n="regionMokpo">Mokpo</span>
+                <span class="region-box-status" style="background:#22c55e;" data-i18n="statusOpen">Available</span>
+              </div>
+              <p class="region-box-desc" data-i18n="regionDescMokpo">Modern history, the marine cable car, local delicacies and Mokpo Bridge sunsets</p>
+            </div>
+
+            <div class="region-box active" id="regionBoxBusan" data-city="busan" onclick="switchCity('busan')" style="cursor: pointer;" data-i18n-attr="title:goBusan" title="Open the Busan guide">
+              <div class="region-box-header">
+                <span class="region-box-name" data-i18n="regionBusan">Busan</span>
+                <span class="region-box-status" style="background:#0284c7;" data-i18n="statusOpen">Available</span>
+              </div>
+              <p class="region-box-desc" data-i18n="regionDescBusan">Haeundae Blueline Park, Huinnyeoul Village, Gamcheon Culture Village, Gwangan Bridge at night</p>
+            </div>
+
+            <div class="region-box" id="regionBoxGangneung" data-city="gangneung" onclick="switchCity('gangneung')" style="cursor: pointer;" data-i18n-attr="title:goGangneung" title="Open the Gangneung guide">
+              <div class="region-box-header">
+                <span class="region-box-name" data-i18n="regionGangneung">Gangneung</span>
+                <span class="region-box-status" style="background:#22c55e;" data-i18n="statusOpen">Available</span>
+              </div>
+              <p class="region-box-desc" data-i18n="regionDescGangneung">Anmok Coffee Street, Gyeongpo Lake, Ojukheon, Badabuchae-gil Trail</p>
+            </div>
+
+            <div class="region-box" id="regionBoxJeonju" data-city="jeonju" onclick="switchCity('jeonju')" style="cursor: pointer;" data-i18n-attr="title:goJeonju" title="Open the Jeonju guide">
+              <div class="region-box-header">
+                <span class="region-box-name" data-i18n="regionJeonju">Jeonju</span>
+                <span class="region-box-status" style="background:#22c55e;" data-i18n="statusOpen">Available</span>
+              </div>
+              <p class="region-box-desc" data-i18n="regionDescJeonju">Gyeonggijeon in Hanok Village, Jeondong Cathedral, Nambu Market, Deokjin Park</p>
+            </div>
+
+            <div class="region-box" id="regionBoxJeju" data-city="jeju" onclick="switchCity('jeju')" style="cursor: pointer;" data-i18n-attr="title:goJeju" title="Open the Jeju guide">
+              <div class="region-box-header">
+                <span class="region-box-name" data-i18n="regionJeju">Jeju Island</span>
+                <span class="region-box-status" style="background:#22c55e;" data-i18n="statusOpen">Available</span>
+              </div>
+              <p class="region-box-desc" data-i18n="regionDescJeju">Aewol Handam Coastal Trail, Hyeopjae Beach, Seongsan Ilchulbong, Cheonjiyeon Falls</p>
+            </div>
+
+            <div class="region-box">
+              <div class="region-box-header">
+                <span class="region-box-name" data-i18n="regionYeosu">Yeosu</span>
+                <span class="region-box-status" data-i18n="statusSoon">Coming soon</span>
+              </div>
+              <p class="region-box-desc" data-i18n="regionDescYeosu">Odongdo camellia forest, Yeosu marine cable car, harbor-side night food stalls</p>
+            </div>
+          </div>
+
+          <div style="font-size: 0.9rem; color: #cbd5e1;" data-i18n="contactLine">✉️ Corrections & partnerships: <a href="mailto:ck2lucky@gmail.com" style="color:#e0f2fe;">ck2lucky@gmail.com</a></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================
+       6. 상세 모달 (슬라이더 + 상세설명 + 댓글작성)
+       ========================================== -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal-dialog" id="modalDialog">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close" data-i18n-attr="aria-label:modalClose">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       7. 푸터 (Footer)
+       ========================================== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3 data-i18n="footerBrand">🌊 HARU TRIP</h3>
+        <p data-i18n="footerDesc">HARU TRIP is a curated day-trip guide to Korea — a full day of rest and discovery, no overnight stay required. Starting with Mokpo, Busan, Gangneung, Jeonju and Jeju, we showcase gem-like one-day courses from all over Korea.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 id="footerCourseHeading" data-i18n="footerCourseHeading">Busan Day Trip Courses</h4>
+        <ul id="footerCourseLinks">
+          <!-- JS에서 동적 주입 -->
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footerGuides">City Guides</h4>
+        <ul>
+          <li><a href="guide-mokpo.html" data-i18n="guideMokpo">Mokpo day trip guide</a></li>
+          <li><a href="guide-busan.html" data-i18n="guideBusan">Busan day trip guide</a></li>
+          <li><a href="guide-gangneung.html" data-i18n="guideGangneung">Gangneung day trip guide</a></li>
+          <li><a href="guide-jeonju.html" data-i18n="guideJeonju">Jeonju day trip guide</a></li>
+          <li><a href="guide-jeju.html" data-i18n="guideJeju">Jeju day trip guide</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div data-i18n="copyright">© 2026 HARU TRIP. All rights reserved. Korea day trip guide.</div>
+      <nav class="footer-legal" aria-label="Site information" data-i18n-attr="aria-label:footerNav">
+        <a href="about.html" data-i18n="footerAbout">About</a>
+        <a href="privacy.html" data-i18n="footerPrivacy"><strong>Privacy Policy</strong></a>
+        <a href="terms.html" data-i18n="footerTerms">Terms of Use</a>
+        <a href="../credits.html" data-i18n="footerCredits">Photo credits</a>
+        <a href="mailto:ck2lucky@gmail.com" data-i18n="footerContact">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- 스크립트 로드 -->
+  <script src="../config.js"></script>
+  <script src="../i18n/ui.js"></script>
+  <script src="../feedback.js"></script>
+  <script src="../data.js"></script>
+  <script src="../data_gangneung.js"></script>
+  <script src="../data_jeonju.js"></script>
+  <script src="../data_jeju.js"></script>
+  <script src="../i18n/data_en.js"></script>
+  <script src="../app.js"></script>
+</body>
+</html>

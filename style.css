@@ -1780,3 +1780,21 @@ button {
 .footer-legal a:hover {
   text-decoration: underline;
 }
+
+/* 언어 전환 링크 (EN / 한국어) */
+.lang-switch {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* 영어 페이지: 메뉴 문구가 길어 헤더가 넘치지 않도록 조정 */
+@media (min-width: 769px) and (max-width: 1440px) {
+  html[lang="en"] .region-chip .region-tag,
+  html[lang="en"] .btn-header-cta,
+  html[lang="en"] .brand-badge {
+    display: none;
+  }
+  html[lang="en"] .nav-links {
+    gap: 1rem;
+  }
+}

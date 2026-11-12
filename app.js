@@ -105,7 +105,7 @@ function switchCity(cityId, shouldScroll = true) {
   const heroSubtitle = document.getElementById('heroSubtitle');
 
   if (heroSec) {
-    heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(15, 23, 42, 0.45) 0%, rgba(15, 23, 42, 0.75) 100%), url('${city.heroBg}')`;
+    heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(15, 23, 42, 0.45) 0%, rgba(15, 23, 42, 0.75) 100%), url('${asset(city.heroBg)}')`;
   }
   if (heroPill) heroPill.innerHTML = city.heroPill;
   if (heroTitle) heroTitle.innerHTML = city.heroTitle;
@@ -118,10 +118,10 @@ function switchCity(cityId, shouldScroll = true) {
   const coursesSecTitle = document.getElementById('coursesSectionTitle');
   const exploreSecTitle = document.getElementById('exploreSectionTitle');
   if (coursesSecTitle) {
-    coursesSecTitle.textContent = `${city.name}${objectParticle(city.name)} 즐기는 가장 완벽한 3가지 코스`;
+    coursesSecTitle.textContent = t('coursesTitle', city.name);
   }
   if (exploreSecTitle) {
-    exploreSecTitle.textContent = `${city.name} 당일치기 필수 명소 탐색`;
+    exploreSecTitle.textContent = t('exploreTitle', city.name);
   }
 
   // 6. 코스 필터 버튼 그룹 갱신
@@ -136,8 +136,9 @@ function switchCity(cityId, shouldScroll = true) {
     box.classList.toggle('active', box.dataset.city === cityId);
   });
 
-  // 9. 푸터 링크 갱신
+  // 9. 푸터 링크 & 언어 전환 링크 갱신
   renderFooterLinks();
+  updateLangSwitch(cityId);
 
   // 모바일 메뉴가 열려있다면 닫기
   closeMobileMenu();
@@ -154,11 +155,12 @@ function switchCity(cityId, shouldScroll = true) {
   }
 }
 
-// 받침 유무에 따라 목적격 조사 선택 (부산을 / 전주를)
-function objectParticle(word) {
-  const code = word.charCodeAt(word.length - 1) - 0xAC00;
-  if (code < 0 || code > 11171) return '을';
-  return code % 28 === 0 ? '를' : '을';
+// 언어 전환 링크에 현재 도시 유지 (예: en/?city=jeju)
+function updateLangSwitch(cityId) {
+  const link = document.getElementById('langSwitch');
+  if (!link) return;
+  if (!link.dataset.base) link.dataset.base = link.getAttribute('href');
+  link.setAttribute('href', `${link.dataset.base}?city=${cityId}`);
 }
 
 // --------------------------------------------------------
@@ -314,7 +316,7 @@ function renderCourseFilterButtons() {
   }).join('');
 
   container.innerHTML = `
-    <button class="filter-btn ${allActive}" data-course="ALL" onclick="filterByCourse('ALL')">전체 보기</button>
+    <button class="filter-btn ${allActive}" data-course="ALL" onclick="filterByCourse('ALL')">${t('allView')}</button>
     ${courseBtns}
   `;
 }
@@ -328,12 +330,12 @@ function renderFooterLinks() {
   const linksContainer = document.getElementById('footerCourseLinks');
 
   if (heading) {
-    heading.textContent = `${city.name} 당일치기 코스`;
+    heading.textContent = t('footerCourseHeading', city.name);
   }
   if (linksContainer) {
     linksContainer.innerHTML = COURSES_DATA.map(c => `
       <li><a href="javascript:filterByCourse('${c.id}')">${c.badge} : ${c.title}</a></li>
-    `).join('') + `<li><a href="#exploreSection">전체 명소 검색</a></li>`;
+    `).join('') + `<li><a href="#exploreSection">${t('footerAllSpots')}</a></li>`;
   }
 }
 
@@ -356,11 +358,11 @@ function renderCourseIntroCards() {
       <div class="course-meta">
         <span>⏱️ ${course.duration}</span>
         <span>📍 ${course.distance}</span>
-        <span>🎯 명소 3곳</span>
+        <span>🎯 ${t('spotsPerCourse')}</span>
       </div>
 
       <button class="course-btn-select" onclick="filterByCourse('${course.id}')">
-        이 코스 명소 보기 &rarr;
+        ${t('viewCourse')}
       </button>
     </div>
   `).join('');
@@ -397,19 +399,19 @@ function renderDestinations() {
   });
 
   if (countEl) {
-    countEl.textContent = `${filtered.length}개`;
+    countEl.textContent = t('resultsCount', filtered.length);
   }
 
   if (filtered.length === 0) {
     container.innerHTML = `
       <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
         <p style="font-size: 2.5rem; margin-bottom: 12px;">🔍</p>
-        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 8px;">검색 결과가 없습니다</h3>
+        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 8px;">${t('noResultsTitle')}</h3>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">
-          다른 키워드로 검색하거나 코스 필터를 초기화해 보세요.
+          ${t('noResultsDesc')}
         </p>
         <button onclick="resetFilters()" class="filter-btn active" style="padding: 10px 24px;">
-          전체 보기
+          ${t('allView')}
         </button>
       </div>
     `;
@@ -433,10 +435,10 @@ function renderDestinations() {
           </div>
 
           <div class="card-slider-track" id="track-${dest.id}" style="transform: translateX(-${currentSlide * 100}%);"
-               onclick="handleCardImageClick('${dest.id}')" title="클릭하면 상세보기가 열립니다">
+               onclick="handleCardImageClick('${dest.id}')" title="${t('clickToOpen')}">
             ${dest.images.map((imgSrc, idx) => `
               <div class="card-slide">
-                <img src="${imgSrc}" alt="${dest.name} - ${idx + 1}" loading="lazy" />
+                <img src="${asset(imgSrc)}" alt="${dest.name} - ${idx + 1}" loading="lazy" />
                 <div class="slide-caption-overlay">${dest.imageCaptions[idx] || dest.name}</div>
               </div>
             `).join('')}
@@ -444,8 +446,8 @@ function renderDestinations() {
 
           ${multi ? `
           <!-- 좌우 화살표 버튼 -->
-          <button class="slider-btn prev" onclick="moveSlide('${dest.id}', -1, event)" aria-label="이전 사진">&#10094;</button>
-          <button class="slider-btn next" onclick="moveSlide('${dest.id}', 1, event)" aria-label="다음 사진">&#10095;</button>
+          <button class="slider-btn prev" onclick="moveSlide('${dest.id}', -1, event)" aria-label="${t('prevPhoto')}">&#10094;</button>
+          <button class="slider-btn next" onclick="moveSlide('${dest.id}', 1, event)" aria-label="${t('nextPhoto')}">&#10095;</button>
 
           <!-- 하단 인디케이터 도트 -->
           <div class="slider-indicators" id="dots-${dest.id}">
@@ -490,7 +492,7 @@ function renderDestinations() {
             </div>
 
             <button class="btn-detail-view" onclick="openDetailModal('${dest.id}')">
-              상세보기 & 댓글 &rarr;
+              ${t('detailBtn')}
             </button>
           </div>
         </div>
@@ -732,19 +734,19 @@ function openDetailModal(destId) {
       <div class="modal-slider-track" id="modalSliderTrack">
         ${dest.images.map((src, idx) => `
           <div class="modal-slide">
-            <img src="${src}" alt="${dest.name} - ${idx + 1}" />
+            <img src="${asset(src)}" alt="${dest.name} - ${idx + 1}" />
             <div class="modal-caption">${dest.imageCaptions[idx] || dest.name}</div>
           </div>
         `).join('')}
       </div>
 
       ${dest.images.length > 1 ? `
-      <button class="slider-btn prev" onclick="moveModalSlide(-1)" aria-label="이전 사진">&#10094;</button>
-      <button class="slider-btn next" onclick="moveModalSlide(1)" aria-label="다음 사진">&#10095;</button>
+      <button class="slider-btn prev" onclick="moveModalSlide(-1)" aria-label="${t('prevPhoto')}">&#10094;</button>
+      <button class="slider-btn next" onclick="moveModalSlide(1)" aria-label="${t('nextPhoto')}">&#10095;</button>
 
       <div class="slider-indicators" id="modalDots">
         ${dest.images.map((_, idx) => `
-          <button type="button" class="slider-dot ${idx === 0 ? 'active' : ''}" onclick="goToModalSlide(${idx})" aria-label="${idx + 1}번째 사진"></button>
+          <button type="button" class="slider-dot ${idx === 0 ? 'active' : ''}" onclick="goToModalSlide(${idx})" aria-label="${t('nthPhoto', idx + 1)}"></button>
         `).join('')}
       </div>` : ''}
     </div>
@@ -769,21 +771,21 @@ function openDetailModal(destId) {
       </div>
 
       <div class="modal-desc-box">
-        <strong>여행지 상세 스토리</strong><br />
+        <strong>${t('storyTitle')}</strong><br />
         ${dest.fullDesc}
       </div>
 
       <div class="modal-details-grid">
         <div class="modal-detail-card">
-          <strong>🕒 추천 소요시간</strong>
+          <strong>${t('timeLabel')}</strong>
           ${dest.timeRecommended}
         </div>
         <div class="modal-detail-card">
-          <strong>📍 위치 및 주소</strong>
+          <strong>${t('addressLabel')}</strong>
           ${dest.address}
         </div>
         <div class="modal-detail-card" style="grid-column: 1 / -1;">
-          <strong>💡 당일치기 여행 꿀팁</strong>
+          <strong>${t('tipLabel')}</strong>
           ${dest.tip}
         </div>
       </div>
@@ -791,7 +793,7 @@ function openDetailModal(destId) {
       <!-- 댓글 & 후기 섹션 -->
       <div class="modal-comments-section">
         <h3 class="comments-title">
-          <span>여행자 생생 후기 & 댓글</span>
+          <span>${t('commentsTitle')}</span>
           <span style="font-size: 1rem; color: var(--primary);" id="modalCommentCount">(${commentsList.length})</span>
         </h3>
 
@@ -799,23 +801,19 @@ function openDetailModal(destId) {
         <div class="comment-input-card">
           <form id="commentForm" onsubmit="handleCommentSubmit(event, '${dest.id}')">
             <div class="comment-form-row">
-              <input type="text" id="commentAuthor" class="comment-author-input" placeholder="작성자 닉네임" maxlength="20" required />
+              <input type="text" id="commentAuthor" class="comment-author-input" placeholder="${t('authorPlaceholder')}" maxlength="20" required />
               <select id="commentRating" class="comment-rating-select">
-                <option value="5">⭐⭐⭐⭐⭐ 5점 (강추!)</option>
-                <option value="4">⭐⭐⭐⭐ 4점 (좋아요)</option>
-                <option value="3">⭐⭐⭐ 3점 (보통)</option>
-                <option value="2">⭐⭐ 2점 (아쉬움)</option>
-                <option value="1">⭐ 1점 (비추)</option>
+                ${t('ratingOptions').map((label, i) => `<option value="${i + 1}">${label}</option>`).reverse().join('')}
               </select>
             </div>
-            <textarea id="commentText" class="comment-textarea" placeholder="이 여행지에 대한 솔직한 후기나 팁을 남겨주세요." minlength="2" maxlength="500" required></textarea>
+            <textarea id="commentText" class="comment-textarea" placeholder="${t('commentPlaceholder')}" minlength="2" maxlength="500" required></textarea>
             <p class="comment-notice">
               ${Feedback.isRemote
-                ? '등록한 후기는 모든 방문자에게 공개됩니다. 욕설·광고·개인정보가 포함된 글은 예고 없이 삭제될 수 있습니다.'
-                : '현재 후기는 이 기기의 브라우저에만 저장됩니다.'}
-              <a href="terms.html" target="_blank" rel="noopener">이용약관</a>
+                ? t('noticeRemote')
+                : t('noticeLocal')}
+              <a href="terms.html" target="_blank" rel="noopener">${t('termsLink')}</a>
             </p>
-            <button type="submit" class="comment-submit-btn">댓글 등록하기</button>
+            <button type="submit" class="comment-submit-btn">${t('submit')}</button>
             <div style="clear: both;"></div>
           </form>
         </div>
@@ -912,7 +910,7 @@ function bindCardSwipes() {
 
 function renderCommentItems(list) {
   if (!list || list.length === 0) {
-    return `<p style="color: var(--text-muted); font-size: 0.9rem; text-align: center; padding: 20px;">아직 작성된 댓글이 없습니다. 첫 번째 후기를 남겨보세요!</p>`;
+    return `<p style="color: var(--text-muted); font-size: 0.9rem; text-align: center; padding: 20px;">${t('noComments')}</p>`;
   }
 
   return list.map(c => `
@@ -944,17 +942,17 @@ function handleCommentSubmit(event, destId) {
   const text = textInput.value.trim();
 
   if (!author || !text) {
-    alert('닉네임과 후기 내용을 모두 입력해 주세요.');
+    alert(t('errMissing'));
     return;
   }
   if (author.length > 20 || text.length < 2 || text.length > 500) {
-    alert('닉네임은 20자 이내, 후기는 2~500자로 입력해 주세요.');
+    alert(t('errLength'));
     return;
   }
 
   if (Feedback.isRemote) {
     const submitBtn = event.target.querySelector('.comment-submit-btn');
-    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '등록 중...'; }
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = t('submitting'); }
     const cityId = state.currentCity;
     Feedback.addComment(cityId, destId, { author, text, rating })
       .then(comment => {
@@ -965,7 +963,7 @@ function handleCommentSubmit(event, destId) {
       })
       .catch(err => alert(err.message))
       .finally(() => {
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '댓글 등록하기'; }
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = t('submit'); }
       });
     return;
   }

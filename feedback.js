@@ -40,10 +40,11 @@ const Feedback = (() => {
     if (!res.ok) {
       // PGRST202: DB 함수가 아직 없음 (supabase/schema.sql 미실행)
       if (data && data.code === 'PGRST202') {
-        throw new Error('후기 서버 설정이 아직 완료되지 않았습니다. 잠시 후 다시 시도해 주세요.');
+        throw new Error(t('errServerNotReady'));
       }
-      // 직접 만든 검증 오류(raise exception)는 한국어 메시지 그대로 보여주기
-      const msg = (data && data.code === 'P0001' && data.message) || '요청을 처리하지 못했습니다. 잠시 후 다시 시도해 주세요.';
+      // 직접 만든 검증 오류(raise exception)는 한국어 메시지라 한국어 페이지에서만 그대로 보여주기
+      const dbMsg = window.HARU_LANG === 'ko' && data && data.code === 'P0001' && data.message;
+      const msg = dbMsg || t('errRequest');
       throw new Error(msg);
     }
     return data;

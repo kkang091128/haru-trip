@@ -1,0 +1,193 @@
+// ========================================================
+// 하루트립 UI 문구 사전 (한국어 / English)
+//   - app.js·feedback.js 가 화면에 그리는 문구: t('키', 인자...)
+//   - index.html 의 정적 문구: en.page 아래 키 (data-i18n="키")
+//     → node generate_pages.js 가 en/index.html 을 만들 때 사용
+// 언어는 <html lang="..."> 로 결정됩니다.
+// ========================================================
+(function (root) {
+  // 받침 유무에 따라 목적격 조사 선택 (부산을 / 전주를)
+  const objectParticle = (word) => {
+    const code = word.charCodeAt(word.length - 1) - 0xAC00;
+    if (code < 0 || code > 11171) return '을';
+    return code % 28 === 0 ? '를' : '을';
+  };
+
+  const I18N = {
+    ko: {
+      coursesTitle: (name) => `${name}${objectParticle(name)} 즐기는 가장 완벽한 3가지 코스`,
+      exploreTitle: (name) => `${name} 당일치기 필수 명소 탐색`,
+      footerCourseHeading: (name) => `${name} 당일치기 코스`,
+      footerAllSpots: '전체 명소 검색',
+      allView: '전체 보기',
+      spotsPerCourse: '명소 3곳',
+      viewCourse: '이 코스 명소 보기 &rarr;',
+      resultsCount: (n) => `${n}개`,
+      noResultsTitle: '검색 결과가 없습니다',
+      noResultsDesc: '다른 키워드로 검색하거나 코스 필터를 초기화해 보세요.',
+      clickToOpen: '클릭하면 상세보기가 열립니다',
+      prevPhoto: '이전 사진',
+      nextPhoto: '다음 사진',
+      nthPhoto: (n) => `${n}번째 사진`,
+      detailBtn: '상세보기 & 댓글 &rarr;',
+      storyTitle: '여행지 상세 스토리',
+      timeLabel: '🕒 추천 소요시간',
+      addressLabel: '📍 위치 및 주소',
+      tipLabel: '💡 당일치기 여행 꿀팁',
+      commentsTitle: '여행자 생생 후기 & 댓글',
+      authorPlaceholder: '작성자 닉네임',
+      ratingOptions: ['⭐ 1점 (비추)', '⭐⭐ 2점 (아쉬움)', '⭐⭐⭐ 3점 (보통)', '⭐⭐⭐⭐ 4점 (좋아요)', '⭐⭐⭐⭐⭐ 5점 (강추!)'],
+      commentPlaceholder: '이 여행지에 대한 솔직한 후기나 팁을 남겨주세요.',
+      noticeRemote: '등록한 후기는 모든 방문자에게 공개됩니다. 욕설·광고·개인정보가 포함된 글은 예고 없이 삭제될 수 있습니다.',
+      noticeLocal: '현재 후기는 이 기기의 브라우저에만 저장됩니다.',
+      termsLink: '이용약관',
+      submit: '댓글 등록하기',
+      submitting: '등록 중...',
+      noComments: '아직 작성된 댓글이 없습니다. 첫 번째 후기를 남겨보세요!',
+      errMissing: '닉네임과 후기 내용을 모두 입력해 주세요.',
+      errLength: '닉네임은 20자 이내, 후기는 2~500자로 입력해 주세요.',
+      errServerNotReady: '후기 서버 설정이 아직 완료되지 않았습니다. 잠시 후 다시 시도해 주세요.',
+      errRequest: '요청을 처리하지 못했습니다. 잠시 후 다시 시도해 주세요.'
+    },
+
+    en: {
+      coursesTitle: (name) => `3 Perfect Day Courses in ${name}`,
+      exploreTitle: (name) => `Must-See Spots for a Day in ${name}`,
+      footerCourseHeading: (name) => `${name} Day Trip Courses`,
+      footerAllSpots: 'Search all spots',
+      allView: 'Show all',
+      spotsPerCourse: '3 spots',
+      viewCourse: 'See spots on this course &rarr;',
+      resultsCount: (n) => `${n}`,
+      noResultsTitle: 'No results found',
+      noResultsDesc: 'Try a different keyword or reset the course filter.',
+      clickToOpen: 'Click to open details',
+      prevPhoto: 'Previous photo',
+      nextPhoto: 'Next photo',
+      nthPhoto: (n) => `Photo ${n}`,
+      detailBtn: 'Details & reviews &rarr;',
+      storyTitle: 'About this place',
+      timeLabel: '🕒 Suggested time',
+      addressLabel: '📍 Location & address',
+      tipLabel: '💡 Day trip tip',
+      commentsTitle: 'Traveler reviews & comments',
+      authorPlaceholder: 'Nickname',
+      ratingOptions: ['⭐ 1 (Not recommended)', '⭐⭐ 2 (Meh)', '⭐⭐⭐ 3 (Okay)', '⭐⭐⭐⭐ 4 (Good)', '⭐⭐⭐⭐⭐ 5 (Must go!)'],
+      commentPlaceholder: 'Share an honest review or tip about this place.',
+      noticeRemote: 'Reviews are visible to all visitors. Posts with abuse, ads or personal information may be removed without notice.',
+      noticeLocal: 'Reviews are currently saved only in this browser.',
+      termsLink: 'Terms of Use',
+      submit: 'Post review',
+      submitting: 'Posting...',
+      noComments: 'No reviews yet. Be the first to leave one!',
+      errMissing: 'Please enter both a nickname and your review.',
+      errLength: 'Nickname: up to 20 characters. Review: 2–500 characters.',
+      errServerNotReady: 'The review server is not ready yet. Please try again later.',
+      errRequest: 'Something went wrong. Please try again later.',
+
+      // ---- index.html 정적 문구 (data-i18n / data-i18n-attr 키)
+      page: {
+        metaTitle: 'HARU TRIP | Korea Day Trip Itineraries by City',
+        metaDesc: 'Day trips to Mokpo, Busan, Gangneung, Jeonju & Jeju with A·B·C courses. Sights, food and night views in one place.',
+        canonical: 'https://haru-trip-h0v.pages.dev/en/',
+        siteName: 'HARU TRIP',
+        ogTitle: 'HARU TRIP | Korea Day Trip Itineraries by City',
+        ogDesc: 'Three curated one-day courses each for Mokpo, Busan, Gangneung, Jeonju and Jeju.',
+        rssTitle: 'HARU TRIP RSS',
+        rssHref: '/en/rss.xml',
+        brand: 'HARU TRIP',
+        brandBadge: 'Busan',
+        langLabel: '한국어',
+        langHref: '../',
+        langTitle: '한국어로 보기',
+        langCode: 'ko',
+        regionTitle: 'Pick a city to explore',
+        cityMokpo: 'Mokpo',
+        cityBusan: 'Busan',
+        cityGangneung: 'Gangneung',
+        cityJeonju: 'Jeonju',
+        cityJeju: 'Jeju',
+        navCourses: 'Courses',
+        navExplore: 'Spots',
+        navNationwide: 'Roadmap',
+        navCta: 'Explore spots',
+        menuToggle: 'Open/close menu',
+        heroPill: '🌊 Korea Day Trip Project #2 · Busan, the ocean city',
+        heroTitle: 'Endless blue sea and a city full of charm<br />\n          <span class="highlight">The Perfect Busan Day Trip</span>',
+        heroSubtitle: 'From the Haeundae Sky Capsule to cliffside Huinnyeoul Village and the dazzling Gwangan Bridge at night!<br />\n          Enjoy Busan\'s romance and food in a single day with our A · B · C courses.',
+        heroSearchPlaceholder: 'Search a place, theme (#SkyCapsule, #Gwangalli) or course...',
+        heroSearchBtn: 'Search',
+        coursesSectionTitle: '3 Perfect Day Courses in Busan',
+        coursesSectionDesc: 'Optimized routes with no wasted time! Pick the course that fits your style.',
+        exploreSectionTitle: 'Must-See Spots for a Day in Busan',
+        exploreSectionDesc: 'Each spot comes with 3 photos, a detailed guide and real traveler reviews.',
+        filterCourse: 'By course',
+        filterSearch: 'Search spots',
+        inlineSearchPlaceholder: 'Spot name, keyword (#SkyCapsule, #Gwangalli) or address...',
+        clearSearch: 'Clear search',
+        resultsLabel: 'Spots found: ',
+        resultsCount: '9',
+        sliderHint: '💡 Use the arrows on each card to browse 3 photos!',
+        nationBadge: '🚀 Nationwide Expansion Roadmap',
+        nationTitle: 'Beyond Mokpo, Busan, Gangneung, Jeonju and Jeju —<br />\n            connecting beautiful days all across Korea.',
+        nationDesc: 'Starting with Mokpo, Busan, Gangneung, Jeonju and Jeju, HARU TRIP is expanding across Korea with curated one-day itineraries anyone can enjoy on a weekend — no overnight planning needed.',
+        statusOpen: 'Available',
+        statusSoon: 'Coming soon',
+        goMokpo: 'Open the Mokpo guide',
+        goBusan: 'Open the Busan guide',
+        goGangneung: 'Open the Gangneung guide',
+        goJeonju: 'Open the Jeonju guide',
+        goJeju: 'Open the Jeju guide',
+        regionMokpo: 'Mokpo',
+        regionBusan: 'Busan',
+        regionGangneung: 'Gangneung',
+        regionJeonju: 'Jeonju',
+        regionJeju: 'Jeju Island',
+        regionYeosu: 'Yeosu',
+        regionDescMokpo: 'Modern history, the marine cable car, local delicacies and Mokpo Bridge sunsets',
+        regionDescBusan: 'Haeundae Blueline Park, Huinnyeoul Village, Gamcheon Culture Village, Gwangan Bridge at night',
+        regionDescGangneung: 'Anmok Coffee Street, Gyeongpo Lake, Ojukheon, Badabuchae-gil Trail',
+        regionDescJeonju: 'Gyeonggijeon in Hanok Village, Jeondong Cathedral, Nambu Market, Deokjin Park',
+        regionDescJeju: 'Aewol Handam Coastal Trail, Hyeopjae Beach, Seongsan Ilchulbong, Cheonjiyeon Falls',
+        regionDescYeosu: 'Odongdo camellia forest, Yeosu marine cable car, harbor-side night food stalls',
+        contactLine: '✉️ Corrections & partnerships: <a href="mailto:ck2lucky@gmail.com" style="color:#e0f2fe;">ck2lucky@gmail.com</a>',
+        modalClose: 'Close',
+        footerBrand: '🌊 HARU TRIP',
+        footerDesc: 'HARU TRIP is a curated day-trip guide to Korea — a full day of rest and discovery, no overnight stay required. Starting with Mokpo, Busan, Gangneung, Jeonju and Jeju, we showcase gem-like one-day courses from all over Korea.',
+        footerCourseHeading: 'Busan Day Trip Courses',
+        footerGuides: 'City Guides',
+        guideMokpo: 'Mokpo day trip guide',
+        guideBusan: 'Busan day trip guide',
+        guideGangneung: 'Gangneung day trip guide',
+        guideJeonju: 'Jeonju day trip guide',
+        guideJeju: 'Jeju day trip guide',
+        copyright: '© 2026 HARU TRIP. All rights reserved. Korea day trip guide.',
+        footerNav: 'Site information',
+        footerAbout: 'About',
+        footerPrivacy: '<strong>Privacy Policy</strong>',
+        footerTerms: 'Terms of Use',
+        footerCredits: 'Photo credits',
+        footerContact: 'Contact'
+      }
+    }
+  };
+
+  const htmlLang = (root.document && root.document.documentElement.lang) || 'ko';
+  const lang = I18N[htmlLang] ? htmlLang : 'ko';
+
+  root.HARU_I18N = I18N;
+  root.HARU_LANG = lang;
+
+  // 화면 문구: 현재 언어에 없으면 한국어로 대체
+  root.t = function (key, ...args) {
+    const v = (I18N[lang] && I18N[lang][key] !== undefined) ? I18N[lang][key] : I18N.ko[key];
+    return typeof v === 'function' ? v(...args) : (v ?? key);
+  };
+
+  // 이미지 등 사이트 루트 기준 경로 (en/ 하위 페이지에서는 '../' 를 붙임)
+  root.asset = function (p) {
+    if (!p || /^(https?:)?\//.test(p)) return p;
+    const base = (root.document && root.document.documentElement.dataset.assetBase) || '';
+    return base + p;
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
