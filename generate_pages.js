@@ -61,6 +61,7 @@ const LANGS = {
       siteName: '하루트립',
       logo: '🌊 하루트립',
       cityNav: '도시별 가이드',
+      regionPick: '지역 선택',
       footerNav: '사이트 정보',
       home: '홈', about: '사이트 소개', privacy: '개인정보처리방침', terms: '이용약관', credits: '사진 출처',
       contact: (e) => `문의: ${e}`,
@@ -95,6 +96,7 @@ const LANGS = {
       siteName: 'HARU TRIP',
       logo: '🌊 HARU TRIP',
       cityNav: 'City guides',
+      regionPick: 'Choose a region',
       footerNav: 'Site information',
       home: 'Home', about: 'About', privacy: 'Privacy Policy', terms: 'Terms of Use', credits: 'Photo credits',
       contact: (e) => `Contact: ${e}`,
@@ -160,7 +162,7 @@ function layout(L, { file, title, description, body, jsonLd, noindex }) {
     <div class="page-header-inner">
       <a class="page-logo" href="./">${S.logo}</a>
       <nav aria-label="${S.cityNav}">
-        ${L.cities.map(c => `<a href="guide-${c.id}.html">${esc(c.name)}</a>`).join('\n        ')}
+        <a class="region-picker-link" href="./?map=1"><span aria-hidden="true">🗺️</span> ${S.regionPick} <span aria-hidden="true">▾</span></a>
         <a class="lang-toggle" href="${LANGS[L.other].dir ? LANGS[L.other].dir : '../'}${file}" hreflang="${L.other}" title="${S.switchTitle}" aria-label="${S.switchTitle}"><span class="lang-opt" lang="ko">KO</span><span class="lang-opt" lang="en">EN</span></a>
       </nav>
     </div>

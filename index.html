@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title id="docTitle" data-i18n="metaTitle">하루트립 부산 | 푸른 파도와 빛나는 마천루 부산 당일치기 여행 가이드</title>
+  <title id="docTitle" data-i18n="metaTitle">하루트립 | 국내 도시별 당일치기 여행 코스 가이드</title>
   <meta name="description" id="docDesc" data-i18n-attr="content:metaDesc" content="목포·부산·강릉·전주·제주 당일치기 여행을 A·B·C 맞춤 코스로! 명소·맛집·야경 동선을 한눈에." />
   
   <!-- Favicon & Stylesheet -->
@@ -27,7 +27,7 @@
   <!-- ADSENSE:END -->
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="is-landing">
 
   <!-- ==========================================
        1. 글로벌 내비게이션 바 (GNB)
@@ -35,38 +35,21 @@
   <header>
     <nav class="navbar" id="navbar">
       <div class="nav-brand">
-        <a href="#" class="brand-logo" onclick="switchCity(currentCityId); return false;">
+        <a href="./" class="brand-logo">
           <span>🌊</span> <span data-i18n="brand">하루트립</span>
         </a>
-        <span class="brand-badge" id="brandBadge" data-i18n="brandBadge">부산편</span>
-      </div>
-
-      <!-- 전국 확장형 지역 셀렉터 -->
-      <div class="region-selector-wrap" data-i18n-attr="title:regionTitle" title="원하는 여행지 도시를 선택해 보세요">
-        <button class="region-chip" id="chip-mokpo" onclick="switchCity('mokpo')">
-          <span>📍</span> <span data-i18n="cityMokpo">목포</span>
-        </button>
-        <button class="region-chip active" id="chip-busan" onclick="switchCity('busan')">
-          <span>🌊</span> <span data-i18n="cityBusan">부산</span>
-        </button>
-        <button class="region-chip" id="chip-gangneung" onclick="switchCity('gangneung')">
-          <span>☕</span> <span data-i18n="cityGangneung">강릉</span>
-        </button>
-        <button class="region-chip" id="chip-jeonju" onclick="switchCity('jeonju')">
-          <span>🏯</span> <span data-i18n="cityJeonju">전주</span>
-        </button>
-        <button class="region-chip" id="chip-jeju" onclick="switchCity('jeju')">
-          <span>🌴</span> <span data-i18n="cityJeju">제주</span>
+        <!-- 지역 선택: 누르면 지도 팝업이 열림 (도시가 늘어나도 헤더는 그대로) -->
+        <button type="button" class="region-picker-btn" id="regionPickerBtn" onclick="openMapModal()" aria-haspopup="dialog" aria-controls="mapModal">
+          <span class="region-picker-icon" id="regionPickerIcon" aria-hidden="true">🗺️</span>
+          <span class="region-picker-label" id="regionPickerLabel" data-i18n="regionPick">지역 선택</span>
+          <span class="region-picker-caret" aria-hidden="true">▾</span>
         </button>
       </div>
 
       <div class="nav-links" id="navLinks">
-        <a href="#coursesSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navCourses">3대 코스</a>
-        <a href="#exploreSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navExplore">명소 검색</a>
-        <a href="#nationwideSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navNationwide">전국 확장 안내</a>
-        <button class="btn-header-cta" onclick="document.getElementById('exploreSection').scrollIntoView({behavior: 'smooth'}); closeMobileMenu();" data-i18n="navCta">
-          여행지 둘러보기
-        </button>
+        <a href="#coursesSection" class="nav-link city-only" onclick="closeMobileMenu()" data-i18n="navCourses">3대 코스</a>
+        <a href="#exploreSection" class="nav-link city-only" onclick="closeMobileMenu()" data-i18n="navExplore">명소 검색</a>
+        <a href="#nationwideSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navNationwide">전국 여행지</a>
         <a href="en/" id="langSwitch" class="lang-toggle" data-i18n-attr="href:langHref,title:langTitle,aria-label:langTitle" title="View in English" aria-label="View in English"><span class="lang-opt" lang="ko">KO</span><span class="lang-opt" lang="en">EN</span></a>
       </div>
 
@@ -85,34 +68,37 @@
          ========================================== -->
     <section class="hero" id="hero">
       <div class="hero-content">
-        <div class="hero-pill" id="heroPill" data-i18n="heroPill">
-          🌊 전국 당일치기 여행 프로젝트 #2 · 해양수도 부산
-        </div>
-        <h1 class="hero-title" id="heroTitle" data-i18n="heroTitle">
-          끝없이 펼쳐진 푸른 바다와 다채로운 매력<br />
-          <span class="highlight">부산 당일치기 완벽 여행</span>
-        </h1>
-        <p class="hero-subtitle" id="heroSubtitle" data-i18n="heroSubtitle">
-          해운대 스카이캡슐부터 절벽 위 흰여울마을, 황홀한 광안대교 야경까지!<br />
-          A · B · C 맞춤 코스로 하루 만에 즐기는 부산의 낭만과 미식 여행.
-        </p>
+        <div class="hero-pill" id="heroPill" data-i18n="heroPill">🗺️ 전국 당일치기 여행 가이드</div>
+        <h1 class="hero-title" id="heroTitle" data-i18n="heroTitle">주말 하루, 어디로 떠나볼까요?<br /><span class="highlight">하루트립 당일치기 여행</span></h1>
+        <p class="hero-subtitle" id="heroSubtitle" data-i18n="heroSubtitle">지도에서 도시를 고르면 A · B · C 맞춤 코스와 명소, 여행 팁을 한눈에 볼 수 있어요.</p>
 
-        <!-- 히어로 실시간 검색창 -->
-        <div class="hero-search-box">
-          <span class="search-icon">🔍</span>
-          <input 
-            type="text" 
-            id="heroSearchInput" 
-            class="hero-search-input" 
-            data-i18n-attr="placeholder:heroSearchPlaceholder"
-            placeholder="가고 싶은 여행지, 테마(#스카이캡슐, #흰여울, #광안대교), 또는 코스 검색..." 
-          />
-          <button id="heroSearchBtn" class="hero-search-btn" data-i18n="heroSearchBtn">명소 찾기</button>
+        <!-- 첫 화면: 지도 열기 버튼 + 도시 바로가기 -->
+        <div class="landing-actions landing-only">
+          <button type="button" class="map-open-btn" onclick="openMapModal()" aria-haspopup="dialog" aria-controls="mapModal">
+            <span class="map-open-icon" aria-hidden="true">🗺️</span>
+            <span data-i18n="mapOpenBtn">지도에서 여행지 고르기</span>
+          </button>
+          <div class="landing-quick" id="landingQuick">
+            <!-- JS에서 도시 바로가기 칩 주입 -->
+          </div>
         </div>
 
-        <!-- 히어로 3대 코스 퀵 점프 뱃지 (동적 렌더링) -->
-        <div class="hero-course-badges" id="heroCourseBadges">
-          <!-- JS에서 동적 주입 -->
+        <!-- 도시 화면: 검색창 + 코스 퀵 점프 뱃지 -->
+        <div class="city-only">
+          <div class="hero-search-box">
+            <span class="search-icon">🔍</span>
+            <input
+              type="text"
+              id="heroSearchInput"
+              class="hero-search-input"
+              data-i18n-attr="placeholder:heroSearchPlaceholder"
+              placeholder="가고 싶은 명소, 테마(#야경, #카페, #시장) 또는 코스 검색..."
+            />
+            <button id="heroSearchBtn" class="hero-search-btn" data-i18n="heroSearchBtn">명소 찾기</button>
+          </div>
+          <div class="hero-course-badges" id="heroCourseBadges">
+            <!-- JS에서 동적 주입 -->
+          </div>
         </div>
       </div>
     </section>
@@ -120,7 +106,7 @@
     <!-- ==========================================
          3. 3가지 테마 코스 안내 섹션
          ========================================== -->
-    <section class="section" id="coursesSection">
+    <section class="section city-only" id="coursesSection">
       <div class="section-header">
         <span class="section-tag">Curated 1-Day Itinerary</span>
         <h2 class="section-title" id="coursesSectionTitle" data-i18n="coursesSectionTitle">부산을 즐기는 가장 완벽한 3가지 코스</h2>
@@ -136,7 +122,7 @@
     <!-- ==========================================
          4. 여행지 검색 & 슬라이드 카드 그리드 섹션
          ========================================== -->
-    <section class="section explore-section" id="exploreSection">
+    <section class="section explore-section city-only" id="exploreSection">
       <div class="section-header">
         <span class="section-tag">Explore Destinations</span>
         <h2 class="section-title" id="exploreSectionTitle" data-i18n="exploreSectionTitle">부산 당일치기 필수 명소 탐색</h2>
@@ -165,7 +151,7 @@
               id="inlineSearchInput" 
               class="search-input-inline" 
               data-i18n-attr="placeholder:inlineSearchPlaceholder"
-              placeholder="명소 이름, 키워드(#스카이캡슐, #흰여울, #광안대교), 주소 검색..." 
+              placeholder="명소 이름, 키워드(#야경, #카페, #시장), 주소 검색..." 
             />
             <button id="searchClearBtn" class="search-clear-btn" data-i18n-attr="title:clearSearch" title="검색어 지우기">✕</button>
           </div>
@@ -273,6 +259,28 @@
   </div>
 
   <!-- ==========================================
+       6-1. 지역 선택 지도 팝업
+       ========================================== -->
+  <div class="modal-backdrop map-backdrop" id="mapModal" role="dialog" aria-modal="true" aria-labelledby="mapModalTitle">
+    <div class="modal-dialog map-dialog">
+      <button class="modal-close-btn map-close-btn" id="mapCloseBtn" aria-label="닫기" data-i18n-attr="aria-label:modalClose" onclick="closeMapModal()">✕</button>
+      <div class="map-dialog-head">
+        <h2 id="mapModalTitle" data-i18n="mapTitle">어디로 떠나볼까요?</h2>
+        <p data-i18n="mapDesc">지도에서 도시를 누르면 해당 지역의 당일치기 코스로 이동합니다.</p>
+      </div>
+      <div class="map-dialog-body">
+        <div class="korea-map" id="koreaMap">
+          <img src="img/korea_map.svg" alt="" width="616" height="575" />
+          <!-- JS에서 도시 핀 주입 -->
+        </div>
+        <div class="map-city-list" id="mapCityList">
+          <!-- JS에서 도시 목록 주입 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
        7. 푸터 (Footer)
        ========================================== -->
   <footer class="footer">
@@ -285,7 +293,7 @@
         </p>
       </div>
 
-      <div class="footer-col">
+      <div class="footer-col city-only">
         <h4 id="footerCourseHeading" data-i18n="footerCourseHeading">부산 당일치기 코스</h4>
         <ul id="footerCourseLinks">
           <!-- JS에서 동적 주입 -->

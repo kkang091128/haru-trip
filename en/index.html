@@ -27,7 +27,7 @@
   <!-- ADSENSE:END -->
   <link rel="stylesheet" href="../style.css" />
 </head>
-<body>
+<body class="is-landing">
 
   <!-- ==========================================
        1. 글로벌 내비게이션 바 (GNB)
@@ -35,36 +35,21 @@
   <header>
     <nav class="navbar" id="navbar">
       <div class="nav-brand">
-        <a href="#" class="brand-logo" onclick="switchCity(currentCityId); return false;">
+        <a href="./" class="brand-logo">
           <span>🌊</span> <span data-i18n="brand">HARU TRIP</span>
         </a>
-        <span class="brand-badge" id="brandBadge" data-i18n="brandBadge">Busan</span>
-      </div>
-
-      <!-- 전국 확장형 지역 셀렉터 -->
-      <div class="region-selector-wrap" data-i18n-attr="title:regionTitle" title="Pick a city to explore">
-        <button class="region-chip" id="chip-mokpo" onclick="switchCity('mokpo')">
-          <span>📍</span> <span data-i18n="cityMokpo">Mokpo</span>
-        </button>
-        <button class="region-chip active" id="chip-busan" onclick="switchCity('busan')">
-          <span>🌊</span> <span data-i18n="cityBusan">Busan</span>
-        </button>
-        <button class="region-chip" id="chip-gangneung" onclick="switchCity('gangneung')">
-          <span>☕</span> <span data-i18n="cityGangneung">Gangneung</span>
-        </button>
-        <button class="region-chip" id="chip-jeonju" onclick="switchCity('jeonju')">
-          <span>🏯</span> <span data-i18n="cityJeonju">Jeonju</span>
-        </button>
-        <button class="region-chip" id="chip-jeju" onclick="switchCity('jeju')">
-          <span>🌴</span> <span data-i18n="cityJeju">Jeju</span>
+        <!-- 지역 선택: 누르면 지도 팝업이 열림 (도시가 늘어나도 헤더는 그대로) -->
+        <button type="button" class="region-picker-btn" id="regionPickerBtn" onclick="openMapModal()" aria-haspopup="dialog" aria-controls="mapModal">
+          <span class="region-picker-icon" id="regionPickerIcon" aria-hidden="true">🗺️</span>
+          <span class="region-picker-label" id="regionPickerLabel" data-i18n="regionPick">Choose a region</span>
+          <span class="region-picker-caret" aria-hidden="true">▾</span>
         </button>
       </div>
 
       <div class="nav-links" id="navLinks">
-        <a href="#coursesSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navCourses">Courses</a>
-        <a href="#exploreSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navExplore">Spots</a>
-        <a href="#nationwideSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navNationwide">Roadmap</a>
-        <button class="btn-header-cta" onclick="document.getElementById('exploreSection').scrollIntoView({behavior: 'smooth'}); closeMobileMenu();" data-i18n="navCta">Explore spots</button>
+        <a href="#coursesSection" class="nav-link city-only" onclick="closeMobileMenu()" data-i18n="navCourses">Courses</a>
+        <a href="#exploreSection" class="nav-link city-only" onclick="closeMobileMenu()" data-i18n="navExplore">Spots</a>
+        <a href="#nationwideSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navNationwide">Destinations</a>
         <a href="../" id="langSwitch" class="lang-toggle" data-i18n-attr="href:langHref,title:langTitle,aria-label:langTitle" title="한국어로 보기" aria-label="한국어로 보기"><span class="lang-opt" lang="ko">KO</span><span class="lang-opt" lang="en">EN</span></a>
       </div>
 
@@ -83,28 +68,37 @@
          ========================================== -->
     <section class="hero" id="hero">
       <div class="hero-content">
-        <div class="hero-pill" id="heroPill" data-i18n="heroPill">🌊 Korea Day Trip Project #2 · Busan, the ocean city</div>
-        <h1 class="hero-title" id="heroTitle" data-i18n="heroTitle">Endless blue sea and a city full of charm<br />
-          <span class="highlight">The Perfect Busan Day Trip</span></h1>
-        <p class="hero-subtitle" id="heroSubtitle" data-i18n="heroSubtitle">From the Haeundae Sky Capsule to cliffside Huinnyeoul Village and the dazzling Gwangan Bridge at night!<br />
-          Enjoy Busan's romance and food in a single day with our A · B · C courses.</p>
+        <div class="hero-pill" id="heroPill" data-i18n="heroPill">🗺️ Korea day trip guide</div>
+        <h1 class="hero-title" id="heroTitle" data-i18n="heroTitle">One free day — where to?<br /><span class="highlight">Day Trips Across Korea</span></h1>
+        <p class="hero-subtitle" id="heroSubtitle" data-i18n="heroSubtitle">Pick a city on the map to see A · B · C courses, must-see spots and local tips at a glance.</p>
 
-        <!-- 히어로 실시간 검색창 -->
-        <div class="hero-search-box">
-          <span class="search-icon">🔍</span>
-          <input 
-            type="text" 
-            id="heroSearchInput" 
-            class="hero-search-input" 
-            data-i18n-attr="placeholder:heroSearchPlaceholder"
-            placeholder="Search a place, theme (#SkyCapsule, #Gwangalli) or course..." 
-          />
-          <button id="heroSearchBtn" class="hero-search-btn" data-i18n="heroSearchBtn">Search</button>
+        <!-- 첫 화면: 지도 열기 버튼 + 도시 바로가기 -->
+        <div class="landing-actions landing-only">
+          <button type="button" class="map-open-btn" onclick="openMapModal()" aria-haspopup="dialog" aria-controls="mapModal">
+            <span class="map-open-icon" aria-hidden="true">🗺️</span>
+            <span data-i18n="mapOpenBtn">Pick a destination on the map</span>
+          </button>
+          <div class="landing-quick" id="landingQuick">
+            <!-- JS에서 도시 바로가기 칩 주입 -->
+          </div>
         </div>
 
-        <!-- 히어로 3대 코스 퀵 점프 뱃지 (동적 렌더링) -->
-        <div class="hero-course-badges" id="heroCourseBadges">
-          <!-- JS에서 동적 주입 -->
+        <!-- 도시 화면: 검색창 + 코스 퀵 점프 뱃지 -->
+        <div class="city-only">
+          <div class="hero-search-box">
+            <span class="search-icon">🔍</span>
+            <input
+              type="text"
+              id="heroSearchInput"
+              class="hero-search-input"
+              data-i18n-attr="placeholder:heroSearchPlaceholder"
+              placeholder="Search a spot, theme (#NightView, #Cafe, #Market) or course..."
+            />
+            <button id="heroSearchBtn" class="hero-search-btn" data-i18n="heroSearchBtn">Search</button>
+          </div>
+          <div class="hero-course-badges" id="heroCourseBadges">
+            <!-- JS에서 동적 주입 -->
+          </div>
         </div>
       </div>
     </section>
@@ -112,7 +106,7 @@
     <!-- ==========================================
          3. 3가지 테마 코스 안내 섹션
          ========================================== -->
-    <section class="section" id="coursesSection">
+    <section class="section city-only" id="coursesSection">
       <div class="section-header">
         <span class="section-tag">Curated 1-Day Itinerary</span>
         <h2 class="section-title" id="coursesSectionTitle" data-i18n="coursesSectionTitle">3 Perfect Day Courses in Busan</h2>
@@ -126,7 +120,7 @@
     <!-- ==========================================
          4. 여행지 검색 & 슬라이드 카드 그리드 섹션
          ========================================== -->
-    <section class="section explore-section" id="exploreSection">
+    <section class="section explore-section city-only" id="exploreSection">
       <div class="section-header">
         <span class="section-tag">Explore Destinations</span>
         <h2 class="section-title" id="exploreSectionTitle" data-i18n="exploreSectionTitle">Must-See Spots for a Day in Busan</h2>
@@ -153,7 +147,7 @@
               id="inlineSearchInput" 
               class="search-input-inline" 
               data-i18n-attr="placeholder:inlineSearchPlaceholder"
-              placeholder="Spot name, keyword (#SkyCapsule, #Gwangalli) or address..." 
+              placeholder="Spot name, keyword (#NightView, #Cafe, #Market) or address..." 
             />
             <button id="searchClearBtn" class="search-clear-btn" data-i18n-attr="title:clearSearch" title="Clear search">✕</button>
           </div>
@@ -252,6 +246,28 @@
   </div>
 
   <!-- ==========================================
+       6-1. 지역 선택 지도 팝업
+       ========================================== -->
+  <div class="modal-backdrop map-backdrop" id="mapModal" role="dialog" aria-modal="true" aria-labelledby="mapModalTitle">
+    <div class="modal-dialog map-dialog">
+      <button class="modal-close-btn map-close-btn" id="mapCloseBtn" aria-label="Close" data-i18n-attr="aria-label:modalClose" onclick="closeMapModal()">✕</button>
+      <div class="map-dialog-head">
+        <h2 id="mapModalTitle" data-i18n="mapTitle">Where would you like to go?</h2>
+        <p data-i18n="mapDesc">Tap a city on the map to open its day trip courses.</p>
+      </div>
+      <div class="map-dialog-body">
+        <div class="korea-map" id="koreaMap">
+          <img src="../img/korea_map.svg" alt="" width="616" height="575" />
+          <!-- JS에서 도시 핀 주입 -->
+        </div>
+        <div class="map-city-list" id="mapCityList">
+          <!-- JS에서 도시 목록 주입 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
        7. 푸터 (Footer)
        ========================================== -->
   <footer class="footer">
@@ -261,7 +277,7 @@
         <p data-i18n="footerDesc">HARU TRIP is a curated day-trip guide to Korea — a full day of rest and discovery, no overnight stay required. Starting with Mokpo, Busan, Gangneung, Jeonju and Jeju, we showcase gem-like one-day courses from all over Korea.</p>
       </div>
 
-      <div class="footer-col">
+      <div class="footer-col city-only">
         <h4 id="footerCourseHeading" data-i18n="footerCourseHeading">Busan Day Trip Courses</h4>
         <ul id="footerCourseLinks">
           <!-- JS에서 동적 주입 -->

@@ -572,6 +572,7 @@ const CITIES_DATA = {
   mokpo: {
     id: 'mokpo',
     name: '목포',
+    emoji: '📍',
     badge: '목포편',
     pageTitle: '하루트립 목포 | 낭만과 역사의 항구도시 목포 당일치기 여행 가이드',
     metaDesc: '목포 당일치기 A·B·C 코스! 근대역사거리, 해상케이블카, 남도 9미, 목포대교 야경까지 한눈에.',
@@ -579,6 +580,7 @@ const CITIES_DATA = {
     heroTitle: '푸른 다도해와 100년 역사가 빚어낸<br /><span class="highlight">목포 당일치기 완벽 여행</span>',
     heroSubtitle: '취향 따라 선택하는 A · B · C 3가지 맞춤 테마 코스부터 로컬 찐명소까지!<br />아름다운 슬라이드 사진과 생생한 여행자 후기로 하루의 설렘을 완성해 보세요.',
     heroBg: 'img/hero_bg.jpg',
+    map: { lat: 34.8118, lng: 126.3922 }, // 지역 선택 지도의 핀 위치
     storageKeyLikes: 'haru_trip_mokpo_likes_v1',
     storageKeyComments: 'haru_trip_mokpo_comments_v1',
     courses: COURSES_MOKPO,
@@ -587,6 +589,7 @@ const CITIES_DATA = {
   busan: {
     id: 'busan',
     name: '부산',
+    emoji: '🌊',
     badge: '부산편',
     pageTitle: '하루트립 부산 | 푸른 파도와 빛나는 마천루 부산 당일치기 여행 가이드',
     metaDesc: '부산 당일치기 A·B·C 코스! 블루라인파크, 흰여울마을, 감천문화마을, 광안대교 야경까지 한눈에.',
@@ -594,6 +597,7 @@ const CITIES_DATA = {
     heroTitle: '끝없이 펼쳐진 푸른 바다와 다채로운 매력<br /><span class="highlight">부산 당일치기 완벽 여행</span>',
     heroSubtitle: '해운대 스카이캡슐부터 절벽 위 흰여울마을, 황홀한 광안대교 야경까지!<br />A · B · C 맞춤 코스로 하루 만에 즐기는 부산의 낭만과 미식 여행.',
     heroBg: 'img/busan_hero_bg.jpg',
+    map: { lat: 35.1796, lng: 129.0756 }, // 지역 선택 지도의 핀 위치
     storageKeyLikes: 'haru_trip_busan_likes_v1',
     storageKeyComments: 'haru_trip_busan_comments_v1',
     courses: COURSES_BUSAN,
@@ -601,19 +605,21 @@ const CITIES_DATA = {
   }
 };
 
-// 현재 활성화된 도시 (기본값: 'busan' 또는 URL/스토리지)
-let currentCityId = 'busan';
+// 현재 선택된 도시 (첫 화면에서는 null — app.js 가 지역을 고르면 설정)
+let currentCityId = null;
 
-// 호환성을 위한 활성 데이터 포인터
-let COURSES_DATA = CITIES_DATA[currentCityId].courses;
-let DESTINATIONS_DATA = CITIES_DATA[currentCityId].destinations;
+// 호환성을 위한 활성 데이터 포인터 (도시를 고르기 전에는 빈 배열)
+let COURSES_DATA = [];
+let DESTINATIONS_DATA = [];
 
-// 전국 확장 안내용 메타데이터
-const REGIONS_DATA = [
-  { id: 'mokpo', name: '목포', tag: '낭만과 근대역사', active: true, count: 9 },
-  { id: 'busan', name: '부산', tag: '푸른 해운대 & 광안리', active: true, count: 9 },
-  { id: 'gangneung', name: '강릉', tag: '커피거리 & 동해안 솔향', active: false, badge: 'Coming Soon', count: '준비중' },
-  { id: 'jeonju', name: '전주', tag: '한옥마을 & 조선왕조의 숨결', active: false, badge: 'Coming Soon', count: '준비중' },
-  { id: 'jeju', name: '제주', tag: '신비로운 에메랄드 섬', active: false, badge: 'Coming Soon', count: '준비중' },
-  { id: 'yeosu', name: '여수', tag: '여수 밤바다 & 낭만포차', active: false, badge: 'Coming Soon', count: '준비중' }
+// --------------------------------------------------------
+// 4. 지역 선택 지도
+// --------------------------------------------------------
+// 지도 범위(경도·위도)와 가로 보정값(k = 위도 36° 부근의 cos 값).
+// generate_map.js(지도 SVG)와 app.js(핀 위치)가 같은 값을 씁니다. 바꾸면 node generate_map.js 를 다시 실행하세요.
+const MAP_BOUNDS = { lngMin: 124.6, lngMax: 132.2, latMin: 33.0, latMax: 38.75, k: 0.811 };
+
+// 오픈 예정 도시: 지도에 흐리게 표시만 됩니다. 정식 오픈할 때 data_<도시>.js 를 만들고 여기서 지우세요.
+const UPCOMING_CITIES = [
+  { id: 'yeosu', name: '여수', emoji: '🌉', map: { lat: 34.7604, lng: 127.6622 } }
 ];

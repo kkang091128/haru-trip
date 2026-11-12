@@ -215,3 +215,37 @@ html[lang="en"] .lang-toggle .lang-opt[lang="en"] {
   color: #fff;
   box-shadow: 0 1px 3px rgba(2, 132, 199, 0.35);
 }
+
+/* 지역 선택 링크 (누르면 홈에서 지도 팝업이 열림) */
+.page-header .region-picker-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  font-weight: 700;
+  color: #0f172a;
+}
+.page-header .region-picker-link:hover {
+  border-color: #0284c7;
+  color: #0369a1;
+}
+
+/* 지역 선택 링크 (누르면 홈에서 지도 팝업이 열림) */
+.page-header .region-picker-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  font-weight: 700;
+  color: #0f172a;
+}
+.page-header .region-picker-link:hover {
+  border-color: #0284c7;
+  color: #0369a1;
+}

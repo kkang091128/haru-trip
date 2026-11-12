@@ -287,6 +287,7 @@ const DESTINATIONS_JEJU = [
 CITIES_DATA.jeju = {
   id: 'jeju',
   name: '제주',
+  emoji: '🌴',
   badge: '제주편',
   pageTitle: '하루트립 제주 | 에메랄드 바다와 화산섬 제주 당일치기 여행 가이드',
   metaDesc: '제주 당일치기 A·B·C 코스! 애월 해안길, 협재해수욕장, 성산일출봉, 새연교 야경까지 한눈에.',
@@ -294,6 +295,7 @@ CITIES_DATA.jeju = {
   heroTitle: '에메랄드빛 바다와 신비로운 화산섬<br /><span class="highlight">제주 당일치기 완벽 여행</span>',
   heroSubtitle: '애월·협재의 투명한 바다부터 성산일출봉, 서귀포의 폭포와 밤바다까지!<br />A · B · C 맞춤 코스로 하루 만에 즐기는 제주의 자연과 낭만.',
   heroBg: 'img/jeju_hero_bg.jpg',
+  map: { lat: 33.38, lng: 126.55 }, // 지역 선택 지도의 핀 위치
   storageKeyLikes: 'haru_trip_jeju_likes_v1',
   storageKeyComments: 'haru_trip_jeju_comments_v1',
   courses: COURSES_JEJU,

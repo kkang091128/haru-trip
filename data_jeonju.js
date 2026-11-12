@@ -287,6 +287,7 @@ const DESTINATIONS_JEONJU = [
 CITIES_DATA.jeonju = {
   id: 'jeonju',
   name: '전주',
+  emoji: '🏯',
   badge: '전주편',
   pageTitle: '하루트립 전주 | 한옥마을과 맛의 도시 전주 당일치기 여행 가이드',
   metaDesc: '전주 당일치기 A·B·C 코스! 한옥마을, 경기전, 전동성당, 남부시장 청년몰과 야경까지 한눈에.',
@@ -294,6 +295,7 @@ CITIES_DATA.jeonju = {
   heroTitle: '700채 한옥 지붕 아래 조선의 시간<br /><span class="highlight">전주 당일치기 완벽 여행</span>',
   heroSubtitle: '경기전과 전동성당, 남부시장 야시장부터 한옥마을 골목 야경까지!<br />A · B · C 맞춤 코스로 하루 만에 즐기는 전주의 맛과 멋.',
   heroBg: 'img/jeonju_hero_bg.jpg',
+  map: { lat: 35.8242, lng: 127.148 }, // 지역 선택 지도의 핀 위치
   storageKeyLikes: 'haru_trip_jeonju_likes_v1',
   storageKeyComments: 'haru_trip_jeonju_comments_v1',
   courses: COURSES_JEONJU,

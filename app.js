@@ -1,11 +1,13 @@
 // ========================================================
 // 하루트립 (HARU TRIP) - 전국 당일치기 관광 프론트엔드 로직
-// [목포편] [부산편] [강릉편] [전주편] [제주편] 지원
+//   - 첫 화면(지역 미선택): 전국 히어로 + 지도 버튼
+//   - 지역 선택: 지도 레이어 팝업 → 도시 화면 (?city=<id>)
+// 도시를 추가하려면 data_<도시>.js 에 map 좌표를 넣으면 지도·목록에 자동으로 나타납니다.
 // ========================================================
 
 // 상태 관리
 const state = {
-  currentCity: 'busan', // CITIES_DATA의 키 (mokpo, busan, gangneung, jeonju, jeju)
+  currentCity: null, // CITIES_DATA의 키 (mokpo, busan, ...) — 첫 화면에서는 null
   activeCourseFilter: 'ALL', // 'ALL' | 'A' | 'B' | 'C'
   searchQuery: '',
   likes: {},      // { [destId]: { count: number, userLiked: boolean } }
@@ -14,9 +16,12 @@ const state = {
   sliderIndices: {} // { [cardId]: currentIndex }
 };
 
+// 첫 화면 문구 (index.html 에 적힌 기본값을 기억해 두었다가 첫 화면으로 돌아올 때 복원)
+const landing = {};
+
 // 동적 로컬스토리지 키
 function getStorageKeys() {
-  const city = CITIES_DATA[state.currentCity] || CITIES_DATA.busan;
+  const city = CITIES_DATA[state.currentCity];
   // _v2: 예전에 브라우저에 복사된 예시 후기/좋아요 데이터는 더 이상 쓰지 않음
   return {
     likesKey: `${city.storageKeyLikes}_v2`,
@@ -28,35 +33,84 @@ function getStorageKeys() {
 // 초기화
 // --------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
+  rememberLanding();
   initNavbarScroll();
   setupSearchEvents();
   setupModalEvents();
+  renderRegionPickers();
 
-  // URL 파라미터 또는 localStorage에서 초기 도시 결정
-  const urlParams = new URLSearchParams(window.location.search);
-  const cityFromUrl = urlParams.get('city');
-  const cityFromStorage = localStorage.getItem('haru_trip_last_city');
-
-  let initialCity = 'busan';
+  // ?city=<id> 가 있으면 그 도시, 없으면 첫 화면. ?map=1 이면 지도 팝업을 바로 엶 (가이드 페이지의 "지역 선택" 링크)
+  const params = new URLSearchParams(window.location.search);
+  const cityFromUrl = params.get('city');
   if (cityFromUrl && CITIES_DATA[cityFromUrl]) {
-    initialCity = cityFromUrl;
-  } else if (cityFromStorage && CITIES_DATA[cityFromStorage]) {
-    initialCity = cityFromStorage;
+    switchCity(cityFromUrl, { scroll: false, history: 'replace' });
+  } else {
+    showLanding({ history: 'none' });
+    if (params.get('map') === '1') openMapModal();
   }
 
-  // 도시 전환 실행 (첫 로드 시 스크롤 안 함)
-  switchCity(initialCity, false);
+  // 브라우저 뒤로/앞으로 가기: 첫 화면 ↔ 도시 화면
+  window.addEventListener('popstate', () => {
+    const id = new URLSearchParams(window.location.search).get('city');
+    if (id && CITIES_DATA[id]) switchCity(id, { scroll: false, history: 'none' });
+    else showLanding({ history: 'none' });
+  });
 });
+
+function rememberLanding() {
+  const get = (id) => document.getElementById(id);
+  landing.title = document.title;
+  landing.desc = get('docDesc') ? get('docDesc').getAttribute('content') : '';
+  landing.pill = get('heroPill') ? get('heroPill').innerHTML : '';
+  landing.heroTitle = get('heroTitle') ? get('heroTitle').innerHTML : '';
+  landing.subtitle = get('heroSubtitle') ? get('heroSubtitle').innerHTML : '';
+}
+
+// --------------------------------------------------------
+// 첫 화면 (지역 미선택)
+// --------------------------------------------------------
+function showLanding({ history = 'push' } = {}) {
+  state.currentCity = null;
+  currentCityId = null;
+  COURSES_DATA = [];
+  DESTINATIONS_DATA = [];
+
+  document.body.classList.add('is-landing');
+  document.title = landing.title;
+  const docDesc = document.getElementById('docDesc');
+  if (docDesc) docDesc.setAttribute('content', landing.desc);
+
+  const heroSec = document.getElementById('hero');
+  if (heroSec) heroSec.style.backgroundImage = '';
+  document.getElementById('heroPill').innerHTML = landing.pill;
+  document.getElementById('heroTitle').innerHTML = landing.heroTitle;
+  document.getElementById('heroSubtitle').innerHTML = landing.subtitle;
+
+  updateRegionPickerButton();
+  updateLangSwitch(null);
+  closeMobileMenu();
+
+  if (history === 'push' && window.history.pushState) {
+    window.history.pushState({}, '', window.location.pathname);
+  }
+}
 
 // --------------------------------------------------------
 // 도시 전환 (City Switcher) 핵심 로직
+//   options.scroll  : 전환 후 맨 위로 스크롤 (기본 true)
+//   options.history : 'push'(기본, 뒤로가기로 이전 화면 복귀) | 'replace' | 'none'
 // --------------------------------------------------------
-function switchCity(cityId, shouldScroll = true) {
+function switchCity(cityId, options = {}) {
   if (!CITIES_DATA[cityId]) return;
+  // 예전 호출 형식 switchCity(id, false) 호환
+  if (typeof options === 'boolean') options = { scroll: options };
+  const { scroll = true, history = 'push' } = options;
+  const sameCity = state.currentCity === cityId;
 
   state.currentCity = cityId;
   currentCityId = cityId;
-  localStorage.setItem('haru_trip_last_city', cityId);
+  try { localStorage.setItem('haru_trip_last_city', cityId); } catch (e) { /* 저장소 차단 */ }
+  document.body.classList.remove('is-landing');
 
   // 전역 데이터 포인터 동기화
   COURSES_DATA = CITIES_DATA[cityId].courses;
@@ -75,28 +129,14 @@ function switchCity(cityId, shouldScroll = true) {
   // 로컬스토리지 로드
   initStorage();
 
-  // 1. 헤더 & 타이틀 갱신
+  // 1. 문서 제목 & 설명
   const city = CITIES_DATA[cityId];
-  const docTitle = document.getElementById('docTitle');
+  document.title = city.pageTitle;
   const docDesc = document.getElementById('docDesc');
-  const brandBadge = document.getElementById('brandBadge');
-
-  if (docTitle) docTitle.textContent = city.pageTitle;
   if (docDesc) docDesc.setAttribute('content', city.metaDesc);
-  if (brandBadge) brandBadge.textContent = city.badge;
 
-  // 2. GNB 칩 스타일 갱신
-  document.querySelectorAll('.region-chip').forEach(chip => chip.classList.remove('active'));
-  const activeChip = document.getElementById(`chip-${cityId}`);
-  if (activeChip) {
-    activeChip.classList.add('active');
-    // 모바일에서 칩 목록이 가로 스크롤될 때 선택된 도시가 보이도록 이동
-    const wrap = activeChip.parentElement;
-    if (wrap && wrap.scrollWidth > wrap.clientWidth) {
-      const chipLeft = activeChip.getBoundingClientRect().left - wrap.getBoundingClientRect().left + wrap.scrollLeft;
-      wrap.scrollLeft = chipLeft - (wrap.clientWidth - activeChip.offsetWidth) / 2;
-    }
-  }
+  // 2. 헤더의 지역 선택 버튼에 현재 도시 표시
+  updateRegionPickerButton();
 
   // 3. 히어로 섹션 갱신
   const heroSec = document.getElementById('hero');
@@ -131,26 +171,32 @@ function switchCity(cityId, shouldScroll = true) {
   renderCourseIntroCards();
   renderDestinations();
 
-  // 8. 전국 확장 배너 활성 상태 동기화
+  // 8. 전국 여행지 박스·지도 핀 활성 상태 동기화
   document.querySelectorAll('.region-box[data-city]').forEach(box => {
     box.classList.toggle('active', box.dataset.city === cityId);
+  });
+  document.querySelectorAll('[data-pick-city]').forEach(el => {
+    el.classList.toggle('active', el.dataset.pickCity === cityId);
   });
 
   // 9. 푸터 링크 & 언어 전환 링크 갱신
   renderFooterLinks();
   updateLangSwitch(cityId);
 
-  // 모바일 메뉴가 열려있다면 닫기
+  // 모바일 메뉴·지도 팝업이 열려 있다면 닫기
   closeMobileMenu();
+  closeMapModal({ restoreFocus: false });
 
   // 10. URL 쿼리 파라미터 동기화
-  if (window.history.replaceState) {
-    const newUrl = `${window.location.pathname}?city=${cityId}`;
+  const newUrl = `${window.location.pathname}?city=${cityId}`;
+  if (history === 'push' && !sameCity && window.history.pushState) {
+    window.history.pushState({ city: cityId }, '', newUrl);
+  } else if (history !== 'none' && window.history.replaceState) {
     window.history.replaceState({ city: cityId }, '', newUrl);
   }
 
-  // 전환 후 최상단 또는 코스 영역으로 부드럽게 스크롤
-  if (shouldScroll) {
+  // 전환 후 최상단으로 부드럽게 스크롤
+  if (scroll) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
@@ -160,7 +206,106 @@ function updateLangSwitch(cityId) {
   const link = document.getElementById('langSwitch');
   if (!link) return;
   if (!link.dataset.base) link.dataset.base = link.getAttribute('href');
-  link.setAttribute('href', `${link.dataset.base}?city=${cityId}`);
+  link.setAttribute('href', cityId ? `${link.dataset.base}?city=${cityId}` : link.dataset.base);
+}
+
+// --------------------------------------------------------
+// 지역 선택: 헤더 버튼 · 지도 팝업 · 첫 화면 바로가기
+// --------------------------------------------------------
+function allMapCities() {
+  const open = Object.values(CITIES_DATA).filter(c => c.map).map(c => ({ ...c, upcoming: false }));
+  const soon = (typeof UPCOMING_CITIES !== 'undefined' ? UPCOMING_CITIES : []).map(c => ({ ...c, upcoming: true }));
+  return [...open, ...soon];
+}
+
+// 위도/경도 → 지도 이미지 안의 위치(%) — generate_map.js 와 같은 투영
+function mapPosition({ lat, lng }) {
+  const B = MAP_BOUNDS;
+  return {
+    left: ((lng - B.lngMin) / (B.lngMax - B.lngMin)) * 100,
+    top: ((B.latMax - lat) / (B.latMax - B.latMin)) * 100
+  };
+}
+
+function renderRegionPickers() {
+  const cities = allMapCities();
+
+  // 지도 위 핀
+  const map = document.getElementById('koreaMap');
+  if (map) {
+    const pins = cities.map(c => {
+      const { left, top } = mapPosition(c.map);
+      const style = `left:${left.toFixed(2)}%;top:${top.toFixed(2)}%`;
+      if (c.upcoming) {
+        return `<span class="map-pin is-upcoming" style="${style}" title="${c.name} · ${t('comingSoon')}">
+          <span class="map-pin-dot" aria-hidden="true"></span>
+          <span class="map-pin-label">${c.name}<small>${t('comingSoon')}</small></span>
+        </span>`;
+      }
+      return `<button type="button" class="map-pin" style="${style}" data-pick-city="${c.id}" onclick="switchCity('${c.id}')" aria-label="${t('openCity', c.name)}">
+          <span class="map-pin-dot" aria-hidden="true"></span>
+          <span class="map-pin-label"><span aria-hidden="true">${c.emoji || '📍'}</span> ${c.name}</span>
+        </button>`;
+    }).join('');
+    const islands = [
+      { name: t('ulleungdo'), lat: 37.50, lng: 130.86 },
+      { name: t('dokdo'), lat: 37.24, lng: 131.87, edge: true }
+    ].map(i => {
+      const { left, top } = mapPosition(i);
+      return `<span class="map-island-label${i.edge ? ' is-edge' : ''}" style="left:${left.toFixed(2)}%;top:${top.toFixed(2)}%">${i.name}</span>`;
+    }).join('');
+    map.insertAdjacentHTML('beforeend', islands + pins);
+  }
+
+  // 지도 옆 목록 (작은 화면·키보드 사용자용)
+  const list = document.getElementById('mapCityList');
+  if (list) {
+    list.innerHTML = cities.map(c => c.upcoming
+      ? `<span class="map-city-item is-upcoming"><span aria-hidden="true">${c.emoji || '📍'}</span> ${c.name} <small>${t('comingSoon')}</small></span>`
+      : `<button type="button" class="map-city-item" data-pick-city="${c.id}" onclick="switchCity('${c.id}')"><span aria-hidden="true">${c.emoji || '📍'}</span> ${c.name}</button>`
+    ).join('');
+  }
+
+  // 첫 화면 바로가기 칩
+  const quick = document.getElementById('landingQuick');
+  if (quick) {
+    quick.innerHTML = cities.filter(c => !c.upcoming).map(c =>
+      `<a class="landing-chip" href="?city=${c.id}" onclick="switchCity('${c.id}'); return false;"><span aria-hidden="true">${c.emoji || '📍'}</span> ${c.name}</a>`
+    ).join('');
+  }
+}
+
+function updateRegionPickerButton() {
+  const city = state.currentCity ? CITIES_DATA[state.currentCity] : null;
+  const label = document.getElementById('regionPickerLabel');
+  const icon = document.getElementById('regionPickerIcon');
+  const btn = document.getElementById('regionPickerBtn');
+  if (label) label.textContent = city ? city.name : t('regionPick');
+  if (icon) icon.textContent = city ? (city.emoji || '📍') : '🗺️';
+  if (btn) {
+    btn.classList.toggle('has-city', Boolean(city));
+    btn.title = city ? t('regionPickTitle') : t('regionPick');
+  }
+}
+
+let mapReturnFocus = null;
+function openMapModal() {
+  const modal = document.getElementById('mapModal');
+  if (!modal) return;
+  closeMobileMenu();
+  mapReturnFocus = document.activeElement;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  const target = modal.querySelector('.map-city-item.active') || document.getElementById('mapCloseBtn');
+  if (target) setTimeout(() => target.focus(), 50);
+}
+
+function closeMapModal({ restoreFocus = true } = {}) {
+  const modal = document.getElementById('mapModal');
+  if (!modal || !modal.classList.contains('open')) return;
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+  if (restoreFocus && mapReturnFocus && mapReturnFocus.focus) mapReturnFocus.focus();
 }
 
 // --------------------------------------------------------
@@ -695,9 +840,18 @@ function setupModalEvents() {
     });
   }
 
+  // 지도 팝업: 바깥(어두운 배경) 클릭 시 닫기
+  const mapModal = document.getElementById('mapModal');
+  if (mapModal) {
+    mapModal.addEventListener('click', (e) => {
+      if (e.target === mapModal) closeMapModal();
+    });
+  }
+
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeDetailModal();
+      closeMapModal();
       return;
     }
     // 상세보기가 열려 있을 때 ← → 키로 사진 넘기기 (댓글 입력 중에는 제외)

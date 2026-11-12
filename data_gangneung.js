@@ -287,6 +287,7 @@ const DESTINATIONS_GANGNEUNG = [
 CITIES_DATA.gangneung = {
   id: 'gangneung',
   name: '강릉',
+  emoji: '☕',
   badge: '강릉편',
   pageTitle: '하루트립 강릉 | 커피향 바다와 정동진 해돋이 강릉 당일치기 여행 가이드',
   metaDesc: '강릉 당일치기 A·B·C 코스! 안목 커피거리, 경포호, 오죽헌, 정동진 바다부채길까지 한눈에.',
@@ -294,6 +295,7 @@ CITIES_DATA.gangneung = {
   heroTitle: '커피향 가득한 바다와 율곡의 숨결<br /><span class="highlight">강릉 당일치기 완벽 여행</span>',
   heroSubtitle: '안목해변 오션뷰 카페부터 오죽헌 고택, 정동진 바다부채길까지!<br />A · B · C 맞춤 코스로 하루 만에 즐기는 강릉의 바다와 역사.',
   heroBg: 'img/gangneung_hero_bg.jpg',
+  map: { lat: 37.7519, lng: 128.8761 }, // 지역 선택 지도의 핀 위치
   storageKeyLikes: 'haru_trip_gangneung_likes_v1',
   storageKeyComments: 'haru_trip_gangneung_comments_v1',
   courses: COURSES_GANGNEUNG,

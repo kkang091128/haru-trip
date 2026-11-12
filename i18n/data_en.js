@@ -614,3 +614,12 @@ const HARU_DATA_EN = {
     });
   }
 })(HARU_DATA_EN);
+
+// ---- 오픈 예정 도시 이름 (지도에 흐리게 표시되는 도시)
+const HARU_UPCOMING_EN = {
+  yeosu: 'Yeosu'
+};
+(function applyUpcoming(names) {
+  if (typeof UPCOMING_CITIES === 'undefined') return;
+  UPCOMING_CITIES.forEach(c => { if (names[c.id]) c.name = names[c.id]; });
+})(HARU_UPCOMING_EN);
