@@ -96,7 +96,7 @@ const LANGS = {
       siteName: 'HARU TRIP',
       logo: '🌊 HARU TRIP',
       cityNav: 'City guides',
-      regionPick: 'Choose a region',
+      regionPick: 'Regions',
       footerNav: 'Site information',
       home: 'Home', about: 'About', privacy: 'Privacy Policy', terms: 'Terms of Use', credits: 'Photo credits',
       contact: (e) => `Contact: ${e}`,

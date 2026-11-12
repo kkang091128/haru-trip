@@ -138,46 +138,6 @@ button {
   color: var(--primary);
 }
 
-/* 모바일 햄버거 토글 버튼 (데스크톱에서는 숨김) */
-.nav-toggle-btn {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 38px;
-  height: 38px;
-  background: #f1f5f9;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-light);
-  cursor: pointer;
-  padding: 8px;
-  gap: 5px;
-  transition: all var(--transition-fast);
-}
-
-.nav-toggle-btn:hover {
-  background: #e2e8f0;
-}
-
-.hamburger-bar {
-  display: block;
-  width: 20px;
-  height: 2px;
-  background-color: var(--text-primary);
-  border-radius: 2px;
-  transition: all 0.25s ease-in-out;
-}
-
-/* 햄버거 버튼 활성화 (X자 변환) */
-.nav-toggle-btn.active .hamburger-bar:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-.nav-toggle-btn.active .hamburger-bar:nth-child(2) {
-  opacity: 0;
-}
-.nav-toggle-btn.active .hamburger-bar:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
 
 /* ========================================================
    히어로 섹션 (Hero Section)
@@ -1432,46 +1392,14 @@ button {
     white-space: nowrap;
   }
 
-  /* 모바일 햄버거 토글 버튼 노출 */
-  .nav-toggle-btn {
-    display: flex;
+  /* 모바일: 햄버거 메뉴 없이 헤더에 언어 토글만 표시 (페이지 내 이동 링크는 숨김 — 스크롤로 충분) */
+  .nav-links {
+    gap: 0;
     flex-shrink: 0;
   }
 
-  /* 데스크톱 메뉴 링크들을 모바일 드롭다운 메뉴로 전환 */
-  .nav-links {
-    position: fixed;
-    top: 60px;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    flex-direction: column;
-    align-items: stretch;
-    padding: 1rem 1.25rem 1.5rem;
-    gap: 0.75rem;
-    border-bottom: 1px solid var(--border-light);
-    box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.12);
-    transform: translateY(-120%);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease;
-    z-index: 999;
-  }
-
-  .nav-links.mobile-open {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-  }
-
   .nav-links .nav-link {
-    padding: 10px 4px;
-    font-size: 0.98rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    border-bottom: 1px solid #f1f5f9;
+    display: none;
   }
 
   .section {
@@ -1676,18 +1604,6 @@ html[lang="en"] .lang-toggle .lang-opt[lang="en"] {
   }
 }
 
-/* 모바일 메뉴 안의 언어 토글: 가운데에 조금 크게 */
-@media (max-width: 768px) {
-  .nav-links .lang-toggle {
-    align-self: center;
-    margin-top: 0.4rem;
-  }
-  .nav-links .lang-toggle .lang-opt {
-    min-width: 56px;
-    padding: 7px 14px;
-    font-size: 0.9rem;
-  }
-}
 
 /* ========================================================
    지역 선택 (헤더 버튼 · 첫 화면 · 지도 팝업)
@@ -1983,4 +1899,28 @@ button.map-city-item:focus-visible,
 }
 @media (max-width: 720px) {
   .map-pin.is-upcoming .map-pin-label small { display: none; }
+}
+
+/* 모바일 헤더 한 줄 맞춤: 로고 · 지역 선택 · 언어 토글 */
+@media (max-width: 768px) {
+  .nav-brand {
+    min-width: 0;
+    flex-shrink: 1;
+  }
+  .region-picker-btn {
+    min-width: 0;
+  }
+  .region-picker-label {
+    max-width: 8.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+@media (max-width: 400px) {
+  .navbar { padding: 0 0.6rem; }
+  .nav-brand { gap: 6px; }
+  .brand-logo { font-size: 1.05rem; gap: 2px; }
+  .region-picker-btn { gap: 4px; padding: 5px 9px 5px 7px; font-size: 0.82rem; }
+  .region-picker-caret { display: none; }
+  .lang-toggle .lang-opt { min-width: 0; padding: 4px 7px; font-size: 0.72rem; }
 }

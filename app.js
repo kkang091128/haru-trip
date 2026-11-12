@@ -88,7 +88,6 @@ function showLanding({ history = 'push' } = {}) {
 
   updateRegionPickerButton();
   updateLangSwitch(null);
-  closeMobileMenu();
 
   if (history === 'push' && window.history.pushState) {
     window.history.pushState({}, '', window.location.pathname);
@@ -183,8 +182,7 @@ function switchCity(cityId, options = {}) {
   renderFooterLinks();
   updateLangSwitch(cityId);
 
-  // 모바일 메뉴·지도 팝업이 열려 있다면 닫기
-  closeMobileMenu();
+  // 지도 팝업이 열려 있다면 닫기
   closeMapModal({ restoreFocus: false });
 
   // 10. URL 쿼리 파라미터 동기화
@@ -292,7 +290,6 @@ let mapReturnFocus = null;
 function openMapModal() {
   const modal = document.getElementById('mapModal');
   if (!modal) return;
-  closeMobileMenu();
   mapReturnFocus = document.activeElement;
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1169,39 +1166,3 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-// --------------------------------------------------------
-// 모바일 햄버거 메뉴 토글 로직
-// --------------------------------------------------------
-function toggleMobileMenu() {
-  const navLinks = document.getElementById('navLinks');
-  const toggleBtn = document.getElementById('navToggleBtn');
-  if (!navLinks || !toggleBtn) return;
-
-  const isOpen = navLinks.classList.contains('mobile-open');
-  if (isOpen) {
-    closeMobileMenu();
-  } else {
-    navLinks.classList.add('mobile-open');
-    toggleBtn.classList.add('active');
-  }
-}
-
-function closeMobileMenu() {
-  const navLinks = document.getElementById('navLinks');
-  const toggleBtn = document.getElementById('navToggleBtn');
-  if (navLinks) navLinks.classList.remove('mobile-open');
-  if (toggleBtn) toggleBtn.classList.remove('active');
-}
-
-// 바깥 영역 클릭 시 모바일 메뉴 자동 닫기
-document.addEventListener('click', (e) => {
-  const navLinks = document.getElementById('navLinks');
-  const toggleBtn = document.getElementById('navToggleBtn');
-  if (!navLinks || !toggleBtn) return;
-
-  if (navLinks.classList.contains('mobile-open')) {
-    if (!navLinks.contains(e.target) && !toggleBtn.contains(e.target)) {
-      closeMobileMenu();
-    }
-  }
-});

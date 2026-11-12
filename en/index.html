@@ -41,24 +41,17 @@
         <!-- 지역 선택: 누르면 지도 팝업이 열림 (도시가 늘어나도 헤더는 그대로) -->
         <button type="button" class="region-picker-btn" id="regionPickerBtn" onclick="openMapModal()" aria-haspopup="dialog" aria-controls="mapModal">
           <span class="region-picker-icon" id="regionPickerIcon" aria-hidden="true">🗺️</span>
-          <span class="region-picker-label" id="regionPickerLabel" data-i18n="regionPick">Choose a region</span>
+          <span class="region-picker-label" id="regionPickerLabel" data-i18n="regionPick">Regions</span>
           <span class="region-picker-caret" aria-hidden="true">▾</span>
         </button>
       </div>
 
       <div class="nav-links" id="navLinks">
-        <a href="#coursesSection" class="nav-link city-only" onclick="closeMobileMenu()" data-i18n="navCourses">Courses</a>
-        <a href="#exploreSection" class="nav-link city-only" onclick="closeMobileMenu()" data-i18n="navExplore">Spots</a>
-        <a href="#nationwideSection" class="nav-link" onclick="closeMobileMenu()" data-i18n="navNationwide">Destinations</a>
+        <a href="#coursesSection" class="nav-link city-only" data-i18n="navCourses">Courses</a>
+        <a href="#exploreSection" class="nav-link city-only" data-i18n="navExplore">Spots</a>
+        <a href="#nationwideSection" class="nav-link" data-i18n="navNationwide">Destinations</a>
         <a href="../" id="langSwitch" class="lang-toggle" data-i18n-attr="href:langHref,title:langTitle,aria-label:langTitle" title="한국어로 보기" aria-label="한국어로 보기"><span class="lang-opt" lang="ko">KO</span><span class="lang-opt" lang="en">EN</span></a>
       </div>
-
-      <!-- 모바일 햄버거 메뉴 토글 버튼 -->
-      <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Open/close menu" data-i18n-attr="aria-label:menuToggle" onclick="toggleMobileMenu()">
-        <span class="hamburger-bar"></span>
-        <span class="hamburger-bar"></span>
-        <span class="hamburger-bar"></span>
-      </button>
     </nav>
   </header>
 
