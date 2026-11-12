@@ -138,7 +138,6 @@ button {
   color: var(--primary);
 }
 
-
 /* ========================================================
    히어로 섹션 (Hero Section)
    ======================================================== */
@@ -200,64 +199,6 @@ button {
   margin: 0 auto 2.5rem;
   font-weight: 400;
   line-height: 1.6;
-}
-
-/* 히어로 빠른 검색 바 */
-.hero-search-box {
-  width: 100%;
-  max-width: 680px;
-  margin: 0 auto;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  padding: 8px 12px;
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  transition: all var(--transition-normal);
-}
-
-.hero-search-box:focus-within {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 45px rgba(2, 132, 199, 0.3);
-  border-color: var(--primary);
-}
-
-.search-icon {
-  font-size: 1.3rem;
-  margin: 0 12px;
-  color: var(--text-muted);
-}
-
-.hero-search-input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  font-size: 1.05rem;
-  color: var(--text-primary);
-  outline: none;
-  font-weight: 500;
-}
-
-.hero-search-input::placeholder {
-  color: var(--text-muted);
-}
-
-.hero-search-btn {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: white;
-  padding: 12px 24px;
-  border-radius: var(--radius-full);
-  font-weight: 700;
-  font-size: 0.95rem;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  white-space: nowrap;
-}
-
-.hero-search-btn:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
 }
 
 /* 히어로 코스 요약 뱃지 */
@@ -1603,7 +1544,6 @@ html[lang="en"] .lang-toggle .lang-opt[lang="en"] {
     gap: 1rem;
   }
 }
-
 
 /* ========================================================
    지역 선택 (헤더 버튼 · 첫 화면 · 지도 팝업)

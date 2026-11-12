@@ -119,10 +119,8 @@ function switchCity(cityId, options = {}) {
   state.activeCourseFilter = 'ALL';
   state.searchQuery = '';
   const inlineInput = document.getElementById('inlineSearchInput');
-  const heroInput = document.getElementById('heroSearchInput');
   const clearBtn = document.getElementById('searchClearBtn');
   if (inlineInput) inlineInput.value = '';
-  if (heroInput) heroInput.value = '';
   if (clearBtn) clearBtn.classList.remove('visible');
 
   // 로컬스토리지 로드
@@ -759,9 +757,7 @@ function resetFilters() {
   state.activeCourseFilter = 'ALL';
   state.searchQuery = '';
   const searchInput = document.getElementById('inlineSearchInput');
-  const heroSearchInput = document.getElementById('heroSearchInput');
   if (searchInput) searchInput.value = '';
-  if (heroSearchInput) heroSearchInput.value = '';
 
   document.querySelectorAll('.filter-btn[data-course]').forEach(btn => {
     btn.classList.toggle('active', btn.getAttribute('data-course') === 'ALL');
@@ -771,36 +767,17 @@ function resetFilters() {
 }
 
 function setupSearchEvents() {
-  const heroInput = document.getElementById('heroSearchInput');
-  const heroBtn = document.getElementById('heroSearchBtn');
   const inlineInput = document.getElementById('inlineSearchInput');
   const clearBtn = document.getElementById('searchClearBtn');
 
   const executeSearch = (val) => {
     state.searchQuery = val;
     if (inlineInput) inlineInput.value = val;
-    if (heroInput) heroInput.value = val;
     if (clearBtn) {
       clearBtn.classList.toggle('visible', val.length > 0);
     }
     renderDestinations();
   };
-
-  if (heroBtn && heroInput) {
-    heroBtn.addEventListener('click', () => {
-      executeSearch(heroInput.value);
-      const exploreSec = document.getElementById('exploreSection');
-      if (exploreSec) exploreSec.scrollIntoView({ behavior: 'smooth' });
-    });
-
-    heroInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        executeSearch(heroInput.value);
-        const exploreSec = document.getElementById('exploreSection');
-        if (exploreSec) exploreSec.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  }
 
   if (inlineInput) {
     inlineInput.addEventListener('input', (e) => {

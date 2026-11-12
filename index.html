@@ -65,33 +65,20 @@
         <h1 class="hero-title" id="heroTitle" data-i18n="heroTitle">주말 하루, 어디로 떠나볼까요?<br /><span class="highlight">하루트립 당일치기 여행</span></h1>
         <p class="hero-subtitle" id="heroSubtitle" data-i18n="heroSubtitle">지도에서 도시를 고르면 A · B · C 맞춤 코스와 명소, 여행 팁을 한눈에 볼 수 있어요.</p>
 
-        <!-- 첫 화면: 지도 열기 버튼 + 도시 바로가기 -->
-        <div class="landing-actions landing-only">
+        <!-- 지도 열기 버튼 (첫 화면·도시 화면 공통) + 첫 화면 도시 바로가기 -->
+        <div class="landing-actions">
           <button type="button" class="map-open-btn" onclick="openMapModal()" aria-haspopup="dialog" aria-controls="mapModal">
             <span class="map-open-icon" aria-hidden="true">🗺️</span>
             <span data-i18n="mapOpenBtn">지도에서 여행지 고르기</span>
           </button>
-          <div class="landing-quick" id="landingQuick">
+          <div class="landing-quick landing-only" id="landingQuick">
             <!-- JS에서 도시 바로가기 칩 주입 -->
           </div>
         </div>
 
-        <!-- 도시 화면: 검색창 + 코스 퀵 점프 뱃지 -->
-        <div class="city-only">
-          <div class="hero-search-box">
-            <span class="search-icon">🔍</span>
-            <input
-              type="text"
-              id="heroSearchInput"
-              class="hero-search-input"
-              data-i18n-attr="placeholder:heroSearchPlaceholder"
-              placeholder="가고 싶은 명소, 테마(#야경, #카페, #시장) 또는 코스 검색..."
-            />
-            <button id="heroSearchBtn" class="hero-search-btn" data-i18n="heroSearchBtn">명소 찾기</button>
-          </div>
-          <div class="hero-course-badges" id="heroCourseBadges">
-            <!-- JS에서 동적 주입 -->
-          </div>
+        <!-- 도시 화면: 코스 퀵 점프 뱃지 -->
+        <div class="hero-course-badges city-only" id="heroCourseBadges">
+          <!-- JS에서 동적 주입 -->
         </div>
       </div>
     </section>
