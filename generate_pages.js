@@ -66,7 +66,7 @@ const LANGS = {
       contact: (e) => `문의: ${e}`,
       copyright: '© 2026 하루트립 (HARU TRIP). 대한민국 당일치기 여행 가이드.',
       rssTitle: '하루트립 RSS', rssHref: '/rss.xml',
-      switchLabel: 'EN', switchTitle: 'View in English', switchLang: 'en',
+      switchTitle: 'View in English',
       guideTitle: (c, n) => `${c.name} 당일치기 여행 코스 총정리 (A·B·C 3가지 코스, 명소 ${n}곳) | 하루트립`,
       guideH1: (c) => `${c.name} 당일치기 여행 코스 총정리`,
       breadcrumb: (c) => `${c.name} 당일치기 가이드`,
@@ -100,7 +100,7 @@ const LANGS = {
       contact: (e) => `Contact: ${e}`,
       copyright: '© 2026 HARU TRIP. Korea day trip guide.',
       rssTitle: 'HARU TRIP RSS', rssHref: '/en/rss.xml',
-      switchLabel: '한국어', switchTitle: '한국어로 보기', switchLang: 'ko',
+      switchTitle: '한국어로 보기',
       guideTitle: (c, n) => `${c.name} Day Trip Guide: 3 Courses (A·B·C) and ${n} Must-See Spots | HARU TRIP`,
       guideH1: (c) => `${c.name} Day Trip Guide: Courses & Spots`,
       breadcrumb: (c) => `${c.name} day trip guide`,
@@ -161,7 +161,7 @@ function layout(L, { file, title, description, body, jsonLd, noindex }) {
       <a class="page-logo" href="./">${S.logo}</a>
       <nav aria-label="${S.cityNav}">
         ${L.cities.map(c => `<a href="guide-${c.id}.html">${esc(c.name)}</a>`).join('\n        ')}
-        <a class="lang-switch" href="${LANGS[L.other].dir ? LANGS[L.other].dir : '../'}${file}" lang="${S.switchLang}" hreflang="${S.switchLang}" title="${S.switchTitle}">${S.switchLabel}</a>
+        <a class="lang-toggle" href="${LANGS[L.other].dir ? LANGS[L.other].dir : '../'}${file}" hreflang="${L.other}" title="${S.switchTitle}" aria-label="${S.switchTitle}"><span class="lang-opt" lang="ko">KO</span><span class="lang-opt" lang="en">EN</span></a>
       </nav>
     </div>
   </header>
@@ -577,7 +577,7 @@ function buildEnIndex() {
     return `${attr}="../${url}"`;
   });
 
-  if (/data-i18n="(?!langLabel")[^"]+"[^>]*>[^<]*[가-힣]/.test(html)) console.warn('⚠️  en/index.html 에 번역되지 않은 한국어가 남아 있을 수 있습니다.');
+  if (/data-i18n="[^"]+"[^>]*>[^<]*[가-힣]/.test(html)) console.warn('⚠️  en/index.html 에 번역되지 않은 한국어가 남아 있을 수 있습니다.');
   return html;
 }
 

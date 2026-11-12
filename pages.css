@@ -175,5 +175,43 @@ p { margin: 0 0 14px; color: var(--text-2); }
   .spot dt { margin-top: 6px; }
 }
 
-/* 언어 전환 링크 */
-.page-header .lang-switch { font-weight: 700; }
+/* 언어 전환 토글 (KO | EN) — 현재 페이지 언어 쪽이 켜진 상태로 표시 */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 3px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  border: 1px solid #cbd5e1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.lang-toggle:hover,
+.lang-toggle:focus-visible {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+  outline: none;
+}
+.lang-toggle .lang-opt {
+  min-width: 34px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  text-align: center;
+  color: #64748b;
+  transition: background 0.2s, color 0.2s;
+}
+.lang-toggle:hover .lang-opt {
+  color: #0284c7;
+}
+html[lang="ko"] .lang-toggle .lang-opt[lang="ko"],
+html[lang="en"] .lang-toggle .lang-opt[lang="en"] {
+  background: #0284c7;
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(2, 132, 199, 0.35);
+}
