@@ -25,6 +25,25 @@ const esc = (s) => String(s)
 const now = new Date().toUTCString();
 const items = [];
 
+// ---- 검색 키워드(<category>) 만들기 ----
+// 명소 이름·테마·해시태그를 단어 단위로 쪼개 항목마다 여러 개의 <category>로 넣습니다.
+const splitWords = (s) => String(s)
+  .split(/[&/·,()]+/)          // "유달산 공원 & 노적봉" -> ["유달산 공원", "노적봉"]
+  .map(w => w.trim())
+  .filter(Boolean);
+const uniq = (arr) => [...new Set(arr.map(w => w.trim()).filter(Boolean))];
+const categories = (words) => uniq(words)
+  .map(w => `      <category>${esc(w)}</category>`)
+  .join('\n');
+
+// 이미 발행된 항목은 기존 발행일을 유지 (빌드할 때마다 모든 글이 '새 글'로 바뀌지 않도록)
+const oldDates = {};
+try {
+  const old = fs.readFileSync(path.join(__dirname, 'rss.xml'), 'utf8');
+  for (const m of old.matchAll(/<guid[^>]*>([^<]+)<\/guid>[\s\S]*?<pubDate>([^<]+)<\/pubDate>/g)) oldDates[m[1]] = m[2];
+} catch (e) { /* 첫 생성이면 무시 */ }
+const pubDate = (guid) => oldDates[esc(guid)] || now;
+
 for (const city of Object.values(cities)) {
   const link = `${SITE}/guide-${city.id}.html`;
   items.push(`    <item>
@@ -32,8 +51,12 @@ for (const city of Object.values(cities)) {
       <link>${esc(link)}</link>
       <guid isPermaLink="true">${esc(link)}</guid>
       <description>${esc(city.metaDesc)}</description>
-      <category>${esc(city.name)}</category>
-      <pubDate>${now}</pubDate>
+${categories([
+  city.name, `${city.name} 여행`, `${city.name} 당일치기`, `${city.name} 여행코스`, `${city.name} 가볼만한곳`,
+  '당일치기 여행', '국내여행',
+  ...city.destinations.flatMap(d => splitWords(d.name)),
+])}
+      <pubDate>${pubDate(link)}</pubDate>
     </item>`);
 
   for (const d of city.destinations) {
@@ -42,8 +65,13 @@ for (const city of Object.values(cities)) {
       <link>${esc(`${link}#${d.id}`)}</link>
       <guid isPermaLink="true">${esc(`${link}#${d.id}`)}</guid>
       <description>${esc(d.shortDesc)}</description>
-      <category>${esc(city.name)}</category>
-      <pubDate>${now}</pubDate>
+${categories([
+  city.name, `${city.name} 여행`, `${city.name} 당일치기`, `${city.name} 가볼만한곳`,
+  ...splitWords(d.name),
+  ...splitWords(d.theme || ''),
+  ...(d.tags || []).map(t => t.replace(/^#/, '')),
+])}
+      <pubDate>${pubDate(`${link}#${d.id}`)}</pubDate>
     </item>`);
   }
 }
