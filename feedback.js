@@ -21,10 +21,29 @@ const Feedback = (() => {
   // ---- 로그인 상태
   let user = null;
   const listeners = new Set();
+
+  // Google 로그인에서 돌아왔을 때 주소에 붙은 오류 (예: Client Secret 이 틀리면 "Unable to exchange external code")
+  const urlAuthError = (() => {
+    const q = new URLSearchParams(window.location.search);
+    const h = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    return q.get('error_description') || h.get('error_description') || q.get('error') || h.get('error') || '';
+  })();
+
   const ready = client
-    ? client.auth.getSession()
-        .then(({ data }) => { user = data && data.session ? data.session.user : null; })
-        .catch(() => { user = null; })
+    ? client.auth.initialize()
+        .then(({ error }) => {
+          // ?code= 를 세션으로 바꾸는 단계에서 실패한 경우
+          if (error) console.warn('[로그인] 세션 교환 실패:', error.message || error);
+          return client.auth.getSession().then(({ data }) => {
+            user = data && data.session ? data.session.user : null;
+            const reason = urlAuthError || (error && (error.message || String(error)));
+            if (reason && !user) {
+              console.warn('[로그인] 실패:', reason);
+              setTimeout(() => alert(`${t('errLoginFailed')}\n\n(${reason})`), 0);
+            }
+          });
+        })
+        .catch((e) => { user = null; console.warn('[로그인] 초기화 오류:', e && e.message); })
         .finally(cleanAuthParams)
     : Promise.resolve();
 
@@ -45,6 +64,8 @@ const Feedback = (() => {
     ['code', 'error', 'error_code', 'error_description'].forEach(k => {
       if (url.searchParams.has(k)) { url.searchParams.delete(k); dirty = true; }
     });
+    // 해시(#error=...)로 돌아온 오류도 정리
+    if (/(^#|&)(error|error_description|access_token)=/.test(url.hash)) { url.hash = ''; dirty = true; }
     if (dirty && window.history.replaceState) {
       window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
     }

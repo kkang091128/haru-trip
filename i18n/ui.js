@@ -61,7 +61,7 @@
       confirmDeleteComment: '이 후기를 삭제할까요?',
       confirmDeleteRec: '이 추천을 삭제할까요?',
       errLoginRequired: '로그인이 필요합니다. 다시 로그인해 주세요.',
-      errLoginFailed: 'Google 로그인을 시작하지 못했습니다. 잠시 후 다시 시도해 주세요.',
+      errLoginFailed: 'Google 로그인에 실패했습니다. 잠시 후 다시 시도해 주세요.',
       // 여행자 추천 명소
       recTitle: (name) => `${name} 여행자 추천 명소`,
       recDesc: (name) => `사이트에 아직 없는 ${name}의 숨은 명소를 알고 있다면 추천해 주세요.`,
@@ -129,7 +129,7 @@
       confirmDeleteComment: 'Delete this review?',
       confirmDeleteRec: 'Delete this recommendation?',
       errLoginRequired: 'Please sign in again.',
-      errLoginFailed: 'Could not start Google sign-in. Please try again later.',
+      errLoginFailed: 'Google sign-in failed. Please try again later.',
       // Traveler picks
       recTitle: (name) => `Traveler Picks in ${name}`,
       recDesc: (name) => `Know a hidden gem in ${name} we haven't covered yet? Recommend it!`,
