@@ -852,8 +852,13 @@ function setupModalEvents() {
   }
 
   window.addEventListener('keydown', (e) => {
+    if (gallery.open) {
+      if (e.key === 'Escape') closeImageViewer();
+      if (e.key === 'ArrowLeft') { e.preventDefault(); moveGallery(-1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); moveGallery(1); }
+      return;
+    }
     if (e.key === 'Escape') {
-      if (closeImageViewer()) return;
       closeDetailModal();
       closeMapModal();
       return;
@@ -1318,7 +1323,7 @@ async function loadRecommendations(cityId) {
 
 // 추천 사진: 최대 장수 · 올리기 전 줄이는 크기
 const REC_MAX_PHOTOS = 3;
-const REC_PHOTO_MAX_SIDE = 1600;
+const REC_PHOTO_MAX_WIDTH = 1000; // 가로 최대 폭(px). 세로는 비율에 맞춰 줄어듦
 let recPhotos = []; // 작성 중인 추천에 고른 사진 [{ blob, url }]
 
 function clearRecPhotos() {
@@ -1369,7 +1374,9 @@ function renderRecPhotos() {
   recPhotos.forEach((p, i) => {
     const thumb = document.createElement('div');
     thumb.className = 'rec-photo-thumb';
-    thumb.innerHTML = `<img src="${p.url}" alt="" /><button type="button" class="rec-photo-remove" aria-label="${t('recPhotoRemove')}" onclick="removeRecPhoto(${i})">✕</button>`;
+    thumb.innerHTML = `
+      <button type="button" class="rec-photo-open" aria-label="${t('nthPhoto', i + 1)}" onclick="openFormGallery(${i})"><img src="${p.url}" alt="" /></button>
+      <button type="button" class="rec-photo-remove" aria-label="${t('recPhotoRemove')}" onclick="removeRecPhoto(${i})">✕</button>`;
     list.insertBefore(thumb, add);
   });
   add.hidden = recPhotos.length >= REC_MAX_PHOTOS;
@@ -1397,7 +1404,7 @@ function removeRecPhoto(index) {
   renderRecPhotos();
 }
 
-// 사진을 긴 변 1600px 이하로 줄여 WebP(안 되면 JPEG)로 다시 저장
+// 사진을 가로 1000px 이하로 줄여(작은 사진은 그대로) WebP(안 되면 JPEG)로 다시 저장
 //   → 용량이 줄고, 촬영 위치(GPS) 같은 사진 속 정보(EXIF)도 함께 지워짐
 async function resizeImage(file) {
   if (!file.type.startsWith('image/')) throw new Error('not an image');
@@ -1416,7 +1423,7 @@ async function resizeImage(file) {
   const w0 = source.width || source.naturalWidth;
   const h0 = source.height || source.naturalHeight;
   if (!w0 || !h0) throw new Error('empty image');
-  const scale = Math.min(1, REC_PHOTO_MAX_SIDE / Math.max(w0, h0));
+  const scale = Math.min(1, REC_PHOTO_MAX_WIDTH / w0);
   const canvas = document.createElement('canvas');
   canvas.width = Math.round(w0 * scale);
   canvas.height = Math.round(h0 * scale);
@@ -1446,7 +1453,7 @@ function renderRecList() {
       <div class="rec-images count-${images.length}">
         ${images.map((img, i) => {
           const alt = escapeHtml(t('recPhotoAlt', r.place, i + 1));
-          return `<button type="button" class="rec-image-btn" data-src="${escapeHtml(img.url)}" data-alt="${alt}" onclick="openImageViewer(this.dataset.src, this.dataset.alt)"><img src="${escapeHtml(img.url)}" alt="${alt}" loading="lazy" /></button>`;
+          return `<button type="button" class="rec-image-btn" onclick="openRecGallery(${Number(r.id)}, ${i})"><img src="${escapeHtml(img.url)}" alt="${alt}" loading="lazy" /></button>`;
         }).join('')}
       </div>` : '';
     return `
@@ -1515,32 +1522,109 @@ async function handleRecSubmit(event) {
   }
 }
 
-// 추천 사진 크게 보기
-function openImageViewer(src, alt) {
-  let viewer = document.getElementById('imageViewer');
-  if (!viewer) {
-    viewer = document.createElement('div');
-    viewer.id = 'imageViewer';
-    viewer.className = 'image-viewer';
-    viewer.setAttribute('role', 'dialog');
-    viewer.setAttribute('aria-modal', 'true');
-    viewer.innerHTML = `<button type="button" class="image-viewer-close" aria-label="${t('recPhotoClose')}">✕</button><img alt="" />`;
-    viewer.addEventListener('click', (e) => { if (e.target.tagName !== 'IMG') closeImageViewer(); });
-    document.body.appendChild(viewer);
-  }
-  const img = viewer.querySelector('img');
-  img.src = src;
-  img.alt = alt || '';
-  viewer.classList.add('open');
+// --------------------------------------------------------
+// 사진 갤러리: 슬라이드형 레이어 팝업 (추천 카드 사진 · 작성 중 첨부 사진)
+//   ← → 버튼 / 도트 / 키보드 ← → / 스와이프로 넘기기, ✕ · Esc · 바깥 클릭으로 닫기
+// --------------------------------------------------------
+const gallery = { open: false, items: [], index: 0, returnFocus: null };
+
+function openRecGallery(recId, index = 0) {
+  const rec = state.recs.find(r => r.id === recId);
+  if (!rec || !rec.images || !rec.images.length) return;
+  openGallery(rec.images.map((img, i) => ({ src: img.url, alt: t('recPhotoAlt', rec.place, i + 1) })), index, rec.place);
+}
+
+function openFormGallery(index = 0) {
+  if (!recPhotos.length) return;
+  openGallery(recPhotos.map((p, i) => ({ src: p.url, alt: t('nthPhoto', i + 1) })), index, t('recPhotoPreview'));
+}
+
+function ensureGalleryEl() {
+  let el = document.getElementById('imageViewer');
+  if (el) return el;
+  el = document.createElement('div');
+  el.id = 'imageViewer';
+  el.className = 'image-viewer';
+  el.setAttribute('role', 'dialog');
+  el.setAttribute('aria-modal', 'true');
+  el.innerHTML = `
+    <div class="iv-head">
+      <span class="iv-title" id="ivTitle"></span>
+      <span class="iv-counter" id="ivCounter"></span>
+    </div>
+    <button type="button" class="iv-close" aria-label="${t('recPhotoClose')}" onclick="closeImageViewer()">✕</button>
+    <div class="iv-stage" id="ivStage">
+      <div class="iv-track" id="ivTrack"></div>
+      <button type="button" class="iv-nav iv-prev" aria-label="${t('prevPhoto')}" onclick="moveGallery(-1)">&#10094;</button>
+      <button type="button" class="iv-nav iv-next" aria-label="${t('nextPhoto')}" onclick="moveGallery(1)">&#10095;</button>
+    </div>
+    <div class="iv-dots" id="ivDots"></div>`;
+  // 사진·버튼이 아닌 어두운 바깥을 누르면 닫기
+  el.addEventListener('click', (e) => {
+    if (e.target === el || e.target.classList.contains('iv-stage') || e.target.classList.contains('iv-slide')) closeImageViewer();
+  });
+  document.body.appendChild(el);
+  attachSwipe(el.querySelector('#ivStage'), (step) => moveGallery(step));
+  return el;
+}
+
+function openGallery(items, index, title) {
+  const el = ensureGalleryEl();
+  gallery.items = items;
+  gallery.index = Math.min(Math.max(0, index), items.length - 1);
+  gallery.returnFocus = document.activeElement;
+  gallery.open = true;
+
+  el.setAttribute('aria-label', title || '');
+  el.querySelector('#ivTitle').textContent = title || '';
+  el.querySelector('#ivTrack').innerHTML = items.map(it =>
+    `<figure class="iv-slide"><img src="${escapeHtml(it.src)}" alt="${escapeHtml(it.alt)}" /></figure>`
+  ).join('');
+  el.querySelector('#ivDots').innerHTML = items.length > 1
+    ? items.map((_, i) => `<button type="button" class="iv-dot" aria-label="${t('nthPhoto', i + 1)}" onclick="goToGallery(${i})"></button>`).join('')
+    : '';
+  el.classList.toggle('single', items.length < 2);
+
+  // 처음 위치로는 애니메이션 없이 이동
+  const track = el.querySelector('#ivTrack');
+  track.style.transition = 'none';
+  goToGallery(gallery.index);
+  void track.offsetWidth;
+  track.style.transition = '';
+
+  el.classList.add('open');
   document.body.style.overflow = 'hidden';
-  viewer.querySelector('.image-viewer-close').focus();
+  el.querySelector('.iv-close').focus();
+}
+
+function goToGallery(index) {
+  const el = document.getElementById('imageViewer');
+  const total = gallery.items.length;
+  if (!el || !total) return;
+  gallery.index = (index + total) % total;
+  el.querySelector('#ivTrack').style.transform = `translateX(-${gallery.index * 100}%)`;
+  el.querySelector('#ivCounter').textContent = total > 1 ? `${gallery.index + 1} / ${total}` : '';
+  el.querySelectorAll('.iv-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === gallery.index);
+    d.setAttribute('aria-current', i === gallery.index ? 'true' : 'false');
+  });
+}
+
+function moveGallery(step) {
+  if (gallery.items.length < 2) return;
+  goToGallery(gallery.index + step);
 }
 
 function closeImageViewer() {
-  const viewer = document.getElementById('imageViewer');
-  if (!viewer || !viewer.classList.contains('open')) return false;
-  viewer.classList.remove('open');
-  document.body.style.overflow = '';
+  const el = document.getElementById('imageViewer');
+  if (!el || !gallery.open) return false;
+  gallery.open = false;
+  el.classList.remove('open');
+  // 상세 모달이 열려 있으면 스크롤 잠금 유지
+  const detailOpen = document.getElementById('modalBackdrop')?.classList.contains('open');
+  const mapOpen = document.getElementById('mapModal')?.classList.contains('open');
+  if (!detailOpen && !mapOpen) document.body.style.overflow = '';
+  if (gallery.returnFocus && gallery.returnFocus.focus) gallery.returnFocus.focus();
   return true;
 }
 
