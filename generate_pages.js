@@ -282,8 +282,9 @@ const aboutBody = {
     <h2>콘텐츠는 이렇게 만듭니다</h2>
     <p>명소 설명은 각 지자체·관광공사의 공개 자료와 일반에 알려진 정보를 바탕으로 직접 작성합니다. 사진은 위키미디어 공용 등에 자유 이용 라이선스로 공개된 사진을 사용하며, 모든 사진의 촬영자와 라이선스를 <a href="credits.html">사진 출처</a> 페이지에 밝혀 두었습니다.</p>
     <p>운영 시간과 요금은 수시로 바뀔 수 있어 구체적인 숫자 대신 방문 전 확인을 권하고 있습니다. 잘못된 정보를 발견하시면 아래 이메일로 알려 주세요. 확인 후 빠르게 고치겠습니다.</p>
-    <h2>방문자 후기</h2>
-    <p>각 명소의 좋아요와 후기는 실제 방문자가 남긴 것만 표시합니다. 운영자가 임의로 만든 후기나 숫자는 없습니다. 욕설, 광고, 개인정보가 담긴 글은 <a href="terms.html">이용약관</a>에 따라 숨김 처리될 수 있습니다.</p>
+    <h2>방문자 후기와 여행자 추천 명소</h2>
+    <p>각 명소의 좋아요와 후기는 실제 방문자가 남긴 것만 표시합니다. 운영자가 임의로 만든 후기나 숫자는 없습니다. 도시마다 있는 "여행자 추천 명소"에는 사이트에 아직 없는 장소를 방문자가 직접 추천할 수 있습니다.</p>
+    <p>좋아요, 후기, 명소 추천은 Google 계정으로 로그인한 뒤 이용할 수 있으며, 화면에는 작성자가 입력한 닉네임만 표시됩니다. 욕설, 광고, 개인정보가 담긴 글은 <a href="terms.html">이용약관</a>에 따라 숨김 처리될 수 있습니다.</p>
     <h2>광고 안내</h2>
     <p>하루트립은 사이트 운영비를 마련하기 위해 Google 애드센스 광고를 게재할 수 있습니다. 광고는 콘텐츠와 구분되어 표시되며, 광고 쿠키에 관한 내용은 <a href="privacy.html">개인정보처리방침</a>에서 확인하실 수 있습니다.</p>
     <h2>문의</h2>
@@ -300,8 +301,9 @@ const aboutBody = {
     <p>Spot descriptions are written by us based on public information from local governments and tourism organizations and other widely known sources. Photos are freely licensed images, mainly from Wikimedia Commons, and every photographer and license is listed on the <a href="../credits.html">photo credits</a> page.</p>
     <p>Opening hours and fees change often, so instead of exact numbers we recommend checking before you visit. If you spot an error, please let us know by email and we will fix it quickly.</p>
     <p>The English pages are translations of our Korean guides. Place names follow the official romanization, and the original Korean name is shown with each spot so you can find it locally.</p>
-    <h2>Visitor reviews</h2>
-    <p>Likes and reviews show only what real visitors have left — we never create reviews or numbers ourselves. Reviews are shared between the Korean and English sites, so some may be written in Korean. Posts with abuse, ads or personal information may be hidden under our <a href="terms.html">Terms of Use</a>.</p>
+    <h2>Visitor reviews and traveler picks</h2>
+    <p>Likes and reviews show only what real visitors have left — we never create reviews or numbers ourselves. Each city also has "Traveler Picks," where visitors can recommend places we haven't covered yet. Reviews and picks are shared between the Korean and English sites, so some may be written in Korean.</p>
+    <p>Liking, reviewing and recommending require signing in with a Google account, and only the nickname you enter is shown. Posts with abuse, ads or personal information may be hidden under our <a href="terms.html">Terms of Use</a>.</p>
     <h2>Advertising</h2>
     <p>HARU TRIP may display Google AdSense ads to cover running costs. Ads are shown separately from our content; see our <a href="privacy.html">Privacy Policy</a> for details on advertising cookies.</p>
     <h2>Contact</h2>
@@ -318,30 +320,32 @@ const privacyBody = {
   ko: () => `
     <article class="policy">
     <h1>개인정보처리방침</h1>
-    <p class="updated">시행일: 2026년 11월 11일</p>
+    <p class="updated">시행일: 2026년 11월 12일 (Google 로그인 도입에 따른 개정)</p>
     <p>하루트립(이하 "사이트")은 「개인정보 보호법」 등 관련 법령을 지키며, 이용자의 개인정보를 소중히 다룹니다. 이 방침은 사이트가 어떤 정보를 왜 수집하고 어떻게 관리하는지 설명합니다.</p>
 
     <h2>1. 수집하는 정보와 목적</h2>
-    <p>사이트는 회원가입 없이 이용할 수 있으며, 이름·전화번호·이메일 같은 정보를 요구하지 않습니다.</p>
+    <p>여행 정보와 후기는 로그인 없이 볼 수 있습니다. 좋아요, 후기 작성, 여행자 추천 명소 작성은 Google 계정으로 로그인한 뒤 이용할 수 있으며, 사이트는 비밀번호를 받거나 저장하지 않습니다.</p>
     <table>
       <tr><th>구분</th><th>항목</th><th>목적</th></tr>
-      <tr><td>후기 작성 시 (선택)</td><td>닉네임, 별점, 후기 내용, 작성 시각</td><td>후기 게시</td></tr>
-      <tr><td>자동 생성</td><td>브라우저별 무작위 식별값(이용자 개인을 알아볼 수 없는 값)</td><td>좋아요 중복 방지, 도배 방지</td></tr>
+      <tr><td>Google 로그인 시</td><td>Google이 제공하는 이메일 주소, 이름, 프로필 사진 주소, Google 계정 식별값</td><td>회원 확인, 좋아요 중복 방지, 본인 글 삭제, 도배 방지 — 사이트 화면에는 표시하지 않음</td></tr>
+      <tr><td>후기 작성 시</td><td>닉네임, 별점, 후기 내용, 작성 시각</td><td>후기 게시</td></tr>
+      <tr><td>명소 추천 시</td><td>닉네임, 장소 이름, 주소(선택), 추천 이유, 작성 시각</td><td>여행자 추천 명소 게시</td></tr>
+      <tr><td>좋아요</td><td>좋아요를 누른 명소와 시각</td><td>좋아요 수 집계, 중복 방지</td></tr>
       <tr><td>자동 수집</td><td>후기 작성 시 접속 IP의 일방향 암호화(해시) 값 — 원래 IP는 저장하지 않음</td><td>도배·악성 게시물 방지</td></tr>
-      <tr><td>브라우저 저장소</td><td>마지막으로 본 도시, 좋아요 표시 상태</td><td>이용 편의</td></tr>
+      <tr><td>브라우저 저장소</td><td>로그인 상태 유지 정보, 마지막으로 본 도시, 마지막으로 입력한 닉네임</td><td>이용 편의</td></tr>
     </table>
-    <p>후기에는 실명, 연락처 등 개인정보를 적지 말아 주세요. 후기는 모든 방문자에게 공개됩니다.</p>
+    <p>후기와 추천 명소는 모든 방문자에게 공개되며, 작성자가 입력한 닉네임만 함께 표시됩니다. 글에는 실명, 연락처 등 개인정보를 적지 말아 주세요.</p>
 
     <h2>2. 보관 기간</h2>
-    <p>후기와 좋아요 정보는 이용자가 삭제를 요청하거나 사이트 운영이 끝날 때까지 보관하며, 이후 지체 없이 파기합니다.</p>
+    <p>로그인 정보, 후기, 추천 명소, 좋아요는 이용자가 계정 삭제(회원 탈퇴)를 요청하거나 사이트 운영이 끝날 때까지 보관하며, 이후 지체 없이 파기합니다. 계정을 삭제하면 그 계정으로 작성한 후기·추천 명소·좋아요도 함께 삭제됩니다. 로그인 도입 전에 익명으로 남긴 후기와 좋아요는 위 기간 동안 그대로 보관됩니다.</p>
 
     <h2>3. 처리 위탁 및 국외 이전</h2>
     <p>사이트는 운영을 위해 아래 서비스를 이용합니다. 해당 업체의 서버는 국외에 있을 수 있습니다.</p>
     <table>
       <tr><th>업체</th><th>위탁 업무</th></tr>
-      <tr><td>Supabase Inc.</td><td>후기·좋아요 데이터 저장</td></tr>
+      <tr><td>Supabase Inc.</td><td>회원 인증(로그인) 처리, 후기·추천 명소·좋아요 데이터 저장</td></tr>
       <tr><td>Cloudflare, Inc.</td><td>웹사이트 호스팅 및 전송</td></tr>
-      <tr><td>Google LLC</td><td>광고 게재(Google 애드센스), 검색 노출 분석</td></tr>
+      <tr><td>Google LLC</td><td>Google 계정 로그인, 광고 게재(Google 애드센스), 검색 노출 분석</td></tr>
     </table>
     <p>사이트는 이용자의 정보를 위 목적 외에 제3자에게 판매하거나 제공하지 않습니다.</p>
 
@@ -356,7 +360,8 @@ const privacyBody = {
     </ul>
 
     <h2>5. 이용자의 권리</h2>
-    <p>이용자는 자신이 작성한 후기의 열람, 수정, 삭제를 요청할 수 있습니다. 아래 이메일로 해당 후기의 위치(도시·명소)와 닉네임, 작성일을 알려 주시면 확인 후 처리합니다.</p>
+    <p>로그인한 이용자는 자신이 작성한 후기와 추천 명소를 사이트에서 직접 삭제할 수 있습니다. 개인정보 열람·수정·삭제나 계정 삭제(회원 탈퇴)를 원하시면 로그인에 사용한 Google 계정 이메일로 아래 주소에 요청해 주세요. 확인 후 지체 없이 처리합니다. 로그인 도입 전에 익명으로 남긴 후기는 해당 후기의 위치(도시·명소), 닉네임, 작성일을 알려 주시면 확인 후 처리합니다.</p>
+    <p>Google 계정의 연결은 <a href="https://myaccount.google.com/connections" target="_blank" rel="noopener">Google 계정의 서드 파티 연결 관리</a>에서도 해제할 수 있습니다.</p>
 
     <h2>6. 개인정보 보호책임자 및 문의</h2>
     <p>운영자: 하루트립 운영자<br />이메일: <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>
@@ -368,30 +373,32 @@ const privacyBody = {
   en: () => `
     <article class="policy">
     <h1>Privacy Policy</h1>
-    <p class="updated">Effective date: November 11, 2026</p>
+    <p class="updated">Effective date: November 12, 2026 (revised for Google sign-in)</p>
     <p>HARU TRIP (the "Site") complies with Korea's Personal Information Protection Act and other applicable laws and treats your personal information with care. This policy explains what information the Site collects, why, and how it is managed. If this English version differs from the <a href="../privacy.html">Korean version</a>, the Korean version prevails.</p>
 
     <h2>1. Information we collect and why</h2>
-    <p>You can use the Site without signing up. We do not ask for your name, phone number or email address.</p>
+    <p>Anyone can read travel information and reviews without signing in. Liking spots, posting reviews and recommending places require signing in with a Google account. The Site never receives or stores your password.</p>
     <table>
       <tr><th>Type</th><th>Items</th><th>Purpose</th></tr>
-      <tr><td>When you post a review (optional)</td><td>Nickname, rating, review text, time posted</td><td>Publishing reviews</td></tr>
-      <tr><td>Generated automatically</td><td>A random per-browser identifier that cannot identify you personally</td><td>Preventing duplicate likes and spam</td></tr>
+      <tr><td>Google sign-in</td><td>Email address, name, profile picture URL and Google account identifier provided by Google</td><td>Verifying members, preventing duplicate likes, deleting your own posts, preventing spam — never shown on the Site</td></tr>
+      <tr><td>When you post a review</td><td>Nickname, rating, review text, time posted</td><td>Publishing reviews</td></tr>
+      <tr><td>When you recommend a place</td><td>Nickname, place name, address (optional), reason, time posted</td><td>Publishing traveler picks</td></tr>
+      <tr><td>Likes</td><td>Which spots you liked and when</td><td>Counting likes, preventing duplicates</td></tr>
       <tr><td>Collected automatically</td><td>A one-way hash of your IP address when posting a review — the original IP is not stored</td><td>Preventing spam and abusive posts</td></tr>
-      <tr><td>Browser storage</td><td>The last city you viewed, your like status</td><td>Convenience</td></tr>
+      <tr><td>Browser storage</td><td>Sign-in session, the last city you viewed, the last nickname you entered</td><td>Convenience</td></tr>
     </table>
-    <p>Please do not include your real name, contact details or other personal information in reviews. Reviews are visible to all visitors.</p>
+    <p>Reviews and recommendations are visible to all visitors along with the nickname you enter — nothing else from your account is shown. Please do not include your real name, contact details or other personal information in your posts.</p>
 
     <h2>2. Retention</h2>
-    <p>Reviews and likes are kept until you request deletion or the Site shuts down, and are then destroyed without delay.</p>
+    <p>Sign-in information, reviews, recommendations and likes are kept until you request account deletion or the Site shuts down, and are then destroyed without delay. Deleting your account also deletes the reviews, recommendations and likes made with it. Anonymous reviews and likes left before sign-in was introduced are kept for the same period.</p>
 
     <h2>3. Service providers and international transfer</h2>
     <p>The Site uses the services below. Their servers may be located outside Korea.</p>
     <table>
       <tr><th>Company</th><th>Service</th></tr>
-      <tr><td>Supabase Inc.</td><td>Storing reviews and likes</td></tr>
+      <tr><td>Supabase Inc.</td><td>Member authentication (sign-in), storing reviews, recommendations and likes</td></tr>
       <tr><td>Cloudflare, Inc.</td><td>Website hosting and delivery</td></tr>
-      <tr><td>Google LLC</td><td>Advertising (Google AdSense), search performance analysis</td></tr>
+      <tr><td>Google LLC</td><td>Google account sign-in, advertising (Google AdSense), search performance analysis</td></tr>
     </table>
     <p>The Site does not sell or provide your information to third parties for any other purpose.</p>
 
@@ -406,7 +413,8 @@ const privacyBody = {
     </ul>
 
     <h2>5. Your rights</h2>
-    <p>You may request to view, correct or delete reviews you have posted. Email us with the location of the review (city and spot), your nickname and the date posted, and we will handle it after verification.</p>
+    <p>When signed in, you can delete your own reviews and recommendations directly on the Site. To view, correct or delete your personal information, or to delete your account, email us from the Google account you signed in with and we will handle it without delay after verification. For anonymous reviews posted before sign-in was introduced, tell us the location (city and spot), nickname and date posted.</p>
+    <p>You can also remove the Site's access in your <a href="https://myaccount.google.com/connections" target="_blank" rel="noopener">Google Account third-party connections</a>.</p>
 
     <h2>6. Privacy officer and contact</h2>
     <p>Operator: HARU TRIP<br />Email: <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>
@@ -426,74 +434,90 @@ const termsBody = {
   ko: () => `
     <article class="policy">
     <h1>이용약관</h1>
-    <p class="updated">시행일: 2026년 11월 11일</p>
+    <p class="updated">시행일: 2026년 11월 12일 (Google 로그인 · 여행자 추천 명소 도입에 따른 개정)</p>
 
     <h2>1. 목적</h2>
-    <p>이 약관은 하루트립(이하 "사이트")이 제공하는 여행 정보와 후기 기능의 이용 조건을 정합니다.</p>
+    <p>이 약관은 하루트립(이하 "사이트")이 제공하는 여행 정보, 좋아요, 후기, 여행자 추천 명소 기능의 이용 조건을 정합니다.</p>
 
-    <h2>2. 여행 정보</h2>
+    <h2>2. 로그인</h2>
+    <ul>
+      <li>여행 정보와 후기는 누구나 볼 수 있습니다. 좋아요, 후기 작성, 명소 추천은 Google 계정으로 로그인한 뒤 이용할 수 있습니다.</li>
+      <li>계정을 다른 사람과 함께 쓰거나 남의 계정을 쓰지 마세요. 규칙을 반복해서 어기는 계정은 글쓰기가 제한될 수 있습니다.</li>
+      <li>계정 삭제(회원 탈퇴)는 아래 이메일로 요청할 수 있으며, 삭제하면 그 계정으로 쓴 후기·추천·좋아요도 함께 삭제됩니다.</li>
+    </ul>
+
+    <h2>3. 여행 정보</h2>
     <ul>
       <li>사이트의 여행 정보는 참고용이며, 운영 시간·요금·출입 통제 등은 사전 예고 없이 바뀔 수 있습니다.</li>
       <li>방문 전 각 장소의 공식 안내를 확인해 주세요. 사이트는 정보의 변경으로 생긴 손해에 대해 책임지지 않습니다.</li>
     </ul>
 
-    <h2>3. 후기 작성 규칙</h2>
-    <p>다음에 해당하는 후기는 예고 없이 숨기거나 삭제할 수 있습니다.</p>
+    <h2>4. 후기 · 명소 추천 작성 규칙</h2>
+    <p>다음에 해당하는 후기와 추천은 예고 없이 숨기거나 삭제할 수 있습니다.</p>
     <ul>
       <li>욕설, 비방, 차별, 음란한 내용</li>
       <li>광고, 홍보, 링크, 같은 내용의 반복 게시</li>
       <li>본인 또는 타인의 실명·연락처 등 개인정보</li>
       <li>사실과 다른 내용으로 다른 사람이나 업체에 피해를 주는 글</li>
       <li>저작권 등 다른 사람의 권리를 침해하는 글</li>
+      <li>실제로 없거나 방문할 수 없는 장소, 영업·홍보를 목적으로 한 장소 추천</li>
     </ul>
 
-    <h2>4. 게시물의 권리와 책임</h2>
-    <p>후기의 저작권은 작성자에게 있으며, 작성자는 사이트가 해당 후기를 사이트 안에 표시하는 것에 동의합니다. 후기 내용에 대한 책임은 작성자에게 있습니다.</p>
+    <h2>5. 게시물의 권리와 책임</h2>
+    <p>후기와 추천의 저작권은 작성자에게 있으며, 작성자는 사이트가 해당 글을 사이트 안에 표시하는 것에 동의합니다. 사이트는 추천된 장소를 참고해 직접 취재·작성한 소개 글을 사이트에 추가할 수 있습니다. 글 내용에 대한 책임은 작성자에게 있으며, 작성자는 언제든 자신의 글을 삭제할 수 있습니다.</p>
 
-    <h2>5. 사진과 콘텐츠</h2>
+    <h2>6. 사진과 콘텐츠</h2>
     <p>사이트의 사진은 자유 이용 라이선스로 공개된 사진이며, 각 사진의 라이선스는 <a href="credits.html">사진 출처</a>에서 확인할 수 있습니다. 그 밖의 글과 구성의 저작권은 하루트립에 있습니다.</p>
 
-    <h2>6. 광고</h2>
+    <h2>7. 광고</h2>
     <p>사이트에는 Google 애드센스 광고가 게재될 수 있습니다. 광고 내용과 광고주가 제공하는 상품·서비스에 대한 책임은 해당 광고주에게 있습니다.</p>
 
-    <h2>7. 문의</h2>
+    <h2>8. 문의</h2>
     <p><a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>
     </article>`,
   en: () => `
     <article class="policy">
     <h1>Terms of Use</h1>
-    <p class="updated">Effective date: November 11, 2026</p>
+    <p class="updated">Effective date: November 12, 2026 (revised for Google sign-in and traveler picks)</p>
     <p>If this English version differs from the <a href="../terms.html">Korean version</a>, the Korean version prevails.</p>
 
     <h2>1. Purpose</h2>
-    <p>These terms set out the conditions for using the travel information and review features provided by HARU TRIP (the "Site").</p>
+    <p>These terms set out the conditions for using the travel information, likes, reviews and traveler picks provided by HARU TRIP (the "Site").</p>
 
-    <h2>2. Travel information</h2>
+    <h2>2. Sign-in</h2>
+    <ul>
+      <li>Anyone can read travel information and reviews. Liking spots, posting reviews and recommending places require signing in with a Google account.</li>
+      <li>Do not share your account or use someone else's. Accounts that repeatedly break these rules may be restricted from posting.</li>
+      <li>You can request account deletion by email. Deleting your account also deletes the reviews, recommendations and likes made with it.</li>
+    </ul>
+
+    <h2>3. Travel information</h2>
     <ul>
       <li>Travel information on the Site is for reference only. Opening hours, fees and access restrictions may change without notice.</li>
       <li>Please check each place's official information before visiting. The Site is not responsible for any loss caused by changes in information.</li>
     </ul>
 
-    <h2>3. Review rules</h2>
-    <p>Reviews that fall under any of the following may be hidden or deleted without notice:</p>
+    <h2>4. Rules for reviews and recommendations</h2>
+    <p>Reviews and recommendations that fall under any of the following may be hidden or deleted without notice:</p>
     <ul>
       <li>Abusive, defamatory, discriminatory or obscene content</li>
       <li>Ads, promotions, links or repeated identical posts</li>
       <li>Real names, contact details or other personal information about yourself or others</li>
       <li>False content that harms other people or businesses</li>
       <li>Content that infringes copyright or other rights</li>
+      <li>Recommendations of places that don't exist or can't be visited, or that are made for commercial promotion</li>
     </ul>
 
-    <h2>4. Rights and responsibilities for posts</h2>
-    <p>Authors keep the copyright to their reviews and agree that the Site may display them on the Site. Authors are responsible for the content of their reviews.</p>
+    <h2>5. Rights and responsibilities for posts</h2>
+    <p>Authors keep the copyright to their reviews and recommendations and agree that the Site may display them on the Site. The Site may research recommended places and add its own write-ups. Authors are responsible for the content of their posts and can delete them at any time.</p>
 
-    <h2>5. Photos and content</h2>
+    <h2>6. Photos and content</h2>
     <p>Photos on the Site are freely licensed images; see <a href="../credits.html">photo credits</a> for each license. Copyright in all other text and design belongs to HARU TRIP.</p>
 
-    <h2>6. Advertising</h2>
+    <h2>7. Advertising</h2>
     <p>The Site may display Google AdSense ads. Advertisers are responsible for their ads and the products and services they offer.</p>
 
-    <h2>7. Contact</h2>
+    <h2>8. Contact</h2>
     <p><a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>
     </article>`
 };

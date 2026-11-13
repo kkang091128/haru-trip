@@ -49,6 +49,7 @@
       <div class="nav-links" id="navLinks">
         <a href="#coursesSection" class="nav-link city-only" data-i18n="navCourses">3대 코스</a>
         <a href="#exploreSection" class="nav-link city-only" data-i18n="navExplore">명소 검색</a>
+        <a href="#recommendSection" class="nav-link city-only" data-i18n="navRecommend">여행자 추천</a>
         <a href="#nationwideSection" class="nav-link" data-i18n="navNationwide">전국 여행지</a>
         <a href="en/" id="langSwitch" class="lang-toggle" data-i18n-attr="href:langHref,title:langTitle,aria-label:langTitle" title="View in English" aria-label="View in English"><span class="lang-opt" lang="ko">KO</span><span class="lang-opt" lang="en">EN</span></a>
       </div>
@@ -151,6 +152,23 @@
 
       <!-- 여행지 카드 그리드 (JS 동적 렌더링) -->
       <div class="destinations-grid" id="destinationsGrid"></div>
+    </section>
+
+    <!-- ==========================================
+         4-1. 여행자 추천 명소 (Google 로그인 후 작성)
+         ========================================== -->
+    <section class="section recommend-section city-only" id="recommendSection">
+      <div class="section-header">
+        <span class="section-tag">Traveler Picks</span>
+        <h2 class="section-title" id="recSectionTitle" data-i18n="recSectionTitle">여행자 추천 명소</h2>
+        <p class="section-desc" id="recSectionDesc" data-i18n="recSectionDesc">사이트에 아직 없는 숨은 명소를 알고 있다면 추천해 주세요.</p>
+      </div>
+      <div class="recommend-layout">
+        <!-- 추천 작성 영역 (로그인 상태에 따라 JS가 로그인 버튼 또는 작성 폼을 그림) -->
+        <div class="recommend-form-card" id="recFormArea"></div>
+        <!-- 추천 목록 (JS 렌더링) -->
+        <div class="recommend-list" id="recList"></div>
+      </div>
     </section>
 
     <!-- ==========================================
@@ -305,6 +323,8 @@
   </footer>
 
   <!-- 스크립트 로드 -->
+  <!-- Supabase (좋아요·후기·추천 저장, Google 로그인) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
   <script src="config.js"></script>
   <script src="i18n/ui.js"></script>
   <script src="feedback.js"></script>

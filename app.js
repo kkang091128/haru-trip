@@ -13,8 +13,12 @@ const state = {
   likes: {},      // { [destId]: { count: number, userLiked: boolean } }
   comments: {},   // { [destId]: Array<Comment> }
   activeModalDestId: null,
-  sliderIndices: {} // { [cardId]: currentIndex }
+  sliderIndices: {}, // { [cardId]: currentIndex }
+  recs: []           // 현재 도시의 여행자 추천 명소
 };
+
+// 로그인 후 자동으로 누를 좋아요 (로그인 전에 좋아요를 눌렀던 명소)
+let pendingLikeDest = null;
 
 // 첫 화면 문구 (index.html 에 적힌 기본값을 기억해 두었다가 첫 화면으로 돌아올 때 복원)
 const landing = {};
@@ -48,6 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
     showLanding({ history: 'none' });
     if (params.get('map') === '1') openMapModal();
   }
+
+  // 로그인 상태가 정해지면 작성 영역을 다시 그리고, 로그인 직전에 하던 일을 이어서 진행
+  Feedback.ready.then(() => {
+    refreshAuthAreas();
+    resumeAfterLogin();
+  });
+  Feedback.onAuthChange(onAuthChanged);
 
   // 브라우저 뒤로/앞으로 가기: 첫 화면 ↔ 도시 화면
   window.addEventListener('popstate', () => {
@@ -167,6 +178,10 @@ function switchCity(cityId, options = {}) {
   // 7. 코스 카드 & 명소 그리드 렌더링
   renderCourseIntroCards();
   renderDestinations();
+
+  // 7-1. 여행자 추천 명소
+  renderRecSection();
+  if (Feedback.isRemote) loadRecommendations(cityId);
 
   // 8. 전국 여행지 박스·지도 핀 활성 상태 동기화
   document.querySelectorAll('.region-box[data-city]').forEach(box => {
@@ -363,6 +378,13 @@ async function loadRemoteFeedback(cityId) {
       state.comments[dest.id] = data.comments[dest.id] || [];
       refreshFeedbackUI(dest.id);
     });
+    if (pendingLikeDest && Feedback.user) {
+      const destId = pendingLikeDest;
+      pendingLikeDest = null;
+      const card = document.getElementById(`dest-card-${destId}`);
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (state.likes[destId] && !state.likes[destId].userLiked) toggleLike(destId);
+    }
   } catch (e) {
     console.warn('좋아요/댓글을 불러오지 못했습니다:', e.message);
   }
@@ -681,6 +703,10 @@ function goToSlide(destId, index, event) {
 // --------------------------------------------------------
 function toggleLike(destId, event) {
   if (event) event.stopPropagation();
+  if (Feedback.isRemote && !Feedback.user) {
+    if (confirm(t('loginForLike'))) startLogin({ type: 'like', dest: destId });
+    return;
+  }
   const item = state.likes[destId];
   if (!item) return;
   const before = { count: item.count, userLiked: item.userLiked };
@@ -925,25 +951,9 @@ function openDetailModal(destId) {
           <span style="font-size: 1rem; color: var(--primary);" id="modalCommentCount">(${commentsList.length})</span>
         </h3>
 
-        <!-- 댓글 작성 카드 -->
-        <div class="comment-input-card">
-          <form id="commentForm" onsubmit="handleCommentSubmit(event, '${dest.id}')">
-            <div class="comment-form-row">
-              <input type="text" id="commentAuthor" class="comment-author-input" placeholder="${t('authorPlaceholder')}" maxlength="20" required />
-              <select id="commentRating" class="comment-rating-select">
-                ${t('ratingOptions').map((label, i) => `<option value="${i + 1}">${label}</option>`).reverse().join('')}
-              </select>
-            </div>
-            <textarea id="commentText" class="comment-textarea" placeholder="${t('commentPlaceholder')}" minlength="2" maxlength="500" required></textarea>
-            <p class="comment-notice">
-              ${Feedback.isRemote
-                ? t('noticeRemote')
-                : t('noticeLocal')}
-              <a href="terms.html" target="_blank" rel="noopener">${t('termsLink')}</a>
-            </p>
-            <button type="submit" class="comment-submit-btn">${t('submit')}</button>
-            <div style="clear: both;"></div>
-          </form>
+        <!-- 댓글 작성 카드 (로그인 전: 로그인 버튼 / 로그인 후: 작성 폼) -->
+        <div class="comment-input-card" id="commentFormArea">
+          ${renderCommentForm(dest.id)}
         </div>
 
         <!-- 댓글 목록 -->
@@ -1047,8 +1057,12 @@ function renderCommentItems(list) {
         <div class="comment-item-author">
           <span>${escapeHtml(c.author)}</span>
           <span class="comment-item-rating">${'★'.repeat(c.rating || 5)}</span>
+          ${c.mine ? `<span class="mine-badge">${t('mineBadge')}</span>` : ''}
         </div>
-        <span class="comment-item-date">${c.date}</span>
+        <span class="comment-item-date">
+          ${escapeHtml(c.date)}
+          ${c.mine ? `<button type="button" class="item-delete-btn" onclick="handleDeleteComment(${Number(c.id)})">${t('deleteBtn')}</button>` : ''}
+        </span>
       </div>
       <div class="comment-item-text">${escapeHtml(c.text)}</div>
     </div>
@@ -1077,8 +1091,13 @@ function handleCommentSubmit(event, destId) {
     alert(t('errLength'));
     return;
   }
+  saveNickname(author);
 
   if (Feedback.isRemote) {
+    if (!Feedback.user) {
+      startLogin({ type: 'comment', dest: destId });
+      return;
+    }
     const submitBtn = event.target.querySelector('.comment-submit-btn');
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = t('submitting'); }
     const cityId = state.currentCity;
@@ -1132,10 +1151,266 @@ function handleCommentSubmit(event, destId) {
   textInput.value = '';
 }
 
+// --------------------------------------------------------
+// Google 로그인 (후기 · 좋아요 · 명소 추천)
+// --------------------------------------------------------
+const GOOGLE_G_ICON = '<svg class="google-g" viewBox="0 0 48 48" width="18" height="18" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>';
+
+// 로그인 버튼 + 안내 문구. intent: 로그인 후 이어서 할 일 { type: 'comment'|'recommend'|'like', dest }
+function renderLoginPrompt(message, intent = {}) {
+  return `
+    <div class="login-prompt">
+      <p class="login-prompt-text">${message}</p>
+      <button type="button" class="google-login-btn" data-type="${intent.type || ''}" data-dest="${intent.dest || ''}" onclick="startLogin(this.dataset)">
+        ${GOOGLE_G_ICON}<span>${t('loginGoogle')}</span>
+      </button>
+      <p class="login-privacy">${t('loginPrivacy')}</p>
+    </div>`;
+}
+
+// 로그인한 계정 표시 + 로그아웃
+function renderAccountBar() {
+  return `
+    <div class="account-bar">
+      <span class="account-name">👤 ${t('loggedInAs', escapeHtml(Feedback.userName))}</span>
+      <button type="button" class="link-btn" onclick="handleLogout()">${t('logout')}</button>
+    </div>`;
+}
+
+function startLogin(intent = {}) {
+  try {
+    sessionStorage.setItem('haru_after_login', JSON.stringify({
+      type: intent.type || '', dest: intent.dest || '', city: state.currentCity || ''
+    }));
+  } catch (e) { /* 저장소 차단 */ }
+  // 로그인 후 지금 보던 도시로 돌아오도록 (Supabase 대시보드의 Redirect URLs 에 사이트 주소가 등록되어 있어야 함)
+  const back = `${window.location.origin}${window.location.pathname}${state.currentCity ? `?city=${state.currentCity}` : ''}`;
+  Feedback.signIn(back).catch(err => alert(err.message));
+}
+
+function handleLogout() {
+  Feedback.signOut().catch(() => {});
+}
+
+// 로그인/로그아웃 시: 작성 영역을 다시 그리고, 내가 누른 좋아요·내 글 표시를 새로 불러옴
+function onAuthChanged() {
+  refreshAuthAreas();
+  if (state.currentCity && Feedback.isRemote) {
+    loadRemoteFeedback(state.currentCity);
+    loadRecommendations(state.currentCity);
+  }
+}
+
+function refreshAuthAreas() {
+  const area = document.getElementById('commentFormArea');
+  if (area && state.activeModalDestId) area.innerHTML = renderCommentForm(state.activeModalDestId);
+  renderRecForm();
+}
+
+// 로그인하고 돌아왔을 때, 로그인 버튼을 누르기 전에 하던 일을 이어서 진행
+function resumeAfterLogin() {
+  let intent = null;
+  try {
+    intent = JSON.parse(sessionStorage.getItem('haru_after_login') || 'null');
+    sessionStorage.removeItem('haru_after_login');
+  } catch (e) { /* 무시 */ }
+  if (!intent || !Feedback.user) return;
+
+  if (intent.city && intent.city !== state.currentCity && CITIES_DATA[intent.city]) {
+    switchCity(intent.city, { scroll: false, history: 'replace' });
+  }
+  if (intent.type === 'comment' && intent.dest && DESTINATIONS_DATA.some(d => d.id === intent.dest)) {
+    openDetailModal(intent.dest);
+    setTimeout(() => {
+      const ta = document.getElementById('commentText');
+      if (ta) { ta.scrollIntoView({ block: 'center' }); ta.focus({ preventScroll: true }); }
+    }, 300);
+  } else if (intent.type === 'recommend') {
+    const sec = document.getElementById('recommendSection');
+    if (sec) sec.scrollIntoView();
+    setTimeout(() => {
+      const input = document.getElementById('recPlace');
+      if (input) input.focus({ preventScroll: true });
+    }, 300);
+  } else if (intent.type === 'like' && intent.dest) {
+    pendingLikeDest = intent.dest; // 좋아요 상태를 불러온 뒤 loadRemoteFeedback 에서 처리
+  }
+}
+
+// 닉네임은 다음에 쓸 때를 위해 이 브라우저에만 기억
+function savedNickname() {
+  try { return localStorage.getItem('haru_trip_nickname') || ''; } catch (e) { return ''; }
+}
+function saveNickname(name) {
+  try { localStorage.setItem('haru_trip_nickname', name); } catch (e) { /* 무시 */ }
+}
+
+// --------------------------------------------------------
+// 상세 모달: 후기 작성 영역
+// --------------------------------------------------------
+function renderCommentForm(destId) {
+  if (Feedback.isRemote && !Feedback.user) {
+    return renderLoginPrompt(t('loginForComment'), { type: 'comment', dest: destId });
+  }
+  return `
+    ${Feedback.isRemote ? renderAccountBar() : ''}
+    <form id="commentForm" onsubmit="handleCommentSubmit(event, '${destId}')">
+      <div class="comment-form-row">
+        <input type="text" id="commentAuthor" class="comment-author-input" placeholder="${t('authorPlaceholder')}" maxlength="20" required value="${escapeHtml(savedNickname())}" />
+        <select id="commentRating" class="comment-rating-select">
+          ${t('ratingOptions').map((label, i) => `<option value="${i + 1}">${label}</option>`).reverse().join('')}
+        </select>
+      </div>
+      <textarea id="commentText" class="comment-textarea" placeholder="${t('commentPlaceholder')}" minlength="2" maxlength="500" required></textarea>
+      <p class="comment-notice">
+        ${Feedback.isRemote ? t('noticeRemote') : t('noticeLocal')}
+        <a href="terms.html" target="_blank" rel="noopener">${t('termsLink')}</a>
+      </p>
+      <button type="submit" class="comment-submit-btn">${t('submit')}</button>
+      <div style="clear: both;"></div>
+    </form>`;
+}
+
+function handleDeleteComment(id) {
+  if (!confirm(t('confirmDeleteComment'))) return;
+  const destId = state.activeModalDestId;
+  Feedback.deleteComment(id)
+    .then(() => {
+      if (destId && state.comments[destId]) {
+        state.comments[destId] = state.comments[destId].filter(c => c.id !== id);
+        refreshFeedbackUI(destId);
+      }
+    })
+    .catch(err => alert(err.message));
+}
+
+// --------------------------------------------------------
+// 여행자 추천 명소 (사이트에 없는 장소를 방문자가 추천)
+// --------------------------------------------------------
+function renderRecSection() {
+  const city = CITIES_DATA[state.currentCity];
+  if (!city) return;
+  const title = document.getElementById('recSectionTitle');
+  const desc = document.getElementById('recSectionDesc');
+  if (title) title.textContent = t('recTitle', city.name);
+  if (desc) desc.textContent = t('recDesc', city.name);
+  state.recs = [];
+  renderRecForm();
+  renderRecList();
+}
+
+async function loadRecommendations(cityId) {
+  try {
+    const list = await Feedback.loadRecommendations(cityId);
+    if (state.currentCity !== cityId) return;
+    state.recs = list;
+  } catch (e) {
+    console.warn('추천 명소를 불러오지 못했습니다:', e.message);
+    if (state.currentCity !== cityId) return;
+    state.recs = [];
+  }
+  renderRecList();
+}
+
+function renderRecForm() {
+  const area = document.getElementById('recFormArea');
+  const city = CITIES_DATA[state.currentCity];
+  if (!area || !city) return;
+  if (!Feedback.isRemote) {
+    area.innerHTML = `<p class="login-prompt-text">${t('recLocalOnly')}</p>`;
+    return;
+  }
+  if (!Feedback.user) {
+    area.innerHTML = renderLoginPrompt(t('loginForRecommend', city.name), { type: 'recommend' });
+    return;
+  }
+  area.innerHTML = `
+    ${renderAccountBar()}
+    <form id="recForm" class="rec-form" onsubmit="handleRecSubmit(event)">
+      <input type="text" id="recAuthor" class="rec-input" placeholder="${t('authorPlaceholder')}" maxlength="20" required value="${escapeHtml(savedNickname())}" />
+      <input type="text" id="recPlace" class="rec-input" placeholder="${t('recPlacePh')}" minlength="2" maxlength="50" required />
+      <input type="text" id="recAddress" class="rec-input" placeholder="${t('recAddressPh')}" maxlength="100" />
+      <textarea id="recBody" class="comment-textarea rec-textarea" placeholder="${t('recBodyPh')}" minlength="10" maxlength="500" required></textarea>
+      <p class="comment-notice">${t('recNotice')} <a href="terms.html" target="_blank" rel="noopener">${t('termsLink')}</a></p>
+      <button type="submit" class="comment-submit-btn rec-submit-btn">${t('recSubmit')}</button>
+    </form>`;
+}
+
+function renderRecList() {
+  const el = document.getElementById('recList');
+  const city = CITIES_DATA[state.currentCity];
+  if (!el || !city) return;
+  if (!state.recs.length) {
+    el.innerHTML = `<p class="rec-empty">${t('recEmpty', city.name)}</p>`;
+    return;
+  }
+  el.innerHTML = state.recs.map(r => `
+    <article class="rec-item">
+      <div class="rec-item-head">
+        <h3 class="rec-place">📍 ${escapeHtml(r.place)}</h3>
+        ${r.mine ? `<span class="mine-badge">${t('mineBadge')}</span>` : ''}
+      </div>
+      ${r.address ? `<p class="rec-address">${escapeHtml(r.address)}</p>` : ''}
+      <p class="rec-body">${escapeHtml(r.text)}</p>
+      <div class="rec-meta">
+        <span>${escapeHtml(r.author)} · ${escapeHtml(r.date)}</span>
+        ${r.mine ? `<button type="button" class="item-delete-btn" onclick="handleDeleteRec(${Number(r.id)})">${t('deleteBtn')}</button>` : ''}
+      </div>
+    </article>
+  `).join('');
+}
+
+function handleRecSubmit(event) {
+  event.preventDefault();
+  if (!Feedback.user) {
+    startLogin({ type: 'recommend' });
+    return;
+  }
+  const get = (id) => document.getElementById(id);
+  const author = get('recAuthor').value.trim();
+  const place = get('recPlace').value.trim();
+  const address = get('recAddress').value.trim();
+  const text = get('recBody').value.trim();
+
+  if (!author || author.length > 20) { alert(t('errMissing')); return; }
+  if (place.length < 2 || place.length > 50 || text.length < 10 || text.length > 500 || address.length > 100) {
+    alert(t('errRecLength'));
+    return;
+  }
+  saveNickname(author);
+
+  const btn = event.target.querySelector('.rec-submit-btn');
+  if (btn) { btn.disabled = true; btn.textContent = t('submitting'); }
+  const cityId = state.currentCity;
+  Feedback.addRecommendation(cityId, { author, place, address, text })
+    .then(rec => {
+      if (state.currentCity !== cityId) return;
+      state.recs.unshift(rec);
+      renderRecList();
+      get('recPlace').value = '';
+      get('recAddress').value = '';
+      get('recBody').value = '';
+    })
+    .catch(err => alert(err.message))
+    .finally(() => {
+      if (btn) { btn.disabled = false; btn.textContent = t('recSubmit'); }
+    });
+}
+
+function handleDeleteRec(id) {
+  if (!confirm(t('confirmDeleteRec'))) return;
+  Feedback.deleteRecommendation(id)
+    .then(() => {
+      state.recs = state.recs.filter(r => r.id !== id);
+      renderRecList();
+    })
+    .catch(err => alert(err.message));
+}
+
 // 유틸: XSS 방지
 function escapeHtml(str) {
-  if (!str) return '';
-  return str
+  if (str === null || str === undefined || str === '') return '';
+  return String(str)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')

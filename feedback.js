@@ -1,51 +1,71 @@
 // ========================================================
-// 하루트립 좋아요 & 댓글 저장소
-// config.js에 Supabase 정보가 있으면 서버에 저장하고,
-// 없으면 이 브라우저(localStorage)에만 저장합니다.
+// 하루트립 좋아요 · 후기 · 여행자 추천 저장소 + Google 로그인
+//   config.js에 Supabase 정보가 있으면 서버에 저장합니다.
+//     - 읽기: 누구나
+//     - 좋아요 · 후기 · 명소 추천 · 내 글 삭제: Google 로그인 필요
+//   Supabase 정보가 없으면(개발용) 이 브라우저(localStorage)에만 저장하고 로그인은 쓰지 않습니다.
+//   Google 로그인 설정: supabase/AUTH_SETUP.md
 // ========================================================
 
 const Feedback = (() => {
   const cfg = window.HARU_CONFIG || {};
   const baseUrl = (cfg.supabaseUrl || '').replace(/\/+$/, '');
   const anonKey = cfg.supabaseAnonKey || '';
-  const isRemote = Boolean(baseUrl && anonKey);
+  const client = (baseUrl && anonKey && window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(baseUrl, anonKey, {
+        auth: { flowType: 'pkce', persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+      })
+    : null;
+  const isRemote = Boolean(client);
 
-  // 방문자 브라우저를 구분하는 무작위 ID (개인을 식별하지 않음)
-  function getClientId() {
-    const key = 'haru_trip_client_id';
-    let id = null;
-    try { id = localStorage.getItem(key); } catch (e) { /* 저장소 차단 */ }
-    if (!id || !/^[0-9a-f-]{36}$/i.test(id)) {
-      id = (window.crypto && crypto.randomUUID)
-        ? crypto.randomUUID()
-        : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-            const r = Math.random() * 16 | 0;
-            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-          });
-      try { localStorage.setItem(key, id); } catch (e) { /* 무시 */ }
-    }
-    return id;
+  // ---- 로그인 상태
+  let user = null;
+  const listeners = new Set();
+  const ready = client
+    ? client.auth.getSession()
+        .then(({ data }) => { user = data && data.session ? data.session.user : null; })
+        .catch(() => { user = null; })
+        .finally(cleanAuthParams)
+    : Promise.resolve();
+
+  if (client) {
+    client.auth.onAuthStateChange((_event, session) => {
+      const next = session ? session.user : null;
+      const changed = (next && next.id) !== (user && user.id);
+      user = next;
+      // 콜백 안에서 바로 Supabase를 다시 부르지 않도록 다음 틱에 알림
+      if (changed) setTimeout(() => listeners.forEach(cb => cb(user)), 0);
+    });
   }
 
-  async function rpc(name, params) {
-    const headers = { 'Content-Type': 'application/json', apikey: anonKey };
-    // 예전 형식(JWT) anon 키만 Authorization 헤더에도 넣음. 새 sb_publishable_ 키는 apikey 헤더만 사용
-    if (anonKey.startsWith('eyJ')) headers.Authorization = `Bearer ${anonKey}`;
-    const res = await fetch(`${baseUrl}/rest/v1/rpc/${name}`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(params)
+  // 로그인 후 돌아온 주소에 붙은 ?code= 등을 지움 (?city= 는 유지)
+  function cleanAuthParams() {
+    const url = new URL(window.location.href);
+    let dirty = false;
+    ['code', 'error', 'error_code', 'error_description'].forEach(k => {
+      if (url.searchParams.has(k)) { url.searchParams.delete(k); dirty = true; }
     });
-    const data = await res.json().catch(() => null);
-    if (!res.ok) {
+    if (dirty && window.history.replaceState) {
+      window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+    }
+  }
+
+  function displayName(u) {
+    if (!u) return '';
+    const m = u.user_metadata || {};
+    return m.full_name || m.name || u.email || '';
+  }
+
+  // ---- 서버 함수 호출
+  async function rpc(name, params) {
+    const { data, error } = await client.rpc(name, params);
+    if (error) {
       // PGRST202: DB 함수가 아직 없음 (supabase/schema.sql 미실행)
-      if (data && data.code === 'PGRST202') {
-        throw new Error(t('errServerNotReady'));
-      }
+      if (error.code === 'PGRST202') throw new Error(t('errServerNotReady'));
+      if (error.code === '28000') throw new Error(t('errLoginRequired'));
       // 직접 만든 검증 오류(raise exception)는 한국어 메시지라 한국어 페이지에서만 그대로 보여주기
-      const dbMsg = window.HARU_LANG === 'ko' && data && data.code === 'P0001' && data.message;
-      const msg = dbMsg || t('errRequest');
-      throw new Error(msg);
+      const dbMsg = window.HARU_LANG === 'ko' && error.code === 'P0001' && error.message;
+      throw new Error(dbMsg || t('errRequest'));
     }
     return data;
   }
@@ -56,16 +76,47 @@ const Feedback = (() => {
       author: row.author,
       rating: row.rating,
       text: row.body,
-      date: String(row.created_at || '').slice(0, 10)
+      date: String(row.created_at || '').slice(0, 10),
+      mine: Boolean(row.mine)
+    };
+  }
+
+  function toRecommendation(row) {
+    return {
+      id: row.id,
+      author: row.author,
+      place: row.place_name,
+      address: row.address || '',
+      text: row.body,
+      date: String(row.created_at || '').slice(0, 10),
+      mine: Boolean(row.mine)
     };
   }
 
   return {
     isRemote,
+    ready,
 
-    // 도시 하나의 좋아요/댓글 전체 불러오기
+    // ---- 로그인
+    get user() { return user; },
+    get userName() { return displayName(user); },
+    onAuthChange(cb) { listeners.add(cb); },
+    async signIn(redirectTo) {
+      const { error } = await client.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo }
+      });
+      if (error) throw new Error(t('errLoginFailed'));
+    },
+    async signOut() {
+      await client.auth.signOut();
+    },
+
+    // ---- 좋아요 · 후기
+    // 도시 하나의 좋아요/후기 전체 불러오기
     async loadCity(cityId) {
-      const data = await rpc('get_city_feedback', { p_city: cityId, p_client: getClientId() });
+      await ready;
+      const data = await rpc('get_city_feedback', { p_city: cityId });
       const comments = {};
       (data.comments || []).forEach(row => {
         (comments[row.dest_id] = comments[row.dest_id] || []).push(toComment(row));
@@ -78,15 +129,36 @@ const Feedback = (() => {
     },
 
     async toggleLike(cityId, destId) {
-      return rpc('toggle_like', { p_city: cityId, p_dest: destId, p_client: getClientId() });
+      return rpc('toggle_like', { p_city: cityId, p_dest: destId });
     },
 
     async addComment(cityId, destId, { author, text, rating }) {
       const row = await rpc('add_comment', {
-        p_city: cityId, p_dest: destId, p_client: getClientId(),
-        p_author: author, p_body: text, p_rating: rating
+        p_city: cityId, p_dest: destId, p_author: author, p_body: text, p_rating: rating
       });
       return toComment(row);
+    },
+
+    async deleteComment(id) {
+      return rpc('delete_my_comment', { p_id: id });
+    },
+
+    // ---- 여행자 추천 명소
+    async loadRecommendations(cityId) {
+      await ready;
+      const rows = await rpc('get_city_recommendations', { p_city: cityId });
+      return (rows || []).map(toRecommendation);
+    },
+
+    async addRecommendation(cityId, { author, place, address, text }) {
+      const row = await rpc('add_recommendation', {
+        p_city: cityId, p_author: author, p_place: place, p_address: address, p_body: text
+      });
+      return toRecommendation(row);
+    },
+
+    async deleteRecommendation(id) {
+      return rpc('delete_my_recommendation', { p_id: id });
     }
   };
 })();
