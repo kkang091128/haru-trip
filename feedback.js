@@ -26,7 +26,9 @@ const Feedback = (() => {
   const urlAuthError = (() => {
     const q = new URLSearchParams(window.location.search);
     const h = new URLSearchParams(window.location.hash.replace(/^#/, ''));
-    return q.get('error_description') || h.get('error_description') || q.get('error') || h.get('error') || '';
+    const raw = q.get('error_description') || h.get('error_description') || q.get('error') || h.get('error') || '';
+    // Supabase가 두 번 인코딩해 보내는 경우가 있어 한 번 더 풀어 줌 (예: "code%3A 4%2F0A" → "code: 4/0A")
+    try { return decodeURIComponent(raw); } catch (e) { return raw; }
   })();
 
   const ready = client
