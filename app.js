@@ -199,11 +199,14 @@ function switchCity(cityId, options = {}) {
   closeMapModal({ restoreFocus: false });
 
   // 10. URL 쿼리 파라미터 동기화
-  const newUrl = `${window.location.pathname}?city=${cityId}`;
+  //   replace(첫 로드 등)일 때는 다른 파라미터를 지우지 않음 — Google 로그인 후 돌아온 주소의
+  //   ?code= 를 Supabase가 읽어 로그인을 마무리하기 전에 지우면 로그인이 풀림 (code는 feedback.js가 처리 후 삭제)
   if (history === 'push' && !sameCity && window.history.pushState) {
-    window.history.pushState({ city: cityId }, '', newUrl);
+    window.history.pushState({ city: cityId }, '', `${window.location.pathname}?city=${cityId}`);
   } else if (history !== 'none' && window.history.replaceState) {
-    window.history.replaceState({ city: cityId }, '', newUrl);
+    const url = new URL(window.location.href);
+    url.searchParams.set('city', cityId);
+    window.history.replaceState({ city: cityId }, '', url.pathname + url.search + url.hash);
   }
 
   // 전환 후 최상단으로 부드럽게 스크롤
