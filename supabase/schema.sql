@@ -5,7 +5,8 @@
 --
 -- 권한 정리
 --   - 읽기(좋아요 수, 후기, 추천 명소): 누구나
---   - 좋아요 · 후기 작성 · 명소 추천 · 내 글 삭제: Google 로그인한 사용자만
+--   - 좋아요 · 후기 작성 · 명소 추천(사진 최대 3장) · 내 글 삭제: Google 로그인한 사용자만
+--   - 추천 사진: Storage 의 공개 버킷 rec-images (로그인한 사용자가 자기 폴더 <계정ID>/ 에만 업로드)
 --   Google 로그인 설정 방법은 supabase/AUTH_SETUP.md 를 보세요.
 -- ========================================================
 
@@ -52,6 +53,9 @@ create table if not exists public.recommendations (
   created_at timestamptz not null default now()
 );
 
+-- 추천 사진: Storage(rec-images 버킷) 안의 파일 경로 목록, 최대 3장
+alter table public.recommendations add column if not exists image_paths text[] not null default '{}';
+
 create index if not exists comments_city_idx on public.comments (city, created_at desc);
 create index if not exists comments_rate_idx on public.comments (client_id, created_at desc);
 create index if not exists comments_user_idx on public.comments (user_id, created_at desc);
@@ -73,6 +77,35 @@ revoke all on public.recommendations from anon, authenticated;
 drop function if exists public.add_comment(text, text, uuid, text, text, int);
 drop function if exists public.toggle_like(text, text, uuid);
 drop function if exists public.get_city_feedback(text, uuid);
+
+-- 2-1. 추천 사진 저장소 (Storage) -------------------------
+--   공개 버킷: 사진 주소를 아는 사람은 누구나 볼 수 있음 (사이트에 표시하기 위해)
+--   업로드·삭제: 로그인한 사용자가 자기 계정 폴더(<계정ID>/파일명)에만
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('rec-images', 'rec-images', true, 2097152, array['image/webp', 'image/jpeg', 'image/png'])
+on conflict (id) do update
+  set public = excluded.public,
+      file_size_limit = excluded.file_size_limit,
+      allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "rec-images: 본인 폴더에 업로드" on storage.objects;
+create policy "rec-images: 본인 폴더에 업로드" on storage.objects
+  for insert to authenticated
+  with check (bucket_id = 'rec-images' and (storage.foldername(name))[1] = auth.uid()::text);
+
+drop policy if exists "rec-images: 본인 사진 조회" on storage.objects;
+create policy "rec-images: 본인 사진 조회" on storage.objects
+  for select to authenticated
+  using (bucket_id = 'rec-images' and (storage.foldername(name))[1] = auth.uid()::text);
+
+drop policy if exists "rec-images: 본인 사진 삭제" on storage.objects;
+create policy "rec-images: 본인 사진 삭제" on storage.objects
+  for delete to authenticated
+  using (bucket_id = 'rec-images' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- 사진을 받도록 매개변수가 바뀐 함수는 예전 형태를 먼저 지움
+drop function if exists public.add_recommendation(text, text, text, text, text);
+drop function if exists public.delete_my_recommendation(bigint);
 
 -- 3. 함수 --------------------------------------------------
 
@@ -248,7 +281,7 @@ as $$
   select coalesce((
     select json_agg(json_build_object(
       'id', id, 'author', author, 'place_name', place_name, 'address', address,
-      'body', body, 'created_at', created_at,
+      'body', body, 'images', image_paths, 'created_at', created_at,
       'mine', (user_id = auth.uid())
     ) order by created_at desc)
     from (
@@ -260,9 +293,10 @@ as $$
   ), '[]'::json);
 $$;
 
--- 명소 추천 등록 (Google 로그인 필요 · 길이 검사 · 도배 방지)
+-- 명소 추천 등록 (Google 로그인 필요 · 길이 검사 · 도배 방지 · 사진 최대 3장)
+--   p_images: 먼저 rec-images 버킷의 <계정ID>/ 폴더에 올린 사진 경로들
 create or replace function public.add_recommendation(
-  p_city text, p_author text, p_place text, p_address text, p_body text
+  p_city text, p_author text, p_place text, p_address text, p_body text, p_images text[] default '{}'
 )
 returns json
 language plpgsql
@@ -275,6 +309,8 @@ declare
   v_place   text := btrim(coalesce(p_place, ''));
   v_address text := nullif(btrim(coalesce(p_address, '')), '');
   v_body    text := btrim(coalesce(p_body, ''));
+  v_images  text[] := coalesce(p_images, '{}');
+  v_path    text;
   v_row     recommendations;
 begin
   if v_user is null then
@@ -298,6 +334,16 @@ begin
   if (v_place || ' ' || coalesce(v_address, '') || ' ' || v_body) ~* '(https?://|www\.)' then
     raise exception '추천 내용에는 링크를 넣을 수 없습니다.';
   end if;
+  if coalesce(array_length(v_images, 1), 0) > 3 then
+    raise exception '사진은 최대 3장까지 올릴 수 있습니다.';
+  end if;
+  -- 사진은 본인 폴더에 실제로 올라간 파일만 허용
+  foreach v_path in array v_images loop
+    if v_path !~ ('^' || v_user::text || '/[a-z0-9-]{8,64}\.(webp|jpg|png)$')
+       or not exists (select 1 from storage.objects where bucket_id = 'rec-images' and name = v_path) then
+      raise exception '사진을 확인할 수 없습니다. 다시 올려 주세요.';
+    end if;
+  end loop;
 
   -- 같은 계정에서 1시간에 5개까지, 같은 장소 중복 추천 금지
   if (select count(*) from recommendations
@@ -309,31 +355,34 @@ begin
     raise exception '이미 추천한 장소입니다.';
   end if;
 
-  insert into recommendations (city, user_id, author, place_name, address, body)
-  values (p_city, v_user, v_author, v_place, v_address, v_body)
+  insert into recommendations (city, user_id, author, place_name, address, body, image_paths)
+  values (p_city, v_user, v_author, v_place, v_address, v_body, v_images)
   returning * into v_row;
 
   return json_build_object(
     'id', v_row.id, 'author', v_row.author, 'place_name', v_row.place_name,
-    'address', v_row.address, 'body', v_row.body, 'created_at', v_row.created_at,
-    'mine', true
+    'address', v_row.address, 'body', v_row.body, 'images', v_row.image_paths,
+    'created_at', v_row.created_at, 'mine', true
   );
 end;
 $$;
 
--- 내가 쓴 추천 삭제
+-- 내가 쓴 추천 삭제 → 지운 추천의 사진 경로를 돌려줌 (브라우저가 Storage 에서 사진 파일도 삭제)
 create or replace function public.delete_my_recommendation(p_id bigint)
-returns boolean
+returns json
 language plpgsql
 security definer
 set search_path = public
 as $$
+declare
+  v_images text[];
 begin
   if auth.uid() is null then
     raise exception '로그인이 필요합니다.' using errcode = '28000';
   end if;
-  delete from recommendations where id = p_id and user_id = auth.uid();
-  return found;
+  delete from recommendations where id = p_id and user_id = auth.uid()
+  returning image_paths into v_images;
+  return json_build_object('deleted', found, 'images', coalesce(v_images, '{}'));
 end;
 $$;
 
@@ -345,7 +394,7 @@ revoke all on function public.request_ip_hash() from public, anon, authenticated
 revoke all on function public.add_comment(text, text, text, text, int) from public;
 revoke all on function public.delete_my_comment(bigint) from public;
 revoke all on function public.get_city_recommendations(text) from public;
-revoke all on function public.add_recommendation(text, text, text, text, text) from public;
+revoke all on function public.add_recommendation(text, text, text, text, text, text[]) from public;
 revoke all on function public.delete_my_recommendation(bigint) from public;
 
 -- 읽기: 누구나
@@ -356,5 +405,5 @@ grant execute on function public.get_city_recommendations(text) to anon, authent
 grant execute on function public.toggle_like(text, text) to authenticated;
 grant execute on function public.add_comment(text, text, text, text, int) to authenticated;
 grant execute on function public.delete_my_comment(bigint) to authenticated;
-grant execute on function public.add_recommendation(text, text, text, text, text) to authenticated;
+grant execute on function public.add_recommendation(text, text, text, text, text, text[]) to authenticated;
 grant execute on function public.delete_my_recommendation(bigint) to authenticated;

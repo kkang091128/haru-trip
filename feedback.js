@@ -104,13 +104,21 @@ const Feedback = (() => {
     };
   }
 
+  // ---- 추천 사진 (Storage: rec-images 버킷, 경로 <계정ID>/<무작위>.webp)
+  const REC_BUCKET = 'rec-images';
+  function recImageUrl(path) {
+    return client.storage.from(REC_BUCKET).getPublicUrl(path).data.publicUrl;
+  }
+
   function toRecommendation(row) {
+    const paths = Array.isArray(row.images) ? row.images : [];
     return {
       id: row.id,
       author: row.author,
       place: row.place_name,
       address: row.address || '',
       text: row.body,
+      images: paths.map(p => ({ path: p, url: recImageUrl(p) })),
       date: String(row.created_at || '').slice(0, 10),
       mine: Boolean(row.mine)
     };
@@ -173,15 +181,37 @@ const Feedback = (() => {
       return (rows || []).map(toRecommendation);
     },
 
-    async addRecommendation(cityId, { author, place, address, text }) {
+    // 사진 파일 하나를 내 폴더에 올리고 경로를 돌려줌
+    async uploadRecImage(blob) {
+      if (!user) throw new Error(t('errLoginRequired'));
+      const ext = blob.type === 'image/webp' ? 'webp' : blob.type === 'image/png' ? 'png' : 'jpg';
+      const id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2, 10)}`;
+      const path = `${user.id}/${id}.${ext}`;
+      const { error } = await client.storage.from(REC_BUCKET).upload(path, blob, {
+        contentType: blob.type, cacheControl: '31536000', upsert: false
+      });
+      if (error) throw new Error(t('errPhotoUpload'));
+      return path;
+    },
+
+    async removeRecImages(paths) {
+      if (!paths || !paths.length) return;
+      await client.storage.from(REC_BUCKET).remove(paths).catch(() => {});
+    },
+
+    async addRecommendation(cityId, { author, place, address, text, images = [] }) {
       const row = await rpc('add_recommendation', {
-        p_city: cityId, p_author: author, p_place: place, p_address: address, p_body: text
+        p_city: cityId, p_author: author, p_place: place, p_address: address, p_body: text, p_images: images
       });
       return toRecommendation(row);
     },
 
+    // 추천을 지우고, 그 추천의 사진 파일도 Storage 에서 삭제
     async deleteRecommendation(id) {
-      return rpc('delete_my_recommendation', { p_id: id });
+      const res = await rpc('delete_my_recommendation', { p_id: id });
+      const paths = (res && Array.isArray(res.images)) ? res.images : [];
+      if (paths.length) await this.removeRecImages(paths);
+      return res;
     }
   };
 })();

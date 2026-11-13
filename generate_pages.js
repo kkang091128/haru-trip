@@ -329,7 +329,7 @@ const privacyBody = {
       <tr><th>구분</th><th>항목</th><th>목적</th></tr>
       <tr><td>Google 로그인 시</td><td>Google이 제공하는 이메일 주소, 이름, 프로필 사진 주소, Google 계정 식별값</td><td>회원 확인, 좋아요 중복 방지, 본인 글 삭제, 도배 방지 — 사이트 화면에는 표시하지 않음</td></tr>
       <tr><td>후기 작성 시</td><td>닉네임, 별점, 후기 내용, 작성 시각</td><td>후기 게시</td></tr>
-      <tr><td>명소 추천 시</td><td>닉네임, 장소 이름, 주소(선택), 추천 이유, 작성 시각</td><td>여행자 추천 명소 게시</td></tr>
+      <tr><td>명소 추천 시</td><td>닉네임, 장소 이름, 주소(선택), 추천 이유, 사진(선택, 최대 3장), 작성 시각</td><td>여행자 추천 명소 게시 — 사진은 올리기 전에 크기를 줄이며, 촬영 위치(GPS) 등 사진 속 부가 정보는 지워집니다</td></tr>
       <tr><td>좋아요</td><td>좋아요를 누른 명소와 시각</td><td>좋아요 수 집계, 중복 방지</td></tr>
       <tr><td>자동 수집</td><td>후기 작성 시 접속 IP의 일방향 암호화(해시) 값 — 원래 IP는 저장하지 않음</td><td>도배·악성 게시물 방지</td></tr>
       <tr><td>브라우저 저장소</td><td>로그인 상태 유지 정보, 마지막으로 본 도시, 마지막으로 입력한 닉네임</td><td>이용 편의</td></tr>
@@ -382,7 +382,7 @@ const privacyBody = {
       <tr><th>Type</th><th>Items</th><th>Purpose</th></tr>
       <tr><td>Google sign-in</td><td>Email address, name, profile picture URL and Google account identifier provided by Google</td><td>Verifying members, preventing duplicate likes, deleting your own posts, preventing spam — never shown on the Site</td></tr>
       <tr><td>When you post a review</td><td>Nickname, rating, review text, time posted</td><td>Publishing reviews</td></tr>
-      <tr><td>When you recommend a place</td><td>Nickname, place name, address (optional), reason, time posted</td><td>Publishing traveler picks</td></tr>
+      <tr><td>When you recommend a place</td><td>Nickname, place name, address (optional), reason, photos (optional, up to 3), time posted</td><td>Publishing traveler picks — photos are resized before upload and embedded data such as GPS location is removed</td></tr>
       <tr><td>Likes</td><td>Which spots you liked and when</td><td>Counting likes, preventing duplicates</td></tr>
       <tr><td>Collected automatically</td><td>A one-way hash of your IP address when posting a review — the original IP is not stored</td><td>Preventing spam and abusive posts</td></tr>
       <tr><td>Browser storage</td><td>Sign-in session, the last city you viewed, the last nickname you entered</td><td>Convenience</td></tr>
@@ -461,6 +461,7 @@ const termsBody = {
       <li>사실과 다른 내용으로 다른 사람이나 업체에 피해를 주는 글</li>
       <li>저작권 등 다른 사람의 권리를 침해하는 글</li>
       <li>실제로 없거나 방문할 수 없는 장소, 영업·홍보를 목적으로 한 장소 추천</li>
+      <li>본인이 찍지 않았거나 사용할 권리가 없는 사진, 다른 사람의 얼굴·차량 번호판 등이 알아볼 수 있게 나온 사진, 장소와 관계없는 사진</li>
     </ul>
 
     <h2>5. 게시물의 권리와 책임</h2>
@@ -506,6 +507,7 @@ const termsBody = {
       <li>False content that harms other people or businesses</li>
       <li>Content that infringes copyright or other rights</li>
       <li>Recommendations of places that don't exist or can't be visited, or that are made for commercial promotion</li>
+      <li>Photos you didn't take or don't have the right to use, photos in which other people's faces or license plates can be identified, or photos unrelated to the place</li>
     </ul>
 
     <h2>5. Rights and responsibilities for posts</h2>

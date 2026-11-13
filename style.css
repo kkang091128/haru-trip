@@ -2065,3 +2065,148 @@ button.map-city-item:focus-visible,
 .rec-input {
   font-family: inherit;
 }
+
+/* ========================================================
+   여행자 추천 명소: 사진
+   ======================================================== */
+/* 화면에는 숨기되 키보드·화면낭독기로는 쓸 수 있게 */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 작성 폼: 사진 고르기 + 미리보기 */
+.rec-photo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.rec-photo-thumb,
+.rec-photo-add {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.rec-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.rec-photo-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.7);
+  color: #fff;
+  font-size: 0.7rem;
+  line-height: 22px;
+  text-align: center;
+  cursor: pointer;
+}
+.rec-photo-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border: 1.5px dashed var(--border-hover);
+  background: var(--bg-main);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+.rec-photo-add[hidden] { display: none; }
+.rec-photo-add:hover,
+.rec-photo-add:focus-within {
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+.rec-photo-hint {
+  margin-top: 6px;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* 추천 카드의 사진 */
+.rec-images {
+  display: grid;
+  gap: 4px;
+  margin: -0.2rem -0.3rem 0.35rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.rec-images.count-1 { grid-template-columns: 1fr; }
+.rec-images.count-2 { grid-template-columns: 1fr 1fr; }
+.rec-images.count-3 { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
+.rec-images.count-3 .rec-image-btn:first-child { grid-row: span 2; }
+.rec-image-btn {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: var(--bg-main);
+  cursor: zoom-in;
+  overflow: hidden;
+}
+.rec-images.count-1 .rec-image-btn { aspect-ratio: 16 / 10; }
+.rec-images.count-2 .rec-image-btn { aspect-ratio: 1; }
+.rec-images.count-3 .rec-image-btn { min-height: 70px; }
+.rec-images.count-3 { aspect-ratio: 16 / 10; }
+.rec-image-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition-fast);
+}
+.rec-image-btn:hover img { transform: scale(1.03); }
+
+/* 사진 크게 보기 */
+.image-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.92);
+  cursor: zoom-out;
+}
+.image-viewer.open { display: flex; }
+.image-viewer img {
+  max-width: 100%;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  cursor: default;
+}
+.image-viewer-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.image-viewer-close:hover { background: rgba(255, 255, 255, 0.28); }

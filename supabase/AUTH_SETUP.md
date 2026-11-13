@@ -11,6 +11,7 @@
 ## 1. DB 함수 업데이트 (Supabase)
 
 1. Supabase 대시보드 → 프로젝트 → **SQL Editor** → **New query**
+   - `schema.sql`이 바뀔 때마다(예: 추천 사진 기능 추가) 다시 실행하세요. 여러 번 실행해도 안전합니다.
 2. `supabase/schema.sql` 내용을 전부 붙여넣고 **Run**
 3. 기존 좋아요 수와 후기는 그대로 남습니다. 예전 익명 좋아요는 숫자에만 합산됩니다.
 
@@ -54,7 +55,12 @@
 ## 운영 메모
 
 - **글 숨기기**: Supabase → Table Editor → `comments` 또는 `recommendations` → 해당 행의 `is_hidden`을 `true`로
-- **회원 탈퇴 요청 처리**: Supabase → Authentication → Users → 요청한 이메일의 사용자 삭제
-  → 그 계정의 후기·추천·좋아요가 함께 삭제됩니다.
+  - 숨긴 추천의 사진은 주소를 아는 사람에게는 계속 보입니다. 문제 있는 사진이면 아래처럼 사진 파일도 지우세요.
+- **사진 지우기**: Supabase → Storage → `rec-images` 버킷 → 사용자 폴더(계정 ID) → 파일 삭제
+  - 추천의 `image_paths` 칸에 그 추천의 사진 경로가 적혀 있습니다.
+- **회원 탈퇴 요청 처리**
+  1. Authentication → Users에서 요청한 이메일의 **User UID**를 확인
+  2. Storage → `rec-images` → 그 UID 이름의 폴더를 통째로 삭제 (사진은 자동으로 지워지지 않음)
+  3. Authentication → Users에서 그 사용자 삭제 → 후기·추천·좋아요가 함께 삭제됩니다.
 - 로그인한 사용자의 이메일·이름은 Supabase Authentication에만 저장되고 사이트 화면에는 표시되지 않습니다.
   화면에는 작성할 때 입력한 닉네임만 나옵니다.

@@ -853,6 +853,7 @@ function setupModalEvents() {
 
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      if (closeImageViewer()) return;
       closeDetailModal();
       closeMapModal();
       return;
@@ -1315,10 +1316,21 @@ async function loadRecommendations(cityId) {
   renderRecList();
 }
 
+// 추천 사진: 최대 장수 · 올리기 전 줄이는 크기
+const REC_MAX_PHOTOS = 3;
+const REC_PHOTO_MAX_SIDE = 1600;
+let recPhotos = []; // 작성 중인 추천에 고른 사진 [{ blob, url }]
+
+function clearRecPhotos() {
+  recPhotos.forEach(p => URL.revokeObjectURL(p.url));
+  recPhotos = [];
+}
+
 function renderRecForm() {
   const area = document.getElementById('recFormArea');
   const city = CITIES_DATA[state.currentCity];
   if (!area || !city) return;
+  clearRecPhotos();
   if (!Feedback.isRemote) {
     area.innerHTML = `<p class="login-prompt-text">${t('recLocalOnly')}</p>`;
     return;
@@ -1334,9 +1346,90 @@ function renderRecForm() {
       <input type="text" id="recPlace" class="rec-input" placeholder="${t('recPlacePh')}" minlength="2" maxlength="50" required />
       <input type="text" id="recAddress" class="rec-input" placeholder="${t('recAddressPh')}" maxlength="100" />
       <textarea id="recBody" class="comment-textarea rec-textarea" placeholder="${t('recBodyPh')}" minlength="10" maxlength="500" required></textarea>
+      <div class="rec-photos">
+        <div class="rec-photo-list" id="recPhotoList">
+          <label class="rec-photo-add" id="recPhotoAdd">
+            <input type="file" id="recPhotoInput" class="visually-hidden" accept="image/*" multiple onchange="handleRecPhotoSelect(event)" />
+            <span>${t('recPhotoAdd')}</span>
+          </label>
+        </div>
+        <p class="rec-photo-hint">${t('recPhotoHint', REC_MAX_PHOTOS)}</p>
+      </div>
       <p class="comment-notice">${t('recNotice')} <a href="terms.html" target="_blank" rel="noopener">${t('termsLink')}</a></p>
       <button type="submit" class="comment-submit-btn rec-submit-btn">${t('recSubmit')}</button>
     </form>`;
+}
+
+// 고른 사진 미리보기 (사진 추가 버튼은 최대 장수가 되면 숨김)
+function renderRecPhotos() {
+  const list = document.getElementById('recPhotoList');
+  const add = document.getElementById('recPhotoAdd');
+  if (!list || !add) return;
+  list.querySelectorAll('.rec-photo-thumb').forEach(el => el.remove());
+  recPhotos.forEach((p, i) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'rec-photo-thumb';
+    thumb.innerHTML = `<img src="${p.url}" alt="" /><button type="button" class="rec-photo-remove" aria-label="${t('recPhotoRemove')}" onclick="removeRecPhoto(${i})">✕</button>`;
+    list.insertBefore(thumb, add);
+  });
+  add.hidden = recPhotos.length >= REC_MAX_PHOTOS;
+}
+
+async function handleRecPhotoSelect(event) {
+  const files = Array.from(event.target.files || []);
+  event.target.value = '';
+  const room = REC_MAX_PHOTOS - recPhotos.length;
+  if (files.length > room) alert(t('errPhotoMax', REC_MAX_PHOTOS));
+  for (const file of files.slice(0, Math.max(0, room))) {
+    try {
+      const blob = await resizeImage(file);
+      recPhotos.push({ blob, url: URL.createObjectURL(blob) });
+    } catch (e) {
+      alert(t('errPhotoType'));
+    }
+  }
+  renderRecPhotos();
+}
+
+function removeRecPhoto(index) {
+  const [p] = recPhotos.splice(index, 1);
+  if (p) URL.revokeObjectURL(p.url);
+  renderRecPhotos();
+}
+
+// 사진을 긴 변 1600px 이하로 줄여 WebP(안 되면 JPEG)로 다시 저장
+//   → 용량이 줄고, 촬영 위치(GPS) 같은 사진 속 정보(EXIF)도 함께 지워짐
+async function resizeImage(file) {
+  if (!file.type.startsWith('image/')) throw new Error('not an image');
+  let source, objectUrl = null;
+  try {
+    source = await createImageBitmap(file, { imageOrientation: 'from-image' });
+  } catch (e) {
+    objectUrl = URL.createObjectURL(file);
+    source = await new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = objectUrl;
+    });
+  }
+  const w0 = source.width || source.naturalWidth;
+  const h0 = source.height || source.naturalHeight;
+  if (!w0 || !h0) throw new Error('empty image');
+  const scale = Math.min(1, REC_PHOTO_MAX_SIDE / Math.max(w0, h0));
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(w0 * scale);
+  canvas.height = Math.round(h0 * scale);
+  canvas.getContext('2d').drawImage(source, 0, 0, canvas.width, canvas.height);
+  if (source.close) source.close();
+  if (objectUrl) URL.revokeObjectURL(objectUrl);
+
+  const toBlob = (type, quality) => new Promise(resolve => canvas.toBlob(resolve, type, quality));
+  const webp = await toBlob('image/webp', 0.82);
+  if (webp && webp.type === 'image/webp') return webp;
+  const jpeg = await toBlob('image/jpeg', 0.85); // WebP 저장을 못 하는 브라우저(일부 Safari)
+  if (!jpeg) throw new Error('encode failed');
+  return jpeg;
 }
 
 function renderRecList() {
@@ -1347,8 +1440,18 @@ function renderRecList() {
     el.innerHTML = `<p class="rec-empty">${t('recEmpty', city.name)}</p>`;
     return;
   }
-  el.innerHTML = state.recs.map(r => `
+  el.innerHTML = state.recs.map(r => {
+    const images = r.images || [];
+    const photos = images.length ? `
+      <div class="rec-images count-${images.length}">
+        ${images.map((img, i) => {
+          const alt = escapeHtml(t('recPhotoAlt', r.place, i + 1));
+          return `<button type="button" class="rec-image-btn" data-src="${escapeHtml(img.url)}" data-alt="${alt}" onclick="openImageViewer(this.dataset.src, this.dataset.alt)"><img src="${escapeHtml(img.url)}" alt="${alt}" loading="lazy" /></button>`;
+        }).join('')}
+      </div>` : '';
+    return `
     <article class="rec-item">
+      ${photos}
       <div class="rec-item-head">
         <h3 class="rec-place">📍 ${escapeHtml(r.place)}</h3>
         ${r.mine ? `<span class="mine-badge">${t('mineBadge')}</span>` : ''}
@@ -1359,11 +1462,11 @@ function renderRecList() {
         <span>${escapeHtml(r.author)} · ${escapeHtml(r.date)}</span>
         ${r.mine ? `<button type="button" class="item-delete-btn" onclick="handleDeleteRec(${Number(r.id)})">${t('deleteBtn')}</button>` : ''}
       </div>
-    </article>
-  `).join('');
+    </article>`;
+  }).join('');
 }
 
-function handleRecSubmit(event) {
+async function handleRecSubmit(event) {
   event.preventDefault();
   if (!Feedback.user) {
     startLogin({ type: 'recommend' });
@@ -1383,21 +1486,62 @@ function handleRecSubmit(event) {
   saveNickname(author);
 
   const btn = event.target.querySelector('.rec-submit-btn');
-  if (btn) { btn.disabled = true; btn.textContent = t('submitting'); }
+  const setBusy = (label) => { if (btn) { btn.disabled = Boolean(label); btn.textContent = label || t('recSubmit'); } };
   const cityId = state.currentCity;
-  Feedback.addRecommendation(cityId, { author, place, address, text })
-    .then(rec => {
-      if (state.currentCity !== cityId) return;
+  const uploaded = [];
+  try {
+    // 1) 사진을 먼저 내 폴더에 올리고  2) 경로와 함께 추천 등록
+    if (recPhotos.length) {
+      setBusy(t('uploadingPhotos'));
+      for (const p of recPhotos) uploaded.push(await Feedback.uploadRecImage(p.blob));
+    }
+    setBusy(t('submitting'));
+    const rec = await Feedback.addRecommendation(cityId, { author, place, address, text, images: uploaded });
+    if (state.currentCity === cityId) {
       state.recs.unshift(rec);
       renderRecList();
-      get('recPlace').value = '';
-      get('recAddress').value = '';
-      get('recBody').value = '';
-    })
-    .catch(err => alert(err.message))
-    .finally(() => {
-      if (btn) { btn.disabled = false; btn.textContent = t('recSubmit'); }
-    });
+    }
+    get('recPlace').value = '';
+    get('recAddress').value = '';
+    get('recBody').value = '';
+    clearRecPhotos();
+    renderRecPhotos();
+  } catch (err) {
+    // 등록에 실패하면 먼저 올린 사진은 지워서 남지 않게
+    if (uploaded.length) Feedback.removeRecImages(uploaded);
+    alert(err.message);
+  } finally {
+    setBusy('');
+  }
+}
+
+// 추천 사진 크게 보기
+function openImageViewer(src, alt) {
+  let viewer = document.getElementById('imageViewer');
+  if (!viewer) {
+    viewer = document.createElement('div');
+    viewer.id = 'imageViewer';
+    viewer.className = 'image-viewer';
+    viewer.setAttribute('role', 'dialog');
+    viewer.setAttribute('aria-modal', 'true');
+    viewer.innerHTML = `<button type="button" class="image-viewer-close" aria-label="${t('recPhotoClose')}">✕</button><img alt="" />`;
+    viewer.addEventListener('click', (e) => { if (e.target.tagName !== 'IMG') closeImageViewer(); });
+    document.body.appendChild(viewer);
+  }
+  const img = viewer.querySelector('img');
+  img.src = src;
+  img.alt = alt || '';
+  viewer.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  viewer.querySelector('.image-viewer-close').focus();
+}
+
+function closeImageViewer() {
+  const viewer = document.getElementById('imageViewer');
+  if (!viewer || !viewer.classList.contains('open')) return false;
+  viewer.classList.remove('open');
+  document.body.style.overflow = '';
+  return true;
 }
 
 function handleDeleteRec(id) {
