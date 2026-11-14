@@ -5,13 +5,13 @@
     <link>https://haru-trip-h0v.pages.dev/en/</link>
     <description>Day trip guides to Korea with curated A, B and C courses. Discover the best spots and itineraries in Busan, Mokpo, Gangneung, Jeonju, Jeju and Yeosu.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 14 Nov 2026 06:21:16 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 06:39:02 GMT</lastBuildDate>
     <atom:link href="https://haru-trip-h0v.pages.dev/en/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HARU TRIP Mokpo | A Day Trip Guide to Mokpo, the Romantic Historic Port City</title>
       <link>https://haru-trip-h0v.pages.dev/en/guide-mokpo.html</link>
       <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-mokpo.html</guid>
-      <description>Mokpo day trip in 3 courses: the modern history street, marine cable car, local delicacies and Mokpo Bridge at night.</description>
+      <description>Mokpo day trip in 4 courses: the modern history street, marine cable car, Mokpo Bridge at night and a food tour of skate, croaker and octopus.</description>
       <category>Mokpo</category>
       <category>Mokpo travel</category>
       <category>Mokpo day trip</category>
@@ -36,6 +36,13 @@
       <category>Mokpo Marine Skywalk</category>
       <category>Daebandong Yudal Resort</category>
       <category>Mokpo Bridge Night View</category>
+      <category>Mokpo Fish Market</category>
+      <category>Hongeo Samhap</category>
+      <category>Manho-dong Mineo</category>
+      <category>Croaker</category>
+      <category>Street</category>
+      <category>Bukhang Raw Fish Center</category>
+      <category>Sebal Nakji</category>
       <pubDate>Thu, 12 Nov 2026 02:55:44 GMT</pubDate>
     </item>
     <item>
@@ -210,6 +217,65 @@
       <category>MokpoNightSea</category>
       <category>BeachOceanViewCafe</category>
       <pubDate>Thu, 12 Nov 2026 02:55:44 GMT</pubDate>
+    </item>
+    <item>
+      <title>[Mokpo] Mokpo Fish Market &amp; Hongeo Samhap</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-mokpo.html#hongeo_fish_market</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-mokpo.html#hongeo_fish_market</guid>
+      <description>A &quot;holy ground&quot; for skate where most shops specialize in hongeo — the place to try hongeo samhap, one of Mokpo's 9 signature dishes.</description>
+      <category>Mokpo</category>
+      <category>Mokpo travel</category>
+      <category>Mokpo day trip</category>
+      <category>things to do in Mokpo</category>
+      <category>Mokpo Fish Market</category>
+      <category>Hongeo Samhap</category>
+      <category>Fish market</category>
+      <category>Skate dishes</category>
+      <category>HongeoSamhap</category>
+      <category>FermentedSkate</category>
+      <category>FishMarket</category>
+      <category>Mokpo9Delicacies</category>
+      <pubDate>Sat, 14 Nov 2026 06:39:02 GMT</pubDate>
+    </item>
+    <item>
+      <title>[Mokpo] Manho-dong Mineo (Croaker) Street</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-mokpo.html#mineo_street</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-mokpo.html#mineo_street</guid>
+      <description>A street of mineo (brown croaker) restaurants in old-town Manho-dong, where summer's top stamina food is served as sashimi, pancakes and soup.</description>
+      <category>Mokpo</category>
+      <category>Mokpo travel</category>
+      <category>Mokpo day trip</category>
+      <category>things to do in Mokpo</category>
+      <category>Manho-dong Mineo</category>
+      <category>Croaker</category>
+      <category>Street</category>
+      <category>Croaker restaurants</category>
+      <category>Summer stamina food</category>
+      <category>MineoSashimi</category>
+      <category>SummerStaminaFood</category>
+      <category>SwimBladder</category>
+      <category>OldTownEats</category>
+      <pubDate>Sat, 14 Nov 2026 06:39:02 GMT</pubDate>
+    </item>
+    <item>
+      <title>[Mokpo] Bukhang Raw Fish Center &amp; Sebal Nakji</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-mokpo.html#bukhang_nakji</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-mokpo.html#bukhang_nakji</guid>
+      <description>End the day at the raw fish center in Bukhang, right by Mokpo Bridge, with mudflat-raised sebal nakji and fresh sashimi.</description>
+      <category>Mokpo</category>
+      <category>Mokpo travel</category>
+      <category>Mokpo day trip</category>
+      <category>things to do in Mokpo</category>
+      <category>Bukhang Raw Fish Center</category>
+      <category>Sebal Nakji</category>
+      <category>Raw fish center</category>
+      <category>Octopus dishes</category>
+      <category>Sunset</category>
+      <category>SebalNakji</category>
+      <category>NakjiTangtangi</category>
+      <category>BukhangFishCenter</category>
+      <category>MokpoBridgeSunset</category>
+      <pubDate>Sat, 14 Nov 2026 06:39:02 GMT</pubDate>
     </item>
     <item>
       <title>HARU TRIP Busan | A Day Trip Guide to Busan's Blue Waves and Shining Skyline</title>

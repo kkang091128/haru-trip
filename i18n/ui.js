@@ -15,7 +15,7 @@
 
   const I18N = {
     ko: {
-      coursesTitle: (name) => `${name}${objectParticle(name)} 즐기는 가장 완벽한 3가지 코스`,
+      coursesTitle: (name, n = 3) => `${name}${objectParticle(name)} 즐기는 가장 완벽한 ${n}가지 코스`,
       exploreTitle: (name) => `${name} 당일치기 필수 명소 탐색`,
       footerCourseHeading: (name) => `${name} 당일치기 코스`,
       footerAllSpots: '전체 명소 검색',
@@ -93,7 +93,7 @@
     },
 
     en: {
-      coursesTitle: (name) => `3 Perfect Day Courses in ${name}`,
+      coursesTitle: (name, n = 3) => `${n} Perfect Day Courses in ${name}`,
       exploreTitle: (name) => `Must-See Spots for a Day in ${name}`,
       footerCourseHeading: (name) => `${name} Day Trip Courses`,
       footerAllSpots: 'Search all spots',

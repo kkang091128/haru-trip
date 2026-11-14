@@ -42,6 +42,18 @@ const COURSES_MOKPO = [
     color: '#F59E0B',
     icon: '✨',
     destinations: ['gourmet_market', 'skywalk', 'mokpodaegyo_night']
+  },
+  {
+    id: 'D',
+    badge: '코스 D',
+    title: '목포 9미 맛집 투어 코스',
+    subtitle: '홍어삼합의 성지 종합수산시장, 여름 보양식 민어의 거리, 북항에서 맛보는 세발낙지',
+    highlight: '맛의 도시 목포를 하루 세 끼로 즐기는 미식 여행',
+    duration: '약 5~6시간 (식사 포함)',
+    distance: '약 4.5 km',
+    color: '#E11D48',
+    icon: '🍽️',
+    destinations: ['hongeo_fish_market', 'mineo_street', 'bukhang_nakji']
   }
 ];
 
@@ -280,6 +292,86 @@ const DESTINATIONS_MOKPO = [
     timeRecommended: '소요시간: 약 1시간 30분~2시간',
     address: '전라남도 목포시 해양대학로 57',
     tip: '해 지기 30분 전에 도착해 노을이 야경으로 바뀌는 매직아워(Magic Hour)를 즐기는 것이 당일치기 여행의 가장 로맨틱한 방법입니다.',
+    initialLikes: 0,
+    initialComments: []
+  },
+
+  // --- Course D (맛집 투어) ---
+  {
+    id: 'hongeo_fish_market',
+    courseId: 'D',
+    courseBadge: '코스 D',
+    name: '목포종합수산시장 & 홍어삼합',
+    engName: 'Mokpo Fish Market & Hongeo Samhap',
+    theme: '수산시장 / 홍어 요리',
+    tags: ['#홍어삼합', '#흑산도홍어', '#수산시장', '#목포9미'],
+    images: [
+      'img/hongeo_fish_market_1.jpg',
+      'img/hongeo_fish_market_2.jpg',
+      'img/hongeo_fish_market_3.jpg'
+    ],
+    imageCaptions: [
+      '홍어 가게들이 늘어선 목포종합수산시장',
+      '삭힌 홍어와 돼지 수육, 묵은지를 곁들인 홍어삼합',
+      '새콤달콤하게 무쳐 낸 홍어무침'
+    ],
+    shortDesc: '점포 대부분이 홍어를 다루는 "홍어의 성지"로, 삭힌 홍어에 수육과 묵은지를 곁들인 목포 9미 홍어삼합을 제대로 맛볼 수 있는 곳입니다.',
+    fullDesc: '목포종합수산시장은 목포항 앞 해안로에 자리한 수산시장으로, 시장 안 점포의 상당수가 홍어를 전문으로 다룰 만큼 홍어로 이름난 곳입니다. 흑산도 등 서남해에서 잡힌 홍어를 항아리에서 삭혀 톡 쏘는 맛을 낸 뒤, 돼지 수육과 묵은지를 한 번에 싸 먹는 "홍어삼합"이 대표 메뉴입니다. 삭힌 맛이 부담스럽다면 덜 삭힌 홍어회나 새콤달콤한 홍어무침부터 시작해 보세요. 건어물과 젓갈, 제철 생선도 함께 구경할 수 있습니다.',
+    timeRecommended: '소요시간: 식사 포함 약 1시간 30분',
+    address: '전라남도 목포시 해안로 265-4',
+    tip: '홍어는 삭힌 정도에 따라 맛이 크게 달라지니 처음이라면 "덜 삭힌 것"으로 달라고 하세요. 대부분의 가게에서 포장과 택배 발송도 해 줍니다.',
+    initialLikes: 0,
+    initialComments: []
+  },
+  {
+    id: 'mineo_street',
+    courseId: 'D',
+    courseBadge: '코스 D',
+    name: '만호동 민어의 거리',
+    engName: 'Manho-dong Mineo (Croaker) Street',
+    theme: '민어 전문 식당가 / 여름 보양식',
+    tags: ['#민어회', '#여름보양식', '#민어부레', '#원도심맛집'],
+    images: [
+      'img/mineo_street_1.jpg',
+      'img/mineo_street_2.jpg',
+      'img/mineo_street_3.jpg'
+    ],
+    imageCaptions: [
+      '민어회를 중심으로 차려진 푸짐한 한상',
+      '두툼하게 썰어 낸 민어회',
+      '쫄깃한 식감이 별미인 민어 부레'
+    ],
+    shortDesc: '목포 원도심 만호동에 민어 전문 식당이 모여 있는 거리로, 여름 최고의 보양식으로 꼽히는 민어를 회·전·탕으로 즐길 수 있습니다.',
+    fullDesc: '민어는 "백성의 물고기"라는 이름과 달리 예부터 귀한 여름 보양식으로 대접받아 온 생선으로, 목포 9미 가운데 하나입니다. 목포 원도심 만호동 번화로 일대에는 수십 년 넘게 민어를 다뤄 온 식당들이 모여 "민어의 거리"를 이루고 있습니다. 두툼하게 썬 민어회와 함께 쫄깃한 부레, 고소한 껍질, 노릇한 민어전, 뼈로 끓인 시원한 민어탕까지 한 마리를 통째로 즐기는 것이 이곳의 방식입니다. 근대역사관과 가까워 원도심 산책과 함께 들르기 좋습니다.',
+    timeRecommended: '소요시간: 식사 약 1시간~1시간 30분',
+    address: '전라남도 목포시 번화로 일대 (만호동)',
+    tip: '민어는 6~8월 여름이 제철이라 이때 가장 기름지고 맛있습니다. 2~3명이 함께 가서 회와 탕을 같이 주문하면 다양한 부위를 맛볼 수 있습니다.',
+    initialLikes: 0,
+    initialComments: []
+  },
+  {
+    id: 'bukhang_nakji',
+    courseId: 'D',
+    courseBadge: '코스 D',
+    name: '북항 회센터 & 세발낙지',
+    engName: 'Bukhang Raw Fish Center & Sebal Nakji',
+    theme: '활어 회센터 / 낙지 요리 / 노을',
+    tags: ['#세발낙지', '#낙지탕탕이', '#북항회센터', '#목포대교노을'],
+    images: [
+      'img/bukhang_nakji_1.jpg',
+      'img/bukhang_nakji_2.jpg',
+      'img/bukhang_nakji_3.jpg'
+    ],
+    imageCaptions: [
+      '참기름과 깨를 두른 산낙지 한 접시',
+      '북항 앞바다 너머로 지는 목포대교의 노을',
+      '잘게 썰어 낸 낙지탕탕이'
+    ],
+    shortDesc: '목포대교가 가까이 보이는 북항의 회센터에서 갯벌이 키운 세발낙지와 싱싱한 활어회로 하루를 마무리하는 미식 코스입니다.',
+    fullDesc: '북항은 목포대교 바로 아래에 자리한 어항으로, 항구를 따라 활어 회센터와 횟집이 줄지어 있습니다. 이곳에서 꼭 맛봐야 할 목포 9미는 다리가 가늘어 "세발낙지"라 불리는 갯벌 낙지로, 통째로 나무젓가락에 감아 먹거나 잘게 썰어 참기름에 버무린 "낙지탕탕이", 시원하게 끓여 낸 연포탕으로 즐깁니다. 회센터에서 직접 고른 활어를 바로 회로 떠 먹을 수도 있으며, 해 질 무렵에는 목포대교 너머로 지는 노을이 식사의 배경이 되어 줍니다.',
+    timeRecommended: '소요시간: 식사 약 1시간 30분',
+    address: '전라남도 목포시 죽교동 북항 일대',
+    tip: '산낙지를 통째로 먹을 때는 잘 씹어서 천천히 드세요. 처음이라면 탕탕이나 연포탕을 추천합니다. 해 지기 1시간 전쯤 도착하면 노을과 함께 식사할 수 있습니다.',
     initialLikes: 0,
     initialComments: []
   }
@@ -575,10 +667,10 @@ const CITIES_DATA = {
     emoji: '📍',
     badge: '목포편',
     pageTitle: '하루트립 목포 | 낭만과 역사의 항구도시 목포 당일치기 여행 가이드',
-    metaDesc: '목포 당일치기 A·B·C 코스! 근대역사거리, 해상케이블카, 남도 9미, 목포대교 야경까지 한눈에.',
+    metaDesc: '목포 당일치기 A·B·C·D 코스! 근대역사거리, 해상케이블카, 목포대교 야경, 홍어삼합·민어회·세발낙지 맛집 투어까지 한눈에.',
     heroPill: '✨ 전국 당일치기 여행 프로젝트 #1 · 항구도시 목포',
     heroTitle: '푸른 다도해와 100년 역사가 빚어낸<br /><span class="highlight">목포 당일치기 완벽 여행</span>',
-    heroSubtitle: '취향 따라 선택하는 A · B · C 3가지 맞춤 테마 코스부터 로컬 찐명소까지!<br />아름다운 슬라이드 사진과 생생한 여행자 후기로 하루의 설렘을 완성해 보세요.',
+    heroSubtitle: '취향 따라 선택하는 A · B · C · D 4가지 맞춤 테마 코스부터 로컬 찐명소까지!<br />아름다운 슬라이드 사진과 생생한 여행자 후기로 하루의 설렘을 완성해 보세요.',
     heroBg: 'img/hero_bg.jpg',
     map: { lat: 34.8118, lng: 126.3922 }, // 지역 선택 지도의 핀 위치
     storageKeyLikes: 'haru_trip_mokpo_likes_v1',

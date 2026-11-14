@@ -8,7 +8,7 @@
 // 상태 관리
 const state = {
   currentCity: null, // CITIES_DATA의 키 (mokpo, busan, ...) — 첫 화면에서는 null
-  activeCourseFilter: 'ALL', // 'ALL' | 'A' | 'B' | 'C'
+  activeCourseFilter: 'ALL', // 'ALL' | 코스 id ('A', 'B', 'C', 'D' ...)
   searchQuery: '',
   likes: {},      // { [destId]: { count: number, userLiked: boolean } }
   comments: {},   // { [destId]: Array<Comment> }
@@ -166,7 +166,7 @@ function switchCity(cityId, options = {}) {
   const coursesSecTitle = document.getElementById('coursesSectionTitle');
   const exploreSecTitle = document.getElementById('exploreSectionTitle');
   if (coursesSecTitle) {
-    coursesSecTitle.textContent = t('coursesTitle', city.name);
+    coursesSecTitle.textContent = t('coursesTitle', city.name, city.courses.length);
   }
   if (exploreSecTitle) {
     exploreSecTitle.textContent = t('exploreTitle', city.name);

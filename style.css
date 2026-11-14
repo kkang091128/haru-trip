@@ -307,6 +307,7 @@ button {
 .course-card.course-A::before { background: linear-gradient(90deg, #2563eb, #60a5fa); }
 .course-card.course-B::before { background: linear-gradient(90deg, #0891b2, #38bdf8); }
 .course-card.course-C::before { background: linear-gradient(90deg, #d97706, #fbbf24); }
+.course-card.course-D::before { background: linear-gradient(90deg, #e11d48, #fb7185); }
 
 .course-card-top {
   display: flex;
@@ -325,6 +326,7 @@ button {
 .course-card.course-A .course-badge { background: #dbeafe; color: #1d4ed8; }
 .course-card.course-B .course-badge { background: #cffafe; color: #0e7490; }
 .course-card.course-C .course-badge { background: #fef3c7; color: #b45309; }
+.course-card.course-D .course-badge { background: #ffe4e6; color: #be123c; }
 
 .course-icon {
   font-size: 2rem;
@@ -659,6 +661,7 @@ button {
 .badge-A { background: rgba(37, 99, 235, 0.9); }
 .badge-B { background: rgba(8, 145, 178, 0.9); }
 .badge-C { background: rgba(217, 119, 6, 0.9); }
+.badge-D { background: rgba(225, 29, 72, 0.9); }
 
 .card-photo-counter {
   background: rgba(15, 23, 42, 0.7);

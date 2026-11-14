@@ -5,13 +5,13 @@
     <link>https://haru-trip-h0v.pages.dev/</link>
     <description>A, B, C 맞춤 코스로 즐기는 전국 당일치기 여행 가이드. 부산, 목포, 강릉, 전주, 제주, 여수의 명소와 코스를 한눈에 둘러보세요.</description>
     <language>ko</language>
-    <lastBuildDate>Sat, 14 Nov 2026 06:21:16 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 06:39:02 GMT</lastBuildDate>
     <atom:link href="https://haru-trip-h0v.pages.dev/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>하루트립 목포 | 낭만과 역사의 항구도시 목포 당일치기 여행 가이드</title>
       <link>https://haru-trip-h0v.pages.dev/guide-mokpo.html</link>
       <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-mokpo.html</guid>
-      <description>목포 당일치기 A·B·C 코스! 근대역사거리, 해상케이블카, 남도 9미, 목포대교 야경까지 한눈에.</description>
+      <description>목포 당일치기 A·B·C·D 코스! 근대역사거리, 해상케이블카, 목포대교 야경, 홍어삼합·민어회·세발낙지 맛집 투어까지 한눈에.</description>
       <category>목포</category>
       <category>목포 여행</category>
       <category>목포 당일치기</category>
@@ -36,6 +36,11 @@
       <category>목포 해상스카이워크</category>
       <category>대반동 유달유원지</category>
       <category>목포대교 야경</category>
+      <category>목포종합수산시장</category>
+      <category>홍어삼합</category>
+      <category>만호동 민어의 거리</category>
+      <category>북항 회센터</category>
+      <category>세발낙지</category>
       <pubDate>Wed, 11 Nov 2026 14:35:12 GMT</pubDate>
     </item>
     <item>
@@ -209,6 +214,60 @@
       <category>목포밤바다</category>
       <category>해변오션뷰카페</category>
       <pubDate>Wed, 11 Nov 2026 14:35:12 GMT</pubDate>
+    </item>
+    <item>
+      <title>[목포] 목포종합수산시장 &amp; 홍어삼합</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-mokpo.html#hongeo_fish_market</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-mokpo.html#hongeo_fish_market</guid>
+      <description>점포 대부분이 홍어를 다루는 &quot;홍어의 성지&quot;로, 삭힌 홍어에 수육과 묵은지를 곁들인 목포 9미 홍어삼합을 제대로 맛볼 수 있는 곳입니다.</description>
+      <category>목포</category>
+      <category>목포 여행</category>
+      <category>목포 당일치기</category>
+      <category>목포 가볼만한곳</category>
+      <category>목포종합수산시장</category>
+      <category>홍어삼합</category>
+      <category>수산시장</category>
+      <category>홍어 요리</category>
+      <category>흑산도홍어</category>
+      <category>목포9미</category>
+      <pubDate>Sat, 14 Nov 2026 06:39:02 GMT</pubDate>
+    </item>
+    <item>
+      <title>[목포] 만호동 민어의 거리</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-mokpo.html#mineo_street</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-mokpo.html#mineo_street</guid>
+      <description>목포 원도심 만호동에 민어 전문 식당이 모여 있는 거리로, 여름 최고의 보양식으로 꼽히는 민어를 회·전·탕으로 즐길 수 있습니다.</description>
+      <category>목포</category>
+      <category>목포 여행</category>
+      <category>목포 당일치기</category>
+      <category>목포 가볼만한곳</category>
+      <category>만호동 민어의 거리</category>
+      <category>민어 전문 식당가</category>
+      <category>여름 보양식</category>
+      <category>민어회</category>
+      <category>여름보양식</category>
+      <category>민어부레</category>
+      <category>원도심맛집</category>
+      <pubDate>Sat, 14 Nov 2026 06:39:02 GMT</pubDate>
+    </item>
+    <item>
+      <title>[목포] 북항 회센터 &amp; 세발낙지</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-mokpo.html#bukhang_nakji</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-mokpo.html#bukhang_nakji</guid>
+      <description>목포대교가 가까이 보이는 북항의 회센터에서 갯벌이 키운 세발낙지와 싱싱한 활어회로 하루를 마무리하는 미식 코스입니다.</description>
+      <category>목포</category>
+      <category>목포 여행</category>
+      <category>목포 당일치기</category>
+      <category>목포 가볼만한곳</category>
+      <category>북항 회센터</category>
+      <category>세발낙지</category>
+      <category>활어 회센터</category>
+      <category>낙지 요리</category>
+      <category>노을</category>
+      <category>낙지탕탕이</category>
+      <category>북항회센터</category>
+      <category>목포대교노을</category>
+      <pubDate>Sat, 14 Nov 2026 06:39:02 GMT</pubDate>
     </item>
     <item>
       <title>하루트립 부산 | 푸른 파도와 빛나는 마천루 부산 당일치기 여행 가이드</title>

@@ -12,14 +12,15 @@ const HARU_DATA_EN = {
     name: 'Mokpo',
     badge: 'Mokpo',
     pageTitle: 'HARU TRIP Mokpo | A Day Trip Guide to Mokpo, the Romantic Historic Port City',
-    metaDesc: 'Mokpo day trip in 3 courses: the modern history street, marine cable car, local delicacies and Mokpo Bridge at night.',
+    metaDesc: 'Mokpo day trip in 4 courses: the modern history street, marine cable car, Mokpo Bridge at night and a food tour of skate, croaker and octopus.',
     heroPill: '✨ Korea Day Trip Project #1 · Mokpo, the port city',
     heroTitle: 'Shaped by a blue archipelago and 100 years of history<br /><span class="highlight">The Perfect Mokpo Day Trip</span>',
-    heroSubtitle: 'From three themed A · B · C courses to local favorites only residents know!<br />Plan your day with photo slides and real traveler reviews.',
+    heroSubtitle: 'From four themed A · B · C · D courses to local favorites only residents know!<br />Plan your day with photo slides and real traveler reviews.',
     courses: {
       A: { title: 'Modern History & Retro Culture Course', subtitle: 'A trip back 100 years and Mokpo\'s one-of-a-kind retro vibe', highlight: 'Old-town charm and famous film and drama scenes', duration: 'About 5–6 hours', distance: 'About 4.2 km' },
       B: { title: 'Ocean Healing & Panoramic Sea View Course', subtitle: 'Ride Korea\'s longest marine cable car over the blue archipelago', highlight: 'Breathtaking views linking mountain, sea and islands', duration: 'About 6–7 hours', distance: 'About 8.5 km' },
-      C: { title: 'Southern Food & Romantic Sunset/Night Course', subtitle: 'Mokpo\'s 9 signature dishes, Daebandong sunsets and the glittering Mokpo Bridge', highlight: 'Rich southern flavors and a romantic night view', duration: 'About 5–6 hours', distance: 'About 6.0 km' }
+      C: { title: 'Southern Food & Romantic Sunset/Night Course', subtitle: 'Mokpo\'s 9 signature dishes, Daebandong sunsets and the glittering Mokpo Bridge', highlight: 'Rich southern flavors and a romantic night view', duration: 'About 5–6 hours', distance: 'About 6.0 km' },
+      D: { title: 'Mokpo 9 Delicacies Food Tour Course', subtitle: 'Hongeo samhap at the fish market, summer mineo on Croaker Street and sebal nakji at Bukhang', highlight: 'A three-meal food trip through Korea\'s "City of Taste"', duration: 'About 5–6 hours (including meals)', distance: 'About 4.5 km' }
     },
     destinations: {
       modern_history_hall: {
@@ -120,6 +121,39 @@ const HARU_DATA_EN = {
         timeRecommended: 'Time needed: about 1.5–2 hours',
         address: '57 Haeyangdaehak-ro, Mokpo, Jeollanam-do',
         tip: 'Arrive 30 minutes before sunset and enjoy the "magic hour" as the sunset turns into a night view — the most romantic way to end your day trip.'
+      },
+      hongeo_fish_market: {
+        name: 'Mokpo Fish Market & Hongeo Samhap',
+        theme: 'Fish market / Skate dishes',
+        tags: ['#HongeoSamhap', '#FermentedSkate', '#FishMarket', '#Mokpo9Delicacies'],
+        imageCaptions: ['Mokpo Fish Market lined with skate shops', 'Hongeo samhap: fermented skate with boiled pork and aged kimchi', 'Sweet and tangy spicy skate salad'],
+        shortDesc: 'A "holy ground" for skate where most shops specialize in hongeo — the place to try hongeo samhap, one of Mokpo\'s 9 signature dishes.',
+        fullDesc: 'Mokpo Fish Market sits on Haean-ro facing Mokpo Port, and so many of its shops specialize in skate (hongeo) that the market is famous for it. Skate caught in the southwestern sea around Heuksando is fermented in jars to give it a sharp, pungent kick, then wrapped together with boiled pork and aged kimchi to make "hongeo samhap," the signature dish. If the fermented flavor sounds intimidating, start with lightly fermented skate sashimi or the sweet-and-tangy spicy skate salad. You can also browse dried seafood, salted fish and seasonal catches.',
+        timeRecommended: 'Time needed: about 1.5 hours including a meal',
+        address: '265-4 Haean-ro, Mokpo, Jeollanam-do',
+        tip: 'Skate tastes very different depending on how long it\'s fermented, so ask for a "lightly fermented" one if it\'s your first time. Most shops can pack it to go or ship it.'
+      },
+      mineo_street: {
+        name: 'Manho-dong Mineo (Croaker) Street',
+        theme: 'Croaker restaurants / Summer stamina food',
+        tags: ['#MineoSashimi', '#SummerStaminaFood', '#SwimBladder', '#OldTownEats'],
+        imageCaptions: ['A generous spread centered on mineo sashimi', 'Thick slices of mineo sashimi', 'Chewy mineo swim bladder, a delicacy'],
+        shortDesc: 'A street of mineo (brown croaker) restaurants in old-town Manho-dong, where summer\'s top stamina food is served as sashimi, pancakes and soup.',
+        fullDesc: 'Despite its name, "the people\'s fish," mineo (brown croaker) has long been treasured as a summer stamina food and is one of Mokpo\'s 9 signature dishes. Along Beonhwa-ro in Manho-dong, the old downtown, restaurants that have served mineo for decades cluster together to form "Mineo Street." The local way is to enjoy the whole fish: thick-cut sashimi, chewy swim bladder, savory skin, golden mineo pancakes and a refreshing soup made from the bones. It\'s close to the Modern History Museum, so it pairs well with an old-town walk.',
+        timeRecommended: 'Time needed: about 1–1.5 hours for a meal',
+        address: 'Beonhwa-ro area, Manho-dong, Mokpo, Jeollanam-do',
+        tip: 'Mineo is in season from June to August, when it\'s at its richest. Go with 2–3 people and order both sashimi and soup to taste a variety of cuts.'
+      },
+      bukhang_nakji: {
+        name: 'Bukhang Raw Fish Center & Sebal Nakji',
+        theme: 'Raw fish center / Octopus dishes / Sunset',
+        tags: ['#SebalNakji', '#NakjiTangtangi', '#BukhangFishCenter', '#MokpoBridgeSunset'],
+        imageCaptions: ['A plate of live octopus with sesame oil and seeds', 'Sunset behind Mokpo Bridge beyond Bukhang', 'Finely chopped nakji tangtangi'],
+        shortDesc: 'End the day at the raw fish center in Bukhang, right by Mokpo Bridge, with mudflat-raised sebal nakji and fresh sashimi.',
+        fullDesc: 'Bukhang is a fishing port right beneath Mokpo Bridge, with live-fish centers and raw fish restaurants lined up along the harbor. The must-try here is "sebal nakji," a mudflat octopus with thin legs and one of Mokpo\'s 9 signature dishes. It\'s eaten whole wrapped around chopsticks, chopped and tossed in sesame oil as "nakji tangtangi," or in a light, clear yeonpo-tang soup. You can also pick a live fish at the center and have it sliced on the spot, and around sunset the sky behind Mokpo Bridge makes a beautiful backdrop for dinner.',
+        timeRecommended: 'Time needed: about 1.5 hours for a meal',
+        address: 'Bukhang area, Jukgyo-dong, Mokpo, Jeollanam-do',
+        tip: 'If you eat live octopus whole, chew well and take your time. First-timers may prefer tangtangi or yeonpo-tang. Arrive about an hour before sunset to dine with the view.'
       }
     }
   },
