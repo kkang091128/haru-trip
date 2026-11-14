@@ -3,9 +3,9 @@
   <channel>
     <title>하루트립 - 전국 당일치기 여행 가이드</title>
     <link>https://haru-trip-h0v.pages.dev/</link>
-    <description>A, B, C 맞춤 코스로 즐기는 전국 당일치기 여행 가이드. 부산, 목포, 강릉, 전주, 제주의 명소와 코스를 한눈에 둘러보세요.</description>
+    <description>A, B, C 맞춤 코스로 즐기는 전국 당일치기 여행 가이드. 부산, 목포, 강릉, 전주, 제주, 여수의 명소와 코스를 한눈에 둘러보세요.</description>
     <language>ko</language>
-    <lastBuildDate>Thu, 12 Nov 2026 03:23:45 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 06:21:16 GMT</lastBuildDate>
     <atom:link href="https://haru-trip-h0v.pages.dev/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>하루트립 목포 | 낭만과 역사의 항구도시 목포 당일치기 여행 가이드</title>
@@ -982,6 +982,199 @@
       <category>한복나들이</category>
       <category>길거리간식</category>
       <pubDate>Wed, 11 Nov 2026 14:35:12 GMT</pubDate>
+    </item>
+    <item>
+      <title>하루트립 여수 | 동백섬과 밤바다의 도시 여수 당일치기 여행 가이드</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-yeosu.html</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-yeosu.html</guid>
+      <description>여수 당일치기 A·B·C 코스! 오동도, 해상케이블카, 향일암, 진남관, 낭만포차 밤바다까지 한눈에.</description>
+      <category>여수</category>
+      <category>여수 여행</category>
+      <category>여수 당일치기</category>
+      <category>여수 여행코스</category>
+      <category>여수 가볼만한곳</category>
+      <category>당일치기 여행</category>
+      <category>국내여행</category>
+      <category>여수세계박람회장</category>
+      <category>빅오쇼</category>
+      <category>오동도</category>
+      <category>여수해상케이블카</category>
+      <category>향일암</category>
+      <category>돌산공원</category>
+      <category>돌산대교</category>
+      <category>예술의 섬 장도</category>
+      <category>진남관</category>
+      <category>이순신광장</category>
+      <category>하멜등대</category>
+      <category>하멜전시관</category>
+      <category>여수 밤바다</category>
+      <category>낭만포차 거리</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[여수] 여수세계박람회장 &amp; 빅오쇼</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-yeosu.html#yeosu_expo</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-yeosu.html#yeosu_expo</guid>
+      <description>2012 여수세계박람회가 열렸던 바닷가 공간으로, 아쿠아플라넷과 스카이타워, 그리고 밤마다 펼쳐지는 빅오쇼를 즐길 수 있는 곳입니다.</description>
+      <category>여수</category>
+      <category>여수 여행</category>
+      <category>여수 당일치기</category>
+      <category>여수 가볼만한곳</category>
+      <category>여수세계박람회장</category>
+      <category>빅오쇼</category>
+      <category>복합 문화 공간</category>
+      <category>야간 쇼</category>
+      <category>아쿠아플라넷</category>
+      <category>엑스포공원</category>
+      <category>바다산책</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[여수] 오동도</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-yeosu.html#odongdo</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-yeosu.html#odongdo</guid>
+      <description>육지와 긴 방파제로 이어진 작은 섬으로, 섬 전체를 덮은 동백나무 숲과 등대, 해안 절벽 산책로가 아름다운 여수의 상징입니다.</description>
+      <category>여수</category>
+      <category>여수 여행</category>
+      <category>여수 당일치기</category>
+      <category>여수 가볼만한곳</category>
+      <category>오동도</category>
+      <category>동백섬</category>
+      <category>숲 산책</category>
+      <category>동백꽃</category>
+      <category>방파제길</category>
+      <category>오동도등대</category>
+      <category>동백열차</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[여수] 여수해상케이블카</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-yeosu.html#yeosu_cable_car</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-yeosu.html#yeosu_cable_car</guid>
+      <description>자산공원과 돌산공원 사이 바다 위를 건너는 케이블카로, 여수항과 거북선대교, 오동도를 한눈에 내려다볼 수 있습니다.</description>
+      <category>여수</category>
+      <category>여수 여행</category>
+      <category>여수 당일치기</category>
+      <category>여수 가볼만한곳</category>
+      <category>여수해상케이블카</category>
+      <category>케이블카</category>
+      <category>바다 전망</category>
+      <category>해상케이블카</category>
+      <category>크리스탈캐빈</category>
+      <category>돌산대교뷰</category>
+      <category>여수항</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[여수] 향일암</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-yeosu.html#hyangiram</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-yeosu.html#hyangiram</guid>
+      <description>돌산도 끝 금오산 바위 절벽에 자리한 암자로, 이름처럼 &quot;해를 향한&quot; 탁 트인 남해 바다 전망과 해돋이로 유명합니다.</description>
+      <category>여수</category>
+      <category>여수 여행</category>
+      <category>여수 당일치기</category>
+      <category>여수 가볼만한곳</category>
+      <category>향일암</category>
+      <category>사찰</category>
+      <category>해돋이 명소</category>
+      <category>해돋이명소</category>
+      <category>바다절벽</category>
+      <category>관음성지</category>
+      <category>돌산도</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[여수] 돌산공원 &amp; 돌산대교</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-yeosu.html#dolsan_park</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-yeosu.html#dolsan_park</guid>
+      <description>여수 시내와 돌산도를 잇는 돌산대교 바로 옆 언덕 공원으로, 다리와 여수항이 한눈에 들어오는 여수 최고의 전망 명소입니다.</description>
+      <category>여수</category>
+      <category>여수 여행</category>
+      <category>여수 당일치기</category>
+      <category>여수 가볼만한곳</category>
+      <category>돌산공원</category>
+      <category>돌산대교</category>
+      <category>전망 공원</category>
+      <category>야경 명소</category>
+      <category>여수야경</category>
+      <category>전망대</category>
+      <category>케이블카</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[여수] 예술의 섬 장도</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-yeosu.html#jangdo_island</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-yeosu.html#jangdo_island</guid>
+      <description>웅천 해변 앞 작은 섬을 예술 공원으로 꾸민 곳으로, 바다 위 다리를 건너 전시관과 조각, 대숲 산책로를 둘러볼 수 있습니다.</description>
+      <category>여수</category>
+      <category>여수 여행</category>
+      <category>여수 당일치기</category>
+      <category>여수 가볼만한곳</category>
+      <category>예술의 섬 장도</category>
+      <category>섬 산책</category>
+      <category>예술 공간</category>
+      <category>예술의섬</category>
+      <category>진섬다리</category>
+      <category>섬산책</category>
+      <category>웅천</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[여수] 진남관 &amp; 이순신광장</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-yeosu.html#jinnamgwan</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-yeosu.html#jinnamgwan</guid>
+      <description>이순신 장군의 전라좌수영 터에 세워진 거대한 목조 건물 진남관과, 거북선 모형이 있는 바닷가 이순신광장을 함께 둘러보는 코스입니다.</description>
+      <category>여수</category>
+      <category>여수 여행</category>
+      <category>여수 당일치기</category>
+      <category>여수 가볼만한곳</category>
+      <category>진남관</category>
+      <category>이순신광장</category>
+      <category>역사 유적</category>
+      <category>광장</category>
+      <category>국보</category>
+      <category>전라좌수영</category>
+      <category>이순신장군</category>
+      <category>거북선</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[여수] 하멜등대 &amp; 하멜전시관</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-yeosu.html#hamel_lighthouse</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-yeosu.html#hamel_lighthouse</guid>
+      <description>조선을 서양에 처음 자세히 알린 네덜란드인 하멜을 기념하는 붉은 등대와 전시관으로, 밤바다 산책길의 인기 포토존입니다.</description>
+      <category>여수</category>
+      <category>여수 여행</category>
+      <category>여수 당일치기</category>
+      <category>여수 가볼만한곳</category>
+      <category>하멜등대</category>
+      <category>하멜전시관</category>
+      <category>등대</category>
+      <category>전시관</category>
+      <category>빨간등대</category>
+      <category>하멜표류기</category>
+      <category>포토존</category>
+      <category>바다산책</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[여수] 여수 밤바다 &amp; 낭만포차 거리</title>
+      <link>https://haru-trip-h0v.pages.dev/guide-yeosu.html#yeosu_night_sea</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/guide-yeosu.html#yeosu_night_sea</guid>
+      <description>노래로도 유명한 여수 밤바다를 따라 포장마차가 줄지어 불을 밝히는 거리로, 해물삼합과 함께 하루를 마무리하기 좋은 곳입니다.</description>
+      <category>여수</category>
+      <category>여수 여행</category>
+      <category>여수 당일치기</category>
+      <category>여수 가볼만한곳</category>
+      <category>여수 밤바다</category>
+      <category>낭만포차 거리</category>
+      <category>야경 명소</category>
+      <category>포장마차 거리</category>
+      <category>여수밤바다</category>
+      <category>낭만포차</category>
+      <category>해물삼합</category>
+      <category>거북선대교야경</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
     </item>
   </channel>
 </rss>

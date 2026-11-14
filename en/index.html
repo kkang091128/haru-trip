@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="docTitle" data-i18n="metaTitle">HARU TRIP | Korea Day Trip Itineraries by City</title>
-  <meta name="description" id="docDesc" data-i18n-attr="content:metaDesc" content="Day trips to Mokpo, Busan, Gangneung, Jeonju &amp; Jeju with A·B·C courses. Sights, food and night views in one place." />
+  <meta name="description" id="docDesc" data-i18n-attr="content:metaDesc" content="Day trips to Mokpo, Busan, Gangneung, Jeonju, Jeju &amp; Yeosu with A·B·C courses. Sights, food and night views in one place." />
   
   <!-- Favicon & Stylesheet -->
   <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -18,7 +18,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" data-i18n-attr="content:siteName" content="HARU TRIP" />
   <meta property="og:title" data-i18n-attr="content:ogTitle" content="HARU TRIP | Korea Day Trip Itineraries by City" />
-  <meta property="og:description" data-i18n-attr="content:ogDesc" content="Three curated one-day courses each for Mokpo, Busan, Gangneung, Jeonju and Jeju." />
+  <meta property="og:description" data-i18n-attr="content:ogDesc" content="Three curated one-day courses each for Mokpo, Busan, Gangneung, Jeonju, Jeju and Yeosu." />
   <meta property="og:url" data-i18n-attr="content:canonical" content="https://haru-trip-h0v.pages.dev/en/" />
   <meta property="og:image" content="https://haru-trip-h0v.pages.dev/img/busan_hero_bg.jpg" />
   <link rel="alternate" type="application/rss+xml" data-i18n-attr="title:rssTitle,href:rssHref" title="HARU TRIP RSS" href="/en/rss.xml" />
@@ -172,9 +172,9 @@
       <div class="nationwide-banner">
         <div class="nationwide-content">
           <span class="nationwide-badge" data-i18n="nationBadge">🚀 Nationwide Expansion Roadmap</span>
-          <h2 class="nationwide-title" data-i18n="nationTitle">Beyond Mokpo, Busan, Gangneung, Jeonju and Jeju —<br />
+          <h2 class="nationwide-title" data-i18n="nationTitle">Beyond Mokpo, Busan, Gangneung, Jeonju, Jeju and Yeosu —<br />
             connecting beautiful days all across Korea.</h2>
-          <p class="nationwide-desc" data-i18n="nationDesc">Starting with Mokpo, Busan, Gangneung, Jeonju and Jeju, HARU TRIP is expanding across Korea with curated one-day itineraries anyone can enjoy on a weekend — no overnight planning needed.</p>
+          <p class="nationwide-desc" data-i18n="nationDesc">Starting with Mokpo, Busan, Gangneung, Jeonju, Jeju and Yeosu, HARU TRIP is expanding across Korea with curated one-day itineraries anyone can enjoy on a weekend — no overnight planning needed.</p>
 
           <!-- 확장 도시 그리드 -->
           <div class="regions-grid">
@@ -218,12 +218,12 @@
               <p class="region-box-desc" data-i18n="regionDescJeju">Aewol Handam Coastal Trail, Hyeopjae Beach, Seongsan Ilchulbong, Cheonjiyeon Falls</p>
             </div>
 
-            <div class="region-box">
+            <div class="region-box" id="regionBoxYeosu" data-city="yeosu" onclick="switchCity('yeosu')" style="cursor: pointer;" data-i18n-attr="title:goYeosu" title="Open the Yeosu guide">
               <div class="region-box-header">
                 <span class="region-box-name" data-i18n="regionYeosu">Yeosu</span>
-                <span class="region-box-status" data-i18n="statusSoon">Coming soon</span>
+                <span class="region-box-status" style="background:#22c55e;" data-i18n="statusOpen">Available</span>
               </div>
-              <p class="region-box-desc" data-i18n="regionDescYeosu">Odongdo camellia forest, Yeosu marine cable car, harbor-side night food stalls</p>
+              <p class="region-box-desc" data-i18n="regionDescYeosu">Odongdo camellia forest, Yeosu marine cable car, Hyangiram, harbor-side night food stalls</p>
             </div>
           </div>
 
@@ -272,7 +272,7 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <h3 data-i18n="footerBrand">🌊 HARU TRIP</h3>
-        <p data-i18n="footerDesc">HARU TRIP is a curated day-trip guide to Korea — a full day of rest and discovery, no overnight stay required. Starting with Mokpo, Busan, Gangneung, Jeonju and Jeju, we showcase gem-like one-day courses from all over Korea.</p>
+        <p data-i18n="footerDesc">HARU TRIP is a curated day-trip guide to Korea — a full day of rest and discovery, no overnight stay required. Starting with Mokpo, Busan, Gangneung, Jeonju, Jeju and Yeosu, we showcase gem-like one-day courses from all over Korea.</p>
       </div>
 
       <div class="footer-col city-only">
@@ -290,6 +290,7 @@
           <li><a href="guide-gangneung.html" data-i18n="guideGangneung">Gangneung day trip guide</a></li>
           <li><a href="guide-jeonju.html" data-i18n="guideJeonju">Jeonju day trip guide</a></li>
           <li><a href="guide-jeju.html" data-i18n="guideJeju">Jeju day trip guide</a></li>
+          <li><a href="guide-yeosu.html" data-i18n="guideYeosu">Yeosu day trip guide</a></li>
         </ul>
       </div>
     </div>
@@ -316,6 +317,7 @@
   <script src="../data_gangneung.js"></script>
   <script src="../data_jeonju.js"></script>
   <script src="../data_jeju.js"></script>
+  <script src="../data_yeosu.js"></script>
   <script src="../i18n/data_en.js"></script>
   <script src="../app.js"></script>
 </body>

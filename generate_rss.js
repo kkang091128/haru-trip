@@ -41,7 +41,7 @@ const LANGS = [
   {
     code: 'ko', dir: '', file: 'rss.xml', cities: loadCities(),
     channelTitle: '하루트립 - 전국 당일치기 여행 가이드',
-    channelDesc: 'A, B, C 맞춤 코스로 즐기는 전국 당일치기 여행 가이드. 부산, 목포, 강릉, 전주, 제주의 명소와 코스를 한눈에 둘러보세요.',
+    channelDesc: 'A, B, C 맞춤 코스로 즐기는 전국 당일치기 여행 가이드. 부산, 목포, 강릉, 전주, 제주, 여수의 명소와 코스를 한눈에 둘러보세요.',
     itemTitle: (city, d) => `[${city.name}] ${d.name}`,
     cityWords: (city) => [city.name, `${city.name} 여행`, `${city.name} 당일치기`, `${city.name} 여행코스`, `${city.name} 가볼만한곳`, '당일치기 여행', '국내여행'],
     destWords: (city) => [city.name, `${city.name} 여행`, `${city.name} 당일치기`, `${city.name} 가볼만한곳`]
@@ -49,7 +49,7 @@ const LANGS = [
   {
     code: 'en', dir: 'en/', file: 'en/rss.xml', cities: loadCities(['i18n/data_en.js']),
     channelTitle: 'HARU TRIP - Korea Day Trip Guide',
-    channelDesc: 'Day trip guides to Korea with curated A, B and C courses. Discover the best spots and itineraries in Busan, Mokpo, Gangneung, Jeonju and Jeju.',
+    channelDesc: 'Day trip guides to Korea with curated A, B and C courses. Discover the best spots and itineraries in Busan, Mokpo, Gangneung, Jeonju, Jeju and Yeosu.',
     itemTitle: (city, d) => `[${city.name}] ${d.name}`,
     cityWords: (city) => [city.name, `${city.name} travel`, `${city.name} day trip`, `${city.name} itinerary`, `things to do in ${city.name}`, 'Korea day trip', 'Korea travel'],
     destWords: (city) => [city.name, `${city.name} travel`, `${city.name} day trip`, `things to do in ${city.name}`]

@@ -3,9 +3,9 @@
   <channel>
     <title>HARU TRIP - Korea Day Trip Guide</title>
     <link>https://haru-trip-h0v.pages.dev/en/</link>
-    <description>Day trip guides to Korea with curated A, B and C courses. Discover the best spots and itineraries in Busan, Mokpo, Gangneung, Jeonju and Jeju.</description>
+    <description>Day trip guides to Korea with curated A, B and C courses. Discover the best spots and itineraries in Busan, Mokpo, Gangneung, Jeonju, Jeju and Yeosu.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 03:23:45 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 06:21:16 GMT</lastBuildDate>
     <atom:link href="https://haru-trip-h0v.pages.dev/en/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HARU TRIP Mokpo | A Day Trip Guide to Mokpo, the Romantic Historic Port City</title>
@@ -992,6 +992,201 @@
       <category>HanbokOuting</category>
       <category>StreetSnacks</category>
       <pubDate>Thu, 12 Nov 2026 02:55:44 GMT</pubDate>
+    </item>
+    <item>
+      <title>HARU TRIP Yeosu | A Day Trip Guide to Yeosu's Camellia Island and Night Sea</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-yeosu.html</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-yeosu.html</guid>
+      <description>Yeosu day trip in 3 courses: Odongdo, the marine cable car, Hyangiram, Jinnamgwan and the night sea with harbor-side food stalls.</description>
+      <category>Yeosu</category>
+      <category>Yeosu travel</category>
+      <category>Yeosu day trip</category>
+      <category>Yeosu itinerary</category>
+      <category>things to do in Yeosu</category>
+      <category>Korea day trip</category>
+      <category>Korea travel</category>
+      <category>Yeosu Expo Park</category>
+      <category>Big-O Show</category>
+      <category>Odongdo Island</category>
+      <category>Yeosu Maritime Cable Car</category>
+      <category>Hyangiram Hermitage</category>
+      <category>Dolsan Park</category>
+      <category>Dolsan Bridge</category>
+      <category>Jangdo Art Island</category>
+      <category>Jinnamgwan Hall</category>
+      <category>Yi Sun-sin Square</category>
+      <category>Hamel Lighthouse</category>
+      <category>Hamel Museum</category>
+      <category>Yeosu Night Sea</category>
+      <category>Nangman Pocha Street</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[Yeosu] Yeosu Expo Park &amp; Big-O Show</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#yeosu_expo</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#yeosu_expo</guid>
+      <description>The seaside venue of the 2012 Yeosu World Expo, now home to Aqua Planet, the Sky Tower and the nightly Big-O Show.</description>
+      <category>Yeosu</category>
+      <category>Yeosu travel</category>
+      <category>Yeosu day trip</category>
+      <category>things to do in Yeosu</category>
+      <category>Yeosu Expo Park</category>
+      <category>Big-O Show</category>
+      <category>Cultural complex</category>
+      <category>Night show</category>
+      <category>BigOShow</category>
+      <category>AquaPlanet</category>
+      <category>ExpoPark</category>
+      <category>SeasideWalk</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[Yeosu] Odongdo Island</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#odongdo</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#odongdo</guid>
+      <description>A small island linked to the mainland by a long breakwater — its camellia forest, lighthouse and cliffside trails make it Yeosu's symbol.</description>
+      <category>Yeosu</category>
+      <category>Yeosu travel</category>
+      <category>Yeosu day trip</category>
+      <category>things to do in Yeosu</category>
+      <category>Odongdo Island</category>
+      <category>Camellia island</category>
+      <category>Forest walk</category>
+      <category>Camellias</category>
+      <category>BreakwaterWalk</category>
+      <category>OdongdoLighthouse</category>
+      <category>CamelliaTrain</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[Yeosu] Yeosu Maritime Cable Car</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#yeosu_cable_car</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#yeosu_cable_car</guid>
+      <description>A cable car crossing the sea between Jasan Park and Dolsan Park, with views over Yeosu Harbor, Geobukseon Bridge and Odongdo.</description>
+      <category>Yeosu</category>
+      <category>Yeosu travel</category>
+      <category>Yeosu day trip</category>
+      <category>things to do in Yeosu</category>
+      <category>Yeosu Maritime Cable Car</category>
+      <category>Cable car</category>
+      <category>Sea views</category>
+      <category>MaritimeCableCar</category>
+      <category>CrystalCabin</category>
+      <category>BridgeView</category>
+      <category>YeosuHarbor</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[Yeosu] Hyangiram Hermitage</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#hyangiram</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#hyangiram</guid>
+      <description>A hermitage clinging to the rocky cliffs of Geumosan at the tip of Dolsando, famous for sunrise and wide views of the southern sea — true to its name, &quot;facing the sun.&quot;</description>
+      <category>Yeosu</category>
+      <category>Yeosu travel</category>
+      <category>Yeosu day trip</category>
+      <category>things to do in Yeosu</category>
+      <category>Hyangiram Hermitage</category>
+      <category>Temple</category>
+      <category>Sunrise spot</category>
+      <category>SunriseSpot</category>
+      <category>SeaCliff</category>
+      <category>GuanyinShrine</category>
+      <category>Dolsando</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[Yeosu] Dolsan Park &amp; Dolsan Bridge</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#dolsan_park</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#dolsan_park</guid>
+      <description>A hilltop park right beside Dolsan Bridge, which links downtown Yeosu and Dolsando — the best spot to see the bridge and harbor at a glance.</description>
+      <category>Yeosu</category>
+      <category>Yeosu travel</category>
+      <category>Yeosu day trip</category>
+      <category>things to do in Yeosu</category>
+      <category>Dolsan Park</category>
+      <category>Dolsan Bridge</category>
+      <category>Viewpoint park</category>
+      <category>Night view</category>
+      <category>DolsanBridge</category>
+      <category>YeosuNightView</category>
+      <category>Viewpoint</category>
+      <category>CableCar</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[Yeosu] Jangdo Art Island</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#jangdo_island</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#jangdo_island</guid>
+      <description>A small island off Ungcheon Beach turned into an art park — cross the low sea bridge to explore a gallery, sculptures and bamboo-lined trails.</description>
+      <category>Yeosu</category>
+      <category>Yeosu travel</category>
+      <category>Yeosu day trip</category>
+      <category>things to do in Yeosu</category>
+      <category>Jangdo Art Island</category>
+      <category>Island walk</category>
+      <category>Art space</category>
+      <category>ArtIsland</category>
+      <category>JinseomBridge</category>
+      <category>IslandWalk</category>
+      <category>Ungcheon</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[Yeosu] Jinnamgwan Hall &amp; Yi Sun-sin Square</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#jinnamgwan</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#jinnamgwan</guid>
+      <description>Visit Jinnamgwan, a huge wooden hall on the site of Admiral Yi Sun-sin's naval headquarters, and the seaside Yi Sun-sin Square with its turtle ship replica.</description>
+      <category>Yeosu</category>
+      <category>Yeosu travel</category>
+      <category>Yeosu day trip</category>
+      <category>things to do in Yeosu</category>
+      <category>Jinnamgwan Hall</category>
+      <category>Yi Sun-sin Square</category>
+      <category>Historic site</category>
+      <category>Plaza</category>
+      <category>NationalTreasure</category>
+      <category>NavalHeadquarters</category>
+      <category>AdmiralYiSunsin</category>
+      <category>TurtleShip</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[Yeosu] Hamel Lighthouse &amp; Hamel Museum</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#hamel_lighthouse</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#hamel_lighthouse</guid>
+      <description>A red lighthouse and museum honoring Hendrick Hamel, the Dutchman who first described Joseon in detail to the West — a popular photo spot on the night-sea walk.</description>
+      <category>Yeosu</category>
+      <category>Yeosu travel</category>
+      <category>Yeosu day trip</category>
+      <category>things to do in Yeosu</category>
+      <category>Hamel Lighthouse</category>
+      <category>Hamel Museum</category>
+      <category>Lighthouse</category>
+      <category>Museum</category>
+      <category>RedLighthouse</category>
+      <category>HamelsJournal</category>
+      <category>PhotoSpot</category>
+      <category>SeasideWalk</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
+    </item>
+    <item>
+      <title>[Yeosu] Yeosu Night Sea &amp; Nangman Pocha Street</title>
+      <link>https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#yeosu_night_sea</link>
+      <guid isPermaLink="true">https://haru-trip-h0v.pages.dev/en/guide-yeosu.html#yeosu_night_sea</guid>
+      <description>A street of food stalls lighting up along Yeosu's famous night sea — the perfect place to end the day over a plate of seafood samhap.</description>
+      <category>Yeosu</category>
+      <category>Yeosu travel</category>
+      <category>Yeosu day trip</category>
+      <category>things to do in Yeosu</category>
+      <category>Yeosu Night Sea</category>
+      <category>Nangman Pocha Street</category>
+      <category>Night view</category>
+      <category>Food stall street</category>
+      <category>YeosuNightSea</category>
+      <category>NangmanPocha</category>
+      <category>SeafoodSamhap</category>
+      <category>BridgeNightView</category>
+      <pubDate>Sat, 14 Nov 2026 06:21:16 GMT</pubDate>
     </item>
   </channel>
 </rss>

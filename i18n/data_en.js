@@ -590,6 +590,123 @@ const HARU_DATA_EN = {
         tip: 'It\'s within walking distance of Cheonjiyeon Falls, so visit both in the evening. The Saeseom trail may be closed at night, so check before you go.'
       }
     }
+  },
+
+  // ------------------------------------------------------ YEOSU
+  yeosu: {
+    name: 'Yeosu',
+    badge: 'Yeosu',
+    pageTitle: 'HARU TRIP Yeosu | A Day Trip Guide to Yeosu\'s Camellia Island and Night Sea',
+    metaDesc: 'Yeosu day trip in 3 courses: Odongdo, the marine cable car, Hyangiram, Jinnamgwan and the night sea with harbor-side food stalls.',
+    heroPill: '🌉 Korea Day Trip Project #6 · Yeosu, city of the romantic night sea',
+    heroTitle: 'Camellia islands and a glittering night sea<br /><span class="highlight">The Perfect Yeosu Day Trip</span>',
+    heroSubtitle: 'From Odongdo\'s camellia forest and the marine cable car to sunrise at Hyangiram and the night sea!<br />Enjoy Yeosu\'s sea and romance in a single day with our A · B · C courses.',
+    courses: {
+      A: { title: 'Expo, Odongdo Camellia Island & Marine Cable Car Course', subtitle: 'The Big-O Show at the Expo site, Odongdo\'s camellia forest and a cable car ride over the sea', highlight: 'Yeosu\'s three signature sights, all within walking distance', duration: 'About 5–6 hours', distance: 'About 3.0 km' },
+      B: { title: 'Hyangiram Sunrise, Dolsan Bridge & Jangdo Art Island Course', subtitle: 'A hermitage on a sea cliff, Dolsan Bridge from Dolsan Park and a walk across the sea to Jangdo', highlight: 'A drive along Dolsando\'s southern sea and a stroll around an art island', duration: 'About 6–7 hours', distance: 'About 45 km (by car)' },
+      C: { title: 'Jinnamgwan History Walk & Yeosu Night Sea Course', subtitle: 'Admiral Yi Sun-sin\'s naval headquarters, the red Hamel Lighthouse and the night sea lit by food stalls', highlight: 'Start on a street full of history and end at the night sea from the famous song', duration: 'About 5–6 hours', distance: 'About 2.5 km' }
+    },
+    destinations: {
+      yeosu_expo: {
+        name: 'Yeosu Expo Park & Big-O Show',
+        theme: 'Cultural complex / Night show',
+        tags: ['#BigOShow', '#AquaPlanet', '#ExpoPark', '#SeasideWalk'],
+        imageCaptions: ['The Big-O Show of water, light and fire', 'The International Pavilion entrance at the Expo site', 'Aqua Planet Yeosu inside the Expo site'],
+        shortDesc: 'The seaside venue of the 2012 Yeosu World Expo, now home to Aqua Planet, the Sky Tower and the nightly Big-O Show.',
+        fullDesc: 'Yeosu Expo Park turned the grounds of the 2012 Yeosu World Expo, held under the theme "The Living Ocean and Coast," into a public park. Wide promenades and plazas run along the sea, with the large Aqua Planet Yeosu aquarium and the Sky Tower observatory on site. After sunset, the giant ring-shaped "Big-O" structure on the water hosts a multimedia show of water, light and lasers that kicks off Yeosu\'s night.',
+        timeRecommended: 'Time needed: about 1.5–2 hours',
+        address: '1 Bangnamhoe-gil, Yeosu-si, Jeollanam-do',
+        tip: 'Big-O Show times vary by season and day of the week, so check the official schedule before you go. It\'s a short walk from KTX Yeosu Expo Station.'
+      },
+      odongdo: {
+        name: 'Odongdo Island',
+        theme: 'Camellia island / Forest walk',
+        tags: ['#Camellias', '#BreakwaterWalk', '#OdongdoLighthouse', '#CamelliaTrain'],
+        imageCaptions: ['The breakwater path leading over the sea to Odongdo', 'Red camellias blooming on Odongdo', 'Odongdo Lighthouse rising above the forest and sea cliffs'],
+        shortDesc: 'A small island linked to the mainland by a long breakwater — its camellia forest, lighthouse and cliffside trails make it Yeosu\'s symbol.',
+        fullDesc: 'Odongdo got its name because it looks like a paulownia ("odong") leaf from afar, and you can walk there along a breakwater about 768 m long. Thousands of camellia trees and bamboo grow thickly across the island, earning it the nickname "Camellia Island," and in early spring red blossoms color the forest paths. Trails lead through the woods to Odongdo Lighthouse, the sea cave Yonggul and cliffside viewpoints.',
+        timeRecommended: 'Time needed: about 1.5 hours',
+        address: 'Odongdo area, Sujeong-dong, Yeosu-si, Jeollanam-do',
+        tip: 'If the breakwater feels too long to walk, take the Camellia Train between the entrance and the island. Camellias usually bloom most in February and March.'
+      },
+      yeosu_cable_car: {
+        name: 'Yeosu Maritime Cable Car',
+        theme: 'Cable car / Sea views',
+        tags: ['#MaritimeCableCar', '#CrystalCabin', '#BridgeView', '#YeosuHarbor'],
+        imageCaptions: ['Cable cars crossing the sea with Geobukseon Bridge', 'The crystal cabin with the sea visible below your feet', 'The Yeosu Maritime Cable Car station'],
+        shortDesc: 'A cable car crossing the sea between Jasan Park and Dolsan Park, with views over Yeosu Harbor, Geobukseon Bridge and Odongdo.',
+        fullDesc: 'Opened in 2014, the Yeosu Maritime Cable Car was Korea\'s first cable car built to cross the sea. It links Jasan Park next to Odongdo with Dolsan Park across the water over about 1.5 km, giving sweeping views of Yeosu Harbor, Geobukseon Bridge, Odongdo and Dolsan Bridge in the distance. Ride a glass-floored crystal cabin to watch the sea and boats pass beneath your feet, or ride at sunset and after dark for Yeosu\'s city lights.',
+        timeRecommended: 'Time needed: about 1 hour (round trip)',
+        address: '3600-1 Dolsan-ro, Dolsan-eup, Yeosu-si, Jeollanam-do (Dolsan station)',
+        tip: 'Board at the Jasan Park station near Odongdo for an easy route. Lines get long around sunset on weekends, so ride a little earlier.'
+      },
+      hyangiram: {
+        name: 'Hyangiram Hermitage',
+        theme: 'Temple / Sunrise spot',
+        tags: ['#SunriseSpot', '#SeaCliff', '#GuanyinShrine', '#Dolsando'],
+        imageCaptions: ['Wontongbojeon Hall beneath giant boulders at Hyangiram', 'The southern sea seen from Hyangiram', 'A colorful dragon carving under the eaves at Hyangiram'],
+        shortDesc: 'A hermitage clinging to the rocky cliffs of Geumosan at the tip of Dolsando, famous for sunrise and wide views of the southern sea — true to its name, "facing the sun."',
+        fullDesc: 'Hyangiram means "hermitage facing the sun," and it sits on the rocky cliffs of Geumosan at the southern tip of Dolsando. It is said that the Silla monk Wonhyo once meditated here, and it is counted among Korea\'s major shrines to the bodhisattva of compassion. The way up passes through narrow stone gates between boulders, and from the halls the endless southern sea opens up before you. On New Year\'s Day it is packed with people coming to see the first sunrise.',
+        timeRecommended: 'Time needed: about 1.5 hours',
+        address: '60 Hyangiram-ro, Dolsan-eup, Yeosu-si, Jeollanam-do',
+        tip: 'Steep stairs and slopes lead from the parking lot to the hermitage, so wear comfortable shoes. For sunrise, arrive at least an hour beforehand.'
+      },
+      dolsan_park: {
+        name: 'Dolsan Park & Dolsan Bridge',
+        theme: 'Viewpoint park / Night view',
+        tags: ['#DolsanBridge', '#YeosuNightView', '#Viewpoint', '#CableCar'],
+        imageCaptions: ['Dolsan Bridge and downtown Yeosu from Dolsan Park', 'The Dolsan Park plaza overlooking the sea and islands', 'Dolsan Bridge lit up at dusk'],
+        shortDesc: 'A hilltop park right beside Dolsan Bridge, which links downtown Yeosu and Dolsando — the best spot to see the bridge and harbor at a glance.',
+        fullDesc: 'Dolsan Park sits on a hill at the entrance to Dolsando, overlooking Dolsan Bridge just below, old downtown Yeosu across the water, Janggundo islet and Yeosu Harbor. Dolsan Bridge, a cable-stayed bridge that first connected the mainland to Dolsando, lights up its towers and cables at night to create Yeosu\'s signature night view. The park is also home to the Dolsan station of the Yeosu Maritime Cable Car, so it pairs well with a ride.',
+        timeRecommended: 'Time needed: about 1 hour',
+        address: 'Dolsan Park area, Udu-ri, Dolsan-eup, Yeosu-si, Jeollanam-do',
+        tip: 'Arrive around sunset to catch both the sunset and the moment the bridge lights come on. The park\'s parking lot can be crowded with cable car visitors.'
+      },
+      jangdo_island: {
+        name: 'Jangdo Art Island',
+        theme: 'Island walk / Art space',
+        tags: ['#ArtIsland', '#JinseomBridge', '#IslandWalk', '#Ungcheon'],
+        imageCaptions: ['Jinseom Bridge leading across the sea to Jangdo', 'Jangdo floating on a calm sea', 'The Jangdo entrance lit up in the evening'],
+        shortDesc: 'A small island off Ungcheon Beach turned into an art park — cross the low sea bridge to explore a gallery, sculptures and bamboo-lined trails.',
+        fullDesc: 'Jangdo is a small island just off Ungcheon Beach in Yeosu, designed as an "art island" where a gallery, outdoor sculptures and gardens blend together. The island connects to the mainland by a low bridge called Jinseom Bridge, which disappears under water at high tide — making the crossing all the more special. A trail circles the island past bamboo groves and grassy hills, perfect for a slow walk by the sea.',
+        timeRecommended: 'Time needed: about 1–1.5 hours',
+        address: 'Jangdo area, Ungcheon-dong, Yeosu-si, Jeollanam-do',
+        tip: 'Jinseom Bridge is closed when it\'s submerged at high tide, so be sure to check the tide times before you go. The beach at Ungcheon Waterfront Park next door is a nice place to rest and watch the sunset.'
+      },
+      jinnamgwan: {
+        name: 'Jinnamgwan Hall & Yi Sun-sin Square',
+        theme: 'Historic site / Plaza',
+        tags: ['#NationalTreasure', '#NavalHeadquarters', '#AdmiralYiSunsin', '#TurtleShip'],
+        imageCaptions: ['The front of Jinnamgwan with its 68 pillars', 'Jinnamgwan\'s long roofline seen from the side', 'Manghaeru, the gate pavilion of Jinnamgwan'],
+        shortDesc: 'Visit Jinnamgwan, a huge wooden hall on the site of Admiral Yi Sun-sin\'s naval headquarters, and the seaside Yi Sun-sin Square with its turtle ship replica.',
+        fullDesc: 'Jinnamgwan was built as a guesthouse on the site of the Jeolla Left Naval Headquarters, which Admiral Yi Sun-sin commanded during the Imjin War; its name means "to suppress the enemy in the south." Fifteen bays wide and five deep, supported by 68 pillars, it is the largest surviving single-story wooden building in Korea and a designated National Treasure. Down the hill by the sea, Yi Sun-sin Square has a statue of the admiral and a life-size turtle ship replica, with local restaurants and cafés nearby — a great starting point for your trip.',
+        timeRecommended: 'Time needed: about 1.5 hours',
+        address: '11 Dongmun-ro, Yeosu-si, Jeollanam-do (Jinnamgwan)',
+        tip: 'Access to Jinnamgwan is sometimes limited due to restoration work, so check before visiting. The alleys around Yi Sun-sin Square are a good place to try local specialties like raw shrimp and mustard-leaf kimchi.'
+      },
+      hamel_lighthouse: {
+        name: 'Hamel Lighthouse & Hamel Museum',
+        theme: 'Lighthouse / Museum',
+        tags: ['#RedLighthouse', '#HamelsJournal', '#PhotoSpot', '#SeasideWalk'],
+        imageCaptions: ['Hamel Lighthouse glowing red at night', 'The Hamel Museum facing the sea', 'The Hamel statue and plaques in front of the museum'],
+        shortDesc: 'A red lighthouse and museum honoring Hendrick Hamel, the Dutchman who first described Joseon in detail to the West — a popular photo spot on the night-sea walk.',
+        fullDesc: 'Hendrick Hamel was a Dutch sailor who was shipwrecked on Jeju in 1653, spent 13 years in Joseon and finally escaped by boat from Yeosu. His account, known as "Hamel\'s Journal," is considered the first detailed description of Joseon written for the West. The Hamel Museum traces the crew\'s shipwreck and life in Joseon, and the red Hamel Lighthouse at the end of the breakwater out front lights up at night, becoming one of the Yeosu night sea\'s signature photo spots.',
+        timeRecommended: 'Time needed: about 40 minutes–1 hour',
+        address: 'Hamel Museum area, Jonghwa-dong, Yeosu-si, Jeollanam-do',
+        tip: 'The museum is often closed on Mondays, so check ahead. The lighthouse looks best in photos after dark when its lights are on.'
+      },
+      yeosu_night_sea: {
+        name: 'Yeosu Night Sea & Nangman Pocha Street',
+        theme: 'Night view / Food stall street',
+        tags: ['#YeosuNightSea', '#NangmanPocha', '#SeafoodSamhap', '#BridgeNightView'],
+        imageCaptions: ['Downtown Yeosu\'s night sea glowing with lights', 'The old town\'s night lights reflected on the sea', 'Yeosu\'s night scenery along the coast'],
+        shortDesc: 'A street of food stalls lighting up along Yeosu\'s famous night sea — the perfect place to end the day over a plate of seafood samhap.',
+        fullDesc: 'When the sun sets along the waterfront around Jongpo Marine Park, the "Nangman Pocha" (romantic food stalls) switch on their lights one by one, and the glow of Dolsan Bridge and Geobukseon Bridge reflects on the water — the very "Yeosu night sea" sung about in the well-known song. The signature dish is seafood samhap, pork belly grilled with pen shell and mustard-leaf kimchi, and you can stroll along the seaside path all the way to Yi Sun-sin Square. It\'s the most Yeosu way to end your trip.',
+        timeRecommended: 'Time needed: about 1.5–2 hours',
+        address: 'Jongpo Marine Park area, Jonghwa-dong, Yeosu-si, Jeollanam-do',
+        tip: 'The stalls usually open in the evening and fill up fast on weekends, so arrive early around sunset. The sea breeze gets chilly, so bring a light jacket.'
+      }
+    }
   }
 };
 
@@ -617,7 +734,6 @@ const HARU_DATA_EN = {
 
 // ---- 오픈 예정 도시 이름 (지도에 흐리게 표시되는 도시)
 const HARU_UPCOMING_EN = {
-  yeosu: 'Yeosu'
 };
 (function applyUpcoming(names) {
   if (typeof UPCOMING_CITIES === 'undefined') return;

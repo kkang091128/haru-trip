@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="docTitle" data-i18n="metaTitle">하루트립 | 국내 도시별 당일치기 여행 코스 가이드</title>
-  <meta name="description" id="docDesc" data-i18n-attr="content:metaDesc" content="목포·부산·강릉·전주·제주 당일치기 여행을 A·B·C 맞춤 코스로! 명소·맛집·야경 동선을 한눈에." />
+  <meta name="description" id="docDesc" data-i18n-attr="content:metaDesc" content="목포·부산·강릉·전주·제주·여수 당일치기 여행을 A·B·C 맞춤 코스로! 명소·맛집·야경 동선을 한눈에." />
   
   <!-- Favicon & Stylesheet -->
   <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -18,7 +18,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" data-i18n-attr="content:siteName" content="하루트립" />
   <meta property="og:title" data-i18n-attr="content:ogTitle" content="하루트립 | 국내 도시별 당일치기 여행 코스 가이드" />
-  <meta property="og:description" data-i18n-attr="content:ogDesc" content="목포·부산·강릉·전주·제주 당일치기 여행을 A·B·C 맞춤 코스로 소개합니다." />
+  <meta property="og:description" data-i18n-attr="content:ogDesc" content="목포·부산·강릉·전주·제주·여수 당일치기 여행을 A·B·C 맞춤 코스로 소개합니다." />
   <meta property="og:url" data-i18n-attr="content:canonical" content="https://haru-trip-h0v.pages.dev/" />
   <meta property="og:image" content="https://haru-trip-h0v.pages.dev/img/busan_hero_bg.jpg" />
   <link rel="alternate" type="application/rss+xml" data-i18n-attr="title:rssTitle,href:rssHref" title="하루트립 RSS" href="/rss.xml" />
@@ -179,11 +179,11 @@
         <div class="nationwide-content">
           <span class="nationwide-badge" data-i18n="nationBadge">🚀 전국 확장 로드맵 (Expansion Project)</span>
           <h2 class="nationwide-title" data-i18n="nationTitle">
-            목포·부산·강릉·전주·제주를 넘어, 전국 8도의<br />
+            목포·부산·강릉·전주·제주·여수를 넘어, 전국 8도의<br />
             아름다운 하루를 잇는 여행 플랫폼이 됩니다.
           </h2>
           <p class="nationwide-desc" data-i18n="nationDesc">
-            '하루트립'은 목포, 부산, 강릉, 전주, 제주를 필두로, 복잡한 1박 2일 준비 없이도 누구나 주말 하루 만에 
+            '하루트립'은 목포, 부산, 강릉, 전주, 제주, 여수를 필두로, 복잡한 1박 2일 준비 없이도 누구나 주말 하루 만에 
             온전히 떠날 수 있는 대한민국 대표 도시별 당일치기 큐레이션 서비스를 전국으로 순차 확장 중입니다.
           </p>
 
@@ -229,12 +229,12 @@
               <p class="region-box-desc" data-i18n="regionDescJeju">애월 한담해안산책로, 협재해수욕장, 성산일출봉, 천지연폭포</p>
             </div>
 
-            <div class="region-box">
+            <div class="region-box" id="regionBoxYeosu" data-city="yeosu" onclick="switchCity('yeosu')" style="cursor: pointer;" data-i18n-attr="title:goYeosu" title="클릭하여 여수 여행 가이드로 이동">
               <div class="region-box-header">
                 <span class="region-box-name" data-i18n="regionYeosu">여수시</span>
-                <span class="region-box-status" data-i18n="statusSoon">오픈 예정</span>
+                <span class="region-box-status" style="background:#22c55e;" data-i18n="statusOpen">서비스 이용가능</span>
               </div>
-              <p class="region-box-desc" data-i18n="regionDescYeosu">오동도 동백숲, 여수해상케이블카, 낭만포차 밤바다</p>
+              <p class="region-box-desc" data-i18n="regionDescYeosu">오동도 동백숲, 여수해상케이블카, 향일암, 낭만포차 밤바다</p>
             </div>
           </div>
 
@@ -287,7 +287,7 @@
         <h3 data-i18n="footerBrand">🌊 하루트립 (HARU TRIP)</h3>
         <p data-i18n="footerDesc">
           주말 하루, 온전한 쉼과 발견을 선물하는 대한민국 전국 당일치기 큐레이션 여행 플랫폼입니다.
-          목포, 부산, 강릉, 전주, 제주 당일치기 가이드를 시작으로 대한민국 곳곳의 보석 같은 하루 코스를 선보입니다.
+          목포, 부산, 강릉, 전주, 제주, 여수 당일치기 가이드를 시작으로 대한민국 곳곳의 보석 같은 하루 코스를 선보입니다.
         </p>
       </div>
 
@@ -306,6 +306,7 @@
           <li><a href="guide-gangneung.html" data-i18n="guideGangneung">강릉 당일치기 코스 총정리</a></li>
           <li><a href="guide-jeonju.html" data-i18n="guideJeonju">전주 당일치기 코스 총정리</a></li>
           <li><a href="guide-jeju.html" data-i18n="guideJeju">제주 당일치기 코스 총정리</a></li>
+          <li><a href="guide-yeosu.html" data-i18n="guideYeosu">여수 당일치기 코스 총정리</a></li>
         </ul>
       </div>
     </div>
@@ -332,6 +333,7 @@
   <script src="data_gangneung.js"></script>
   <script src="data_jeonju.js"></script>
   <script src="data_jeju.js"></script>
+  <script src="data_yeosu.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

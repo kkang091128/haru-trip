@@ -621,5 +621,4 @@ const MAP_BOUNDS = { lngMin: 124.6, lngMax: 132.2, latMin: 33.0, latMax: 38.75, 
 
 // 오픈 예정 도시: 지도에 흐리게 표시만 됩니다. 정식 오픈할 때 data_<도시>.js 를 만들고 여기서 지우세요.
 const UPCOMING_CITIES = [
-  { id: 'yeosu', name: '여수', emoji: '🌉', map: { lat: 34.7604, lng: 127.6622 } }
 ];
