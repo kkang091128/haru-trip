@@ -37,6 +37,7 @@ vm.createContext(configCtx);
 vm.runInContext(read('config.js'), configCtx);
 const CONFIG = configCtx.window.HARU_CONFIG || {};
 const ADSENSE_CLIENT = (CONFIG.adsenseClient || '').trim();
+const GTM_ID = (CONFIG.gtmId || '').trim();
 
 const uiCtx = { window: {} };
 vm.createContext(uiCtx);
@@ -51,6 +52,29 @@ function adsenseTag() {
   if (!/^ca-pub-\d{10,20}$/.test(ADSENSE_CLIENT)) return '';
   return `<meta name="google-adsense-account" content="${ADSENSE_CLIENT}" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>`;
+}
+
+// 구글 태그 관리자(GTM): <head> 맨 위 스크립트 + <body> 바로 뒤 noscript (구글 공식 설치 코드)
+const hasGtm = () => /^GTM-[A-Z0-9]{4,12}$/.test(GTM_ID);
+function gtmHead() {
+  if (!hasGtm()) return '';
+  return `<!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','${GTM_ID}');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());</script>
+  <!-- End Google Tag Manager -->`;
+}
+function gtmBody() {
+  if (!hasGtm()) return '';
+  return `<!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->`;
 }
 
 // ---- 언어별 설정과 페이지 공통 문구
@@ -135,6 +159,7 @@ function layout(L, { file, title, description, body, jsonLd, noindex }) {
   return `<!DOCTYPE html>
 <html lang="${L.code}">
 <head>
+  ${gtmHead()}
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${esc(title)}</title>
@@ -159,6 +184,7 @@ function layout(L, { file, title, description, body, jsonLd, noindex }) {
   ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ''}
 </head>
 <body>
+  ${gtmBody()}
   <header class="page-header">
     <div class="page-header-inner">
       <a class="page-logo" href="./">${S.logo}</a>
@@ -568,6 +594,21 @@ function patchIndexAdsense() {
   fs.writeFileSync(p, raw.replace(re, `<!-- ADSENSE:START -->\n  ${tag}\n  <!-- ADSENSE:END -->`));
 }
 
+// ---- index.html GTM 블록 갱신 (<!-- GTM:START --> / <!-- GTM-NOSCRIPT:START -->)
+function patchIndexGtm() {
+  const p = path.join(ROOT, 'index.html');
+  let raw = fs.readFileSync(p, 'utf8');
+  const blocks = [['GTM', gtmHead()], ['GTM-NOSCRIPT', gtmBody()]];
+  for (const [name, tag] of blocks) {
+    const re = new RegExp(`<!-- ${name}:START -->[\\s\\S]*?<!-- ${name}:END -->`);
+    if (!re.test(raw)) continue;
+    raw = raw.replace(re, () => `<!-- ${name}:START -->
+  ${tag || '<!-- config.js의 gtmId 에 GTM-... 값을 넣고 node generate_pages.js 를 실행하면 여기에 GTM 코드가 들어갑니다 -->'}
+  <!-- ${name}:END -->`);
+  }
+  fs.writeFileSync(p, raw);
+}
+
 // ---- en/index.html: index.html 을 템플릿으로 영어판 생성
 //   data-i18n="키"            → 요소 안쪽 HTML 을 en.page[키] 로 교체
 //   data-i18n-attr="속성:키,…" → 해당 속성 값을 en.page[키] 로 교체
@@ -637,6 +678,7 @@ for (const L of Object.values(LANGS)) {
 }
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap(), 'utf8');
 patchIndexAdsense();
+patchIndexGtm();
 fs.writeFileSync(path.join(ROOT, 'en', 'index.html'), buildEnIndex(), 'utf8');
 console.log('[en] en/index.html 생성 (index.html + i18n/ui.js)');
 
@@ -652,3 +694,4 @@ if (missing.length) {
   console.log('✅ 모든 도시·코스·명소의 영어 번역이 있습니다.');
 }
 console.log(ADSENSE_CLIENT ? `애드센스 코드 적용: ${ADSENSE_CLIENT}` : '애드센스 코드 없음 (config.js의 adsenseClient가 비어 있음)');
+console.log(hasGtm() ? `GTM 코드 적용: ${GTM_ID}` : 'GTM 코드 없음 (config.js의 gtmId가 비어 있음)');

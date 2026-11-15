@@ -10,5 +10,9 @@ window.HARU_CONFIG = {
 
   // 애드센스 게시자 ID (예: 'ca-pub-1234567890123456')
   // 넣은 뒤 `node generate_pages.js` 를 실행하면 모든 페이지에 광고 코드와 ads.txt가 들어갑니다.
-  adsenseClient: 'ca-pub-3131801357796338'
+  adsenseClient: 'ca-pub-3131801357796338',
+
+  // 구글 태그 관리자(GTM) 컨테이너 ID (예: 'GTM-XXXXXXX')
+  // 넣은 뒤 `node generate_pages.js` 를 실행하면 모든 페이지에 GTM 코드가 들어갑니다.
+  gtmId: 'GTM-WQ7X25ZP'
 };
