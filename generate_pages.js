@@ -49,7 +49,8 @@ const stripTags = (s) => String(s ?? '').replace(/<br\s*\/?>/gi, ' ').replace(/<
 
 function adsenseTag() {
   if (!/^ca-pub-\d{10,20}$/.test(ADSENSE_CLIENT)) return '';
-  return `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>`;
+  return `<meta name="google-adsense-account" content="${ADSENSE_CLIENT}" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>`;
 }
 
 // ---- 언어별 설정과 페이지 공통 문구
