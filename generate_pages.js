@@ -59,13 +59,16 @@ function adsenseTag() {
 const hasGtm = () => /^GTM-[A-Z0-9]{4,12}$/.test(GTM_ID);
 function gtmHead() {
   if (!hasGtm()) return '';
-  return `<!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','${GTM_ID}');</script>
-  <!-- End Google Tag Manager -->`;
+  // 애널리틱스 데이터 스트림 → 태그 안내 → 직접 설치 화면에 나오는 코드 그대로
+  // (이 컨테이너에 GA4 스트림 G-GK8GL79F0F 가 연결되어 있어 이것만으로 애널리틱스가 수집됨)
+  return `<!-- Google tag (GTM) -->
+  <script async src="https://www.googletagmanager.com/gtm.js?id=${GTM_ID}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  </script>
+  <!-- End Google tag -->`;
 }
 // 구글 애널리틱스(GA4) 측정 ID: gtag.js 직접 설치
 // ※ GTM 컨테이너 안에 같은 G- ID의 Google 태그를 또 만들면 방문이 두 번 집계되니 둘 중 하나만 쓰세요.

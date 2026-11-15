@@ -16,7 +16,8 @@ window.HARU_CONFIG = {
   // 넣은 뒤 `node generate_pages.js` 를 실행하면 모든 페이지에 GTM 코드가 들어갑니다.
   gtmId: 'GTM-WQ7X25ZP',
 
-  // 구글 애널리틱스(GA4) 측정 ID (예: 'G-XXXXXXXXXX')
-  // ※ GTM 안에 같은 ID의 Google 태그를 또 만들면 방문이 두 번 집계됩니다. 둘 중 하나만 쓰세요.
-  gaId: 'G-GK8GL79F0F'
+  // 구글 애널리틱스(GA4) 측정 ID를 GTM 없이 직접 넣을 때만 사용 (예: 'G-XXXXXXXXXX')
+  // 지금은 GA4 스트림(G-GK8GL79F0F)이 위 GTM 컨테이너에 연결되어 있어 비워 둡니다.
+  // 여기에도 넣으면 방문이 두 번 집계됩니다.
+  gaId: ''
 };
