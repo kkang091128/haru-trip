@@ -39,6 +39,7 @@ const CONFIG = configCtx.window.HARU_CONFIG || {};
 const ADSENSE_CLIENT = (CONFIG.adsenseClient || '').trim();
 const GTM_ID = (CONFIG.gtmId || '').trim();
 const GA_ID = (CONFIG.gaId || '').trim();
+const CLARITY_ID = (CONFIG.clarityId || '').trim();
 
 const uiCtx = { window: {} };
 vm.createContext(uiCtx);
@@ -85,7 +86,21 @@ function gaHead() {
   </script>
   <!-- End Google Analytics -->`;
 }
-const analyticsHead = () => [gtmHead(), gaHead()].filter(Boolean).join('\n  ');
+// 마이크로소프트 Clarity (Clarity → 설정 → 설치 방법 → 수동으로 설치 코드)
+const hasClarity = () => /^[a-z0-9]{6,20}$/.test(CLARITY_ID);
+function clarityHead() {
+  if (!hasClarity()) return '';
+  return `<!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "${CLARITY_ID}");
+  </script>
+  <!-- End Microsoft Clarity -->`;
+}
+const analyticsHead = () => [gtmHead(), gaHead(), clarityHead()].filter(Boolean).join('\n  ');
 function gtmBody() {
   if (!hasGtm()) return '';
   return `<!-- Google Tag Manager (noscript) -->
@@ -364,7 +379,7 @@ const privacyBody = {
   ko: () => `
     <article class="policy">
     <h1>개인정보처리방침</h1>
-    <p class="updated">시행일: 2026년 11월 12일 (Google 로그인 도입에 따른 개정)</p>
+    <p class="updated">시행일: 2026년 11월 15일 (방문 통계·이용 행태 분석 도구 안내 추가)</p>
     <p>하루트립(이하 "사이트")은 「개인정보 보호법」 등 관련 법령을 지키며, 이용자의 개인정보를 소중히 다룹니다. 이 방침은 사이트가 어떤 정보를 왜 수집하고 어떻게 관리하는지 설명합니다.</p>
 
     <h2>1. 수집하는 정보와 목적</h2>
@@ -389,7 +404,8 @@ const privacyBody = {
       <tr><th>업체</th><th>위탁 업무</th></tr>
       <tr><td>Supabase Inc.</td><td>회원 인증(로그인) 처리, 후기·추천 명소·좋아요 데이터 저장</td></tr>
       <tr><td>Cloudflare, Inc.</td><td>웹사이트 호스팅 및 전송</td></tr>
-      <tr><td>Google LLC</td><td>Google 계정 로그인, 광고 게재(Google 애드센스), 검색 노출 분석</td></tr>
+      <tr><td>Google LLC</td><td>Google 계정 로그인, 광고 게재(Google 애드센스), 방문 통계 분석(Google 애널리틱스), 검색 노출 분석</td></tr>
+      <tr><td>Microsoft Corporation</td><td>사이트 이용 행태 분석(Microsoft Clarity)</td></tr>
     </table>
     <p>사이트는 이용자의 정보를 위 목적 외에 제3자에게 판매하거나 제공하지 않습니다.</p>
 
@@ -401,6 +417,13 @@ const privacyBody = {
       <li>이용자는 <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google 광고 설정</a>에서 맞춤 광고를 끌 수 있으며, <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">www.aboutads.info</a>에서 제3자 공급업체의 맞춤 광고 쿠키 사용을 거부할 수 있습니다.</li>
       <li>Google이 정보를 사용하는 방식은 <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">Google 파트너 사이트 정책</a>에서 확인할 수 있습니다.</li>
       <li>브라우저 설정에서 쿠키를 거부할 수 있으나, 일부 기능이 제한될 수 있습니다.</li>
+    </ul>
+
+    <h3>방문 통계와 이용 행태 분석</h3>
+    <ul>
+      <li>사이트는 서비스 개선을 위해 Google 애널리틱스와 Microsoft Clarity를 사용합니다. 이 도구들은 쿠키 등을 이용해 방문한 페이지, 머문 시간, 기기·브라우저 종류, 대략적인 지역 등 통계 정보를 수집하며, 이용자를 직접 식별하는 정보는 수집하지 않습니다.</li>
+      <li>Microsoft Clarity는 페이지 안에서의 마우스 움직임, 클릭, 스크롤 같은 상호작용을 기록해 히트맵과 세션 재생으로 보여 줍니다. 입력란에 적는 내용은 기록되지 않도록 가려집니다.</li>
+      <li>Google 애널리틱스 수집을 원하지 않으면 <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google 애널리틱스 차단 브라우저 부가기능</a>을 설치할 수 있습니다. Microsoft가 데이터를 사용하는 방식은 <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener">Microsoft 개인정보처리방침</a>에서 확인할 수 있습니다.</li>
     </ul>
 
     <h2>5. 이용자의 권리</h2>
@@ -417,7 +440,7 @@ const privacyBody = {
   en: () => `
     <article class="policy">
     <h1>Privacy Policy</h1>
-    <p class="updated">Effective date: November 12, 2026 (revised for Google sign-in)</p>
+    <p class="updated">Effective date: November 15, 2026 (added visit statistics and usage analysis tools)</p>
     <p>HARU TRIP (the "Site") complies with Korea's Personal Information Protection Act and other applicable laws and treats your personal information with care. This policy explains what information the Site collects, why, and how it is managed. If this English version differs from the <a href="../privacy.html">Korean version</a>, the Korean version prevails.</p>
 
     <h2>1. Information we collect and why</h2>
@@ -442,7 +465,8 @@ const privacyBody = {
       <tr><th>Company</th><th>Service</th></tr>
       <tr><td>Supabase Inc.</td><td>Member authentication (sign-in), storing reviews, recommendations and likes</td></tr>
       <tr><td>Cloudflare, Inc.</td><td>Website hosting and delivery</td></tr>
-      <tr><td>Google LLC</td><td>Google account sign-in, advertising (Google AdSense), search performance analysis</td></tr>
+      <tr><td>Google LLC</td><td>Google account sign-in, advertising (Google AdSense), visit statistics (Google Analytics), search performance analysis</td></tr>
+      <tr><td>Microsoft Corporation</td><td>Site usage analysis (Microsoft Clarity)</td></tr>
     </table>
     <p>The Site does not sell or provide your information to third parties for any other purpose.</p>
 
@@ -454,6 +478,13 @@ const privacyBody = {
       <li>You can opt out of personalized advertising in <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google Ads Settings</a>, and opt out of third-party vendors' use of cookies for personalized advertising at <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">www.aboutads.info</a>.</li>
       <li>See <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">How Google uses information from sites that use its services</a>.</li>
       <li>You can block cookies in your browser settings, but some features may not work.</li>
+    </ul>
+
+    <h3>Visit statistics and usage analysis</h3>
+    <ul>
+      <li>To improve the Site, we use Google Analytics and Microsoft Clarity. These tools use cookies and similar technologies to collect statistics such as pages visited, time spent, device and browser type and approximate region; they do not collect information that directly identifies you.</li>
+      <li>Microsoft Clarity records interactions on the page such as mouse movements, clicks and scrolling and shows them as heatmaps and session replays. Text typed into input fields is masked and not recorded.</li>
+      <li>To opt out of Google Analytics, install the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Browser Add-on</a>. See the <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener">Microsoft Privacy Statement</a> for how Microsoft uses data.</li>
     </ul>
 
     <h2>5. Your rights</h2>
@@ -713,3 +744,4 @@ if (missing.length) {
 console.log(ADSENSE_CLIENT ? `애드센스 코드 적용: ${ADSENSE_CLIENT}` : '애드센스 코드 없음 (config.js의 adsenseClient가 비어 있음)');
 console.log(hasGtm() ? `GTM 코드 적용: ${GTM_ID}` : 'GTM 코드 없음 (config.js의 gtmId가 비어 있음)');
 console.log(hasGa() ? `GA4 코드 적용: ${GA_ID}` : 'GA4 코드 없음 (config.js의 gaId가 비어 있음)');
+console.log(hasClarity() ? `Clarity 코드 적용: ${CLARITY_ID}` : 'Clarity 코드 없음 (config.js의 clarityId가 비어 있음)');

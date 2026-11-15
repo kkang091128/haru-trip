@@ -19,5 +19,8 @@ window.HARU_CONFIG = {
   // 구글 애널리틱스(GA4) 측정 ID를 GTM 없이 직접 넣을 때만 사용 (예: 'G-XXXXXXXXXX')
   // 지금은 GA4 스트림(G-GK8GL79F0F)이 위 GTM 컨테이너에 연결되어 있어 비워 둡니다.
   // 여기에도 넣으면 방문이 두 번 집계됩니다.
-  gaId: ''
+  gaId: '',
+
+  // 마이크로소프트 Clarity 프로젝트 ID (Clarity → 설정 → 개요 → 프로젝트 ID)
+  clarityId: 'zdslw11zaq'
 };
