@@ -38,6 +38,7 @@ vm.runInContext(read('config.js'), configCtx);
 const CONFIG = configCtx.window.HARU_CONFIG || {};
 const ADSENSE_CLIENT = (CONFIG.adsenseClient || '').trim();
 const GTM_ID = (CONFIG.gtmId || '').trim();
+const GA_ID = (CONFIG.gaId || '').trim();
 
 const uiCtx = { window: {} };
 vm.createContext(uiCtx);
@@ -63,12 +64,25 @@ function gtmHead() {
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','${GTM_ID}');
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());</script>
+  })(window,document,'script','dataLayer','${GTM_ID}');</script>
   <!-- End Google Tag Manager -->`;
 }
+// 구글 애널리틱스(GA4) 측정 ID: gtag.js 직접 설치
+// ※ GTM 컨테이너 안에 같은 G- ID의 Google 태그를 또 만들면 방문이 두 번 집계되니 둘 중 하나만 쓰세요.
+const hasGa = () => /^G-[A-Z0-9]{6,12}$/.test(GA_ID);
+function gaHead() {
+  if (!hasGa()) return '';
+  return `<!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${GA_ID}');
+  </script>
+  <!-- End Google Analytics -->`;
+}
+const analyticsHead = () => [gtmHead(), gaHead()].filter(Boolean).join('\n  ');
 function gtmBody() {
   if (!hasGtm()) return '';
   return `<!-- Google Tag Manager (noscript) -->
@@ -159,7 +173,7 @@ function layout(L, { file, title, description, body, jsonLd, noindex }) {
   return `<!DOCTYPE html>
 <html lang="${L.code}">
 <head>
-  ${gtmHead()}
+  ${analyticsHead()}
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${esc(title)}</title>
@@ -598,7 +612,7 @@ function patchIndexAdsense() {
 function patchIndexGtm() {
   const p = path.join(ROOT, 'index.html');
   let raw = fs.readFileSync(p, 'utf8');
-  const blocks = [['GTM', gtmHead()], ['GTM-NOSCRIPT', gtmBody()]];
+  const blocks = [['GTM', analyticsHead()], ['GTM-NOSCRIPT', gtmBody()]];
   for (const [name, tag] of blocks) {
     const re = new RegExp(`<!-- ${name}:START -->[\\s\\S]*?<!-- ${name}:END -->`);
     if (!re.test(raw)) continue;
@@ -695,3 +709,4 @@ if (missing.length) {
 }
 console.log(ADSENSE_CLIENT ? `애드센스 코드 적용: ${ADSENSE_CLIENT}` : '애드센스 코드 없음 (config.js의 adsenseClient가 비어 있음)');
 console.log(hasGtm() ? `GTM 코드 적용: ${GTM_ID}` : 'GTM 코드 없음 (config.js의 gtmId가 비어 있음)');
+console.log(hasGa() ? `GA4 코드 적용: ${GA_ID}` : 'GA4 코드 없음 (config.js의 gaId가 비어 있음)');
