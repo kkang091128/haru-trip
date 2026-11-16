@@ -724,7 +724,10 @@ for (const L of Object.values(LANGS)) {
   pages.forEach(({ file, html }) => fs.writeFileSync(path.join(outDir, file), html, 'utf8'));
   console.log(`[${L.code}] 페이지 ${pages.length}개 생성: ${pages.map(p => L.dir + p.file).join(', ')}`);
 }
-fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap(), 'utf8');
+const sitemapXml = sitemap();
+fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemapXml, 'utf8');
+// 텍스트 사이트맵 (Search Console 백업 제출용)
+fs.writeFileSync(path.join(ROOT, 'sitemap.txt'), [...sitemapXml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1]).join('\n') + '\n', 'utf8');
 patchIndexAdsense();
 patchIndexGtm();
 fs.writeFileSync(path.join(ROOT, 'en', 'index.html'), buildEnIndex(), 'utf8');
